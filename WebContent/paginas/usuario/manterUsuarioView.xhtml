@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage - Mantem Usuario</title>
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+<h:body>
+
+	
+	<h:outputLabel value="MyGarage - Cadastrar Usuario"
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"
+		rendered="#{empty usuarioBean.usuario.idUsuario}" />
+
+	<h:outputLabel value="MyGarage - Alterar Usuario"
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"
+		rendered="#{!empty usuarioBean.usuario.idUsuario}"/> <br></br><br></br>
+	
+	
+	<h:outputText value="#{usuarioBean.msgRetorno}"
+		styleClass="msgInfo" />
+
+	<h:form id="inputForm">
+		<h:messages styleClass="msgWarn2" />
+
+		<h:panelGrid>
+
+			<h:outputLabel value="Código"
+				rendered="#{!empty usuarioBean.usuario.idUsuario}" />
+			<h:outputText value="#{usuarioBean.usuario.idUsuario}"
+				rendered="#{!empty usuarioBean.usuario.idUsuario}" />
+
+			<h:outputLabel value="Nome" for="inputNome" />
+			<h:inputText id="inputNome" value="#{usuarioBean.usuario.nome}"
+				label="Campo Nome" maxlength="50" size="50" required="true" />
+			<h:outputText />
+			
+			<h:outputLabel value="Sobrenome" for="inputSobrenome" />
+			<h:inputText id="inputSobrenome"  value="#{usuarioBean.usuario.sobrenome}"
+				label="Campo Nome" maxlength="50" size="50" />
+			<h:outputText />
+
+			<h:outputLabel value="Telefone" for="inputTelefone" />
+			<h:inputText id="inputTelefone"  value="#{usuarioBean.usuario.telefone}"
+				label="Campo Telefone" maxlength="50" size="50" />
+			<h:outputText />
+						
+			<h:outputLabel value="Email" for="inputEmail" />
+			<h:inputText id="inputEmail"  value="#{usuarioBean.usuario.email}"
+				label="Campo Email" maxlength="50" size="50" required="true" />
+			<h:outputText />
+			
+			<h:outputLabel value="Senha" for="inputSenha" />
+			<h:inputText id="inputSenha"  value="#{usuarioBean.usuario.senha}"
+			label="Campo Senha" maxlength="50" size="50" required="true" />
+			<h:outputText />
+
+			<h:outputText />
+			<h:commandButton value="Confirmar" action="#{usuarioBean.salvarUsuarioController()}"/>
+			<h:outputText /><br></br><br></br>
+
+		</h:panelGrid>
+
+
+	</h:form>
+	<h:form id="linkVoltar">
+		<h:commandButton value="Tela Inicial" action="/paginas/loginView"/>
+	</h:form>
+	<hr />
+
+
+</h:body>
+</html>

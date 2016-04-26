@@ -1,0 +1,65 @@
+@CHARSET "ISO-8859-1";
+
+.title {
+	font-size: 28px; font-weight : bold;
+	color: #0000AA;
+	padding: 10px 10px 10px 10px;
+	font-weight: bold;
+}
+
+.titleStrong {
+	
+	FONT-FAMILY: 'Futura Md BT'; 
+	color:Navy; 
+	font-size: 1.5em; 
+	background-color:#DBDBDB;
+	text-align: center;
+	display: block;
+}
+
+.msgInfo {
+	color: red;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.msgError {
+	color: red;
+	font-size: 15px; font-weight : bold;
+	font-style: oblique;
+}
+
+.msgWarn {
+	color: green;
+	font-size: 20px;
+	
+}
+
+.msgWarn2 {
+	font-size:large; 
+	color:red; 
+	font-style:italic;
+}
+
+.emphasis {
+	font-style: italic;
+	fonte-size: 1.3em;
+}
+
+.img {
+	border: 0px;
+	margin-right: 1em
+}
+
+.title11{
+	FONT-FAMILY: 'Futura Md BT'; 
+	color:Navy;
+	font-size: 1.5em;
+	background-color:#DBDBDB;
+}
+
+.title12{
+	FONT-FAMILY: Helvetica; 
+	color:Navy;
+	font-size: 14px;
+}
