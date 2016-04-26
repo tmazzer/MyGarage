@@ -1,0 +1,6 @@
+git add --a //adicionar todos
+git commit -m "MSGBLZ" // commit local com msg
+
+git push -u mygarage master //sobe o codigo
+
+git pull https://github.com/tmazzer/MyGarage //baixa o codigo
