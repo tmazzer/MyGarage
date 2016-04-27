@@ -234,5 +234,12 @@ public class UsuarioBean implements Serializable {
 		}
 		
 	}
+	
+	public String validaLogin(){
+		//TODO tudo
+		
+		
+		return msgRetorno = "logado";
+	}
 
 }

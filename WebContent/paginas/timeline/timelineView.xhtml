@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html" 
+		xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>MyGarage</title>
+</h:head>
+<h:body>
+	<h:outputLabel value="Timeline"
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"/>
+	<br></br><br></br>
+
+	<h:outputText value="#{usuarioBean.msgRetorno}"
+		styleClass="msgInfo" /><br></br><br></br>
+	<hr />
+	<h:panelGrid columns="2" cellspacing="5" cellpadding="5" border="1">
+		<h:form id="LINKS">
+			<br></br><br></br>
+			<h:commandLink action="#{usuarioBean.consultaUsuarioController()}" value="Usuario" />
+			<br></br><br></br>	
+						
+			<br></br><br></br>
+			<h:commandLink action="#" value="Amigos" />
+			<br></br><br></br>
+			
+			<br></br><br></br>
+			<h:commandLink action="#" value="Carros" />
+			<br></br><br></br>
+			
+			<br></br><br></br>
+			<h:commandLink action="#" value="Acessorios" />
+			<br></br><br></br>
+						
+			<br></br><br></br>
+			<h:commandLink action="#" value="Eventos" />
+			<br></br><br></br>
+			
+			<br></br><br></br>
+			<h:commandLink action="#" value="Grupo Discução" />
+			<br></br><br></br>
+		</h:form>
+	</h:panelGrid>
+
+</h:body>
+</html>
