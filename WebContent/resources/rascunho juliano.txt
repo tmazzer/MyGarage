@@ -12,3 +12,12 @@ singleton
 
 no insert validar se ja existe email
 
+
+
+
+
+-----------------------
+
+
+<h:body onload="javascript:LINKS.submit();return false;">
+

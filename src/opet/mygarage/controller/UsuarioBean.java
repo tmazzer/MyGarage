@@ -59,7 +59,7 @@ public class UsuarioBean implements Serializable {
 	 * Construtor CadastraUsuarioBean()
 	 */
 	public UsuarioBean() {
-		System.out.println("LOG::BEAN:CONSTRUTOR");
+		System.out.println("LOG::UsuarioBean:CONSTRUTOR");
 		usuario = new Usuario();
 		usuarioModel = new UsuarioModel();
 
@@ -183,12 +183,13 @@ public class UsuarioBean implements Serializable {
 	 * 
 	 */
 	public String excluiUsuarioController(){
+
 		
 		msgRetorno = "";
 		
 		//////////////////////////
 		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
-		usuario.setIdUsuario(10);
+		usuario.setIdUsuario(3);
 		//////////////////////////
 		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
 
@@ -200,6 +201,7 @@ public class UsuarioBean implements Serializable {
 			return "/paginas/usuario/usuarioView";
 		}
 	}
+	
 	public String telaAlteraUsuarioController(){
 		
 		msgRetorno = "";

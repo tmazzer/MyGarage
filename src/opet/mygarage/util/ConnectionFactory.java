@@ -22,7 +22,7 @@ public class ConnectionFactory {
 	private static final String USERNAME = "aluno";
 	private static final String PASSWORD = "aluno";
 
-	private static final String CONEXAO_SUCESSO = "Conexão com o Banco de Dados realizada com sucessoDAO.";
+	private static final String CONEXAO_SUCESSO = "Conexão com o Banco de Dados realizada com sucesso (CF).";
 	private static final String CONEXAO_NAO_SUCESSO = "NÃO FOI POSSÍVEL CONECTAR-SE COM O BANCO DE DADOS.";
 	private static final String DRIVER_NAO_CARREGADO = "NÃO FOI POSSÍVEL CARREGAR O DRIVER.";
 	private static final String CONEXAO_CLOSE_SUCESSO = "Conexão com o Banco de Dados fechada com sucesso.";
@@ -76,7 +76,7 @@ public class ConnectionFactory {
 
 			if (msg != null) {
 
-				System.err.println("\n " + msg);
+				System.out.println("\n " + msg);
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public class ConnectionFactory {
 
 				if (msg != null) {
 
-					System.err.println("\n " + msg);
+					System.out.println("\n " + msg);
 				}
 			}
 

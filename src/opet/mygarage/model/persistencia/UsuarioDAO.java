@@ -36,8 +36,6 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 	public UsuarioDAO() {
 
-		System.out.println("LOG::DAO::CONSTRUTOR");
-
 	}
 
 	/*

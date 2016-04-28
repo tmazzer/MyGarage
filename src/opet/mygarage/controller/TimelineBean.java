@@ -25,6 +25,9 @@ public class TimelineBean implements Serializable {
 	/*
 	 * Variáveis de instância
 	 */
+	
+	private String msgRetorno;
+	
 	private static final long serialVersionUID = -911596375118728823L;
 
 	/*
@@ -34,7 +37,8 @@ public class TimelineBean implements Serializable {
 	 * Construtor TimelineBean()
 	 */
 	public TimelineBean() {
-		// TODO Auto-generated constructor stub
+		System.out.println("TimelineBean::Construtor()");
+		msgRetorno = "DEU BOOOOOA";
 	}
 	
 	/*
@@ -43,7 +47,21 @@ public class TimelineBean implements Serializable {
 	
 	public void inicializaPagina()
 	{
-		System.out.println("ok");
+		System.out.println("TimelineBean::inicializaPagina()");
+	}
+
+	/**
+	 * @return the msgRetorno
+	 */
+	public String getMsgRetorno() {
+		return msgRetorno;
+	}
+
+	/**
+	 * @param msgRetorno the msgRetorno to set
+	 */
+	public void setMsgRetorno(String msgRetorno) {
+		this.msgRetorno = msgRetorno;
 	}
 
 
