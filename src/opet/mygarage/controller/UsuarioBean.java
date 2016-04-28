@@ -188,7 +188,7 @@ public class UsuarioBean implements Serializable {
 		
 		//////////////////////////
 		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
-		usuario.setIdUsuario(3);
+		usuario.setIdUsuario(10);
 		//////////////////////////
 		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
 
@@ -236,10 +236,21 @@ public class UsuarioBean implements Serializable {
 	}
 	
 	public String validaLogin(){
-		//TODO tudo
+
 		
 		
-		return msgRetorno = "logado";
+		//TimelineController timeline = new TimelineController();
+		
+		if (usuarioModel.validaLoginModel(usuario)){
+			msgRetorno = "Validado com sucesso";
+			//timeline.telaPrincipalController();
+			return "/paginas/timeline/timelineView";
+		}else{
+			msgRetorno = "Email ou Senha invalidos!";
+		}
+			
+		return msgRetorno;
+		
 	}
 
 }

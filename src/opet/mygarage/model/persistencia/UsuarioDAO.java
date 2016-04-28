@@ -187,8 +187,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			}
 
 		} catch (SQLException e) {
-			MensagemRetorno.setCodigodMensagem(100);
-			MensagemRetorno.setDescMensagem("Select não retornou dados");
+			MensagemRetorno.setCodigodMensagem(103);
+			MensagemRetorno.setDescMensagem("Erro ao consultar os dados!");
 			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
 			System.out.println("LOG::DAO::ERRO::  " + e);
 			usuario = null;
@@ -200,18 +200,20 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 	/**
 	 * Exclui Usuario existente na tabela Usuario Retorna TRUE para Excluido com
-	 * sucesso Retorna FALSE se ERRO ao Excluir
+	 * sucesso Retorna FALSE se ERRO	ao Excluir
 	 * 
 	 * @see cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
 	 */
 	@Override
 	public Boolean excluiUsuarioDAO(Usuario usuario) {
 
+		
 		PreparedStatement preparedStatement = null;
 
 		String query = null;
 
 		Integer count = null;
+		
 		try {
 			connection = ConnectionFactory.getConnection();
 			// Processamento dos dados
@@ -227,7 +229,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 			preparedStatement = connection.prepareStatement(query);
 
-			preparedStatement.setInt(1, usuario.getIdUsuario());
+			preparedStatement.setInt(1, usuario.getIdUsuario());		
 
 			count = new Integer(preparedStatement.executeUpdate());
 
@@ -240,7 +242,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 			} else {
 				MensagemRetorno.setCodigodMensagem(102);
-				MensagemRetorno.setDescMensagem("Erro ao excluir os dados!");
+				MensagemRetorno.setDescMensagem("Erro ao excluir os dados! Usuario não encontrado");
 				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
 				return false;
 			}
@@ -348,8 +350,70 @@ public class UsuarioDAO implements IUsuarioDAO {
 	 */
 	@Override
 	public Usuario validaLoginUsuarioDAO(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+
+		PreparedStatement preparedStatement = null;
+
+		String query = null;
+
+		ResultSet resultSet = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+
+			if (connection == null) {
+				MensagemRetorno.setCodigodMensagem(101);
+				MensagemRetorno.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				return null;
+			} 
+
+			query = "SELECT * FROM USUARIO WHERE EMAIL = ?";
+
+			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setString(1, usuario.getEmail());
+
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+
+				usuario.setIdUsuario(resultSet.getInt("IDUSUARIO"));
+				usuario.setNome(resultSet.getString("NOME"));
+				usuario.setSenha(resultSet.getString("SENHA"));
+
+				if (resultSet.getString("SOBRENOME") != null) {
+
+					usuario.setSobrenome(resultSet.getString("SOBRENOME"));
+
+				} else {
+
+					usuario.setSobrenome(null);
+				}
+
+				if (resultSet.getString("TELEFONE") != null) {
+
+					usuario.setTelefone(resultSet.getString("TELEFONE"));
+
+				} else {
+
+					usuario.setTelefone(null);
+				}
+			} else {
+				MensagemRetorno.setCodigodMensagem(100);
+				MensagemRetorno.setDescMensagem("Select não retornou dados! Login invalido");
+				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				return null;
+			}
+
+		} catch (SQLException e) {
+			MensagemRetorno.setCodigodMensagem(103);
+			MensagemRetorno.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+			System.out.println("LOG::DAO::ERRO::  " + e);
+			usuario = null;
+			e.printStackTrace();
+		}
+		
+		return usuario;
 	}
 
 }

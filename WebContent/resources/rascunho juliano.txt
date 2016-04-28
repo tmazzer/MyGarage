@@ -1,0 +1,14 @@
+“Java: Como Programar”, 8° Edição, Paul Deitel, Harvey Deitel – Editora Pearsen P T R, ISBN 8576055635.
+“Core Java Server Faces”, 3a. Edição, David Geary, Cay Horstmann - ISBN 0-13-701289-6
+
+http://www.jsftoolbox.com/documentation/help/
+--------------------
+Login login = Login.getInstance();
+if (login.isOff())
+
+singleton
+
+-----------------------------
+
+no insert validar se ja existe email
+

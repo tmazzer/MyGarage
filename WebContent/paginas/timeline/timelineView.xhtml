@@ -7,7 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>MyGarage</title>
 </h:head>
-<h:body>
+<h:body onload="javascript:LINKS.submit();return false;">
+
+
+
 	<h:outputLabel value="Timeline"
 		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"/>
 	<br></br><br></br>
@@ -16,7 +19,7 @@
 		styleClass="msgInfo" /><br></br><br></br>
 	<hr />
 	<h:panelGrid columns="2" cellspacing="5" cellpadding="5" border="1">
-		<h:form id="LINKS">
+		<h:form id="LINKS" action="#{timelineBean.inicializaPagina()}">
 			<br></br><br></br>
 			<h:commandLink action="#{usuarioBean.consultaUsuarioController()}" value="Usuario" />
 			<br></br><br></br>	

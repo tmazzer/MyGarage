@@ -110,4 +110,26 @@ public class UsuarioModel {
 		return persistenciaUsuario.alteraUsuarioDAO(usuario);
 	}
 
+	/**
+	 * Valida usuario valido. Acessa a Persistencia pra realizar SQL
+	 * 
+	 */
+	public boolean validaLoginModel(Usuario usuarioTela) {
+		
+		Usuario usuarioBase = new Usuario();
+			
+		usuarioBase.setEmail(usuarioTela.getEmail());
+		
+		persistenciaUsuario.validaLoginUsuarioDAO(usuarioBase);
+		
+		if(usuarioTela.getSenha().equalsIgnoreCase(usuarioBase.getSenha())){
+			return true;
+		}else{
+			return false;
+		}
+		
+		//ALTERAR Tabela - email obrigatorio!!!! chave primaria
+
+	}
+
 }

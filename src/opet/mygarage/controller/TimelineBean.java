@@ -41,8 +41,10 @@ public class TimelineBean implements Serializable {
 	 * Métodos de acesso
 	 */
 	
-	public String telaPrincipalController(){
-		return "/paginas/timeline/timelineView";
+	public void inicializaPagina()
+	{
+		System.out.println("ok");
 	}
+
 
 }

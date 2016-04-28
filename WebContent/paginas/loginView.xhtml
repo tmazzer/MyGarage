@@ -25,11 +25,11 @@
 				<h:column>
 					
 					<h:outputLabel value="Email: " for="inputEmail" />
-					<h:inputText id="inputEmail" label="Campo Email" maxlength="50" size="30" required="true" />
+					<h:inputText id="inputEmail" label="Campo Email" maxlength="50" size="30" required="true" value="#{usuarioBean.usuario.email}"/>
 					<h:outputText /><br></br>
 					
 					<h:outputLabel value="Senha: " for="inputSenha" />
-					<h:inputSecret id="inputSenha" label="Campo Senha" value="password" maxlength="10" size="30" required="true" />
+					<h:inputSecret id="inputSenha" label="Campo Senha" maxlength="10" size="30" required="true" value="#{usuarioBean.usuario.senha}"/>
 					<h:outputText /><br></br>
 					
 					<h:commandButton value="Confirmar" action="#{usuarioBean.validaLogin}" />
