@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import opet.mygarage.util.ConnectionFactory;
 import opet.mygarage.util.SessaoSistema;
@@ -78,14 +79,14 @@ public class CarroDAO implements ICarroDAO {
 			preparedStatement.setString(1, carro.getApelido());
 			preparedStatement.setString(2, carro.getMarca());
 			preparedStatement.setString(3, carro.getModelo());
-			
+
 			preparedStatement.setString(4, carro.getAnoFabricacao());
 			preparedStatement.setString(5, carro.getAnoModelo());
 			
 			preparedStatement.setString(6, carro.getCor());
 			preparedStatement.setString(7, carro.getPlaca());					
 					
-			preparedStatement.setInt(8, Integer.parseInt(carro.getQuilometragem()));
+			preparedStatement.setInt(8, carro.getQuilometragem());
 
 			// Executa INSERT
 
@@ -155,7 +156,7 @@ public class CarroDAO implements ICarroDAO {
 				carro.setAnoModelo(resultSet.getString("ANOMODELO"));
 				carro.setCor(resultSet.getString("COR"));
 				carro.setPlaca(resultSet.getString("PLACA"));
-				carro.setQuilometragem(resultSet.getString("KILOMETRAGEM"));
+				carro.setQuilometragem(resultSet.getInt("KILOMETRAGEM"));
 
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
@@ -266,7 +267,7 @@ public class CarroDAO implements ICarroDAO {
 			preparedStatement.setString(5, carro.getAnoModelo());
 			preparedStatement.setString(6, carro.getCor());
 			preparedStatement.setString(7, carro.getPlaca());
-			preparedStatement.setString(8, carro.getQuilometragem());
+			preparedStatement.setInt(8, carro.getQuilometragem());
 
 			// Executa Update
 

@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import opet.mygarage.model.CarroModel;
-import opet.mygarage.util.SessaoSistema;
+import opet.mygarage.util.MensagemRetorno;
 import opet.mygarage.vo.Carro;
 
 
@@ -74,30 +74,30 @@ public class CarroBean implements Serializable  {
 			
 			this.carro = carroModel.cadastrarCarroModel(carro);
 	
-			if (SessaoSistema.getCodigodMensagem() == 0){
+			if (MensagemRetorno.getCodigodMensagem() == 0){
 				carro = new Carro();
 				msgRetorno = "Carro cadastrado com sucesso";
 				return "/paginas/carros/carroView";
 			}else {
 				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", MensagemRetorno.getDescMensagem()));
 	
-				return msgRetorno = SessaoSistema.getDescMensagem();
+				return msgRetorno = MensagemRetorno.getDescMensagem();
 			}
 		}else
 		{
 			this.carro = carroModel.alteraCarroModel(carro);
 			
-			if (SessaoSistema.getCodigodMensagem() == 0){
+			if (MensagemRetorno.getCodigodMensagem() == 0){
 				carro = new Carro();
 				return msgRetorno = "Carro alterado com sucesso";
 			}else {
 				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", MensagemRetorno.getDescMensagem()));
 	
-				msgRetorno = SessaoSistema.getDescMensagem();
-				SessaoSistema.setCodigodMensagem(0);
-				SessaoSistema.setDescMensagem("");
+				msgRetorno = MensagemRetorno.getDescMensagem();
+				MensagemRetorno.setCodigodMensagem(0);
+				MensagemRetorno.setDescMensagem("");
 				return msgRetorno;
 			}
 		}

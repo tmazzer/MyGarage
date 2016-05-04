@@ -39,7 +39,7 @@ public class Carro implements Serializable, Cloneable {
 	
 	private String placa;
 	
-	private String quilometragem;
+	private Integer quilometragem;
 	
 	private Integer idCarro;
 	
@@ -137,13 +137,13 @@ public class Carro implements Serializable, Cloneable {
 	/**
 	 * @return the quilometragem
 	 */
-	public String getQuilometragem() {
+	public Integer getQuilometragem() {
 		return quilometragem;
 	}
 	/**
 	 * @param quilometragem the quilometragem to set
 	 */
-	public void setQuilometragem(String quilometragem) {
+	public void setQuilometragem(Integer quilometragem) {
 		this.quilometragem = quilometragem;
 	}
 	/**
