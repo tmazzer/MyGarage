@@ -4,7 +4,7 @@
 package opet.mygarage.model;
 
 import opet.mygarage.model.persistencia.PersistenciaCarro;
-import opet.mygarage.util.MensagemRetorno;
+import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Carro;
 
 /**
@@ -29,8 +29,8 @@ public class CarroModel {
 
 	public CarroModel() {
 		persistenciaCarro = new PersistenciaCarro();
-		MensagemRetorno.setCodigodMensagem(0);
-		MensagemRetorno.setDescMensagem("");
+		SessaoSistema.setCodigodMensagem(0);
+		SessaoSistema.setDescMensagem("");
 	}
 	/*
 	 * Operações da classe
@@ -39,50 +39,50 @@ public class CarroModel {
 	public Carro cadastrarCarroModel(Carro carro) {
 		
 		if (carro.getApelido() == null || (carro.getApelido().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Apelido não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Apelido não informado");
 			return carro = null;
 		}
 		
 		if (carro.getMarca() == null || (carro.getMarca().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Marca não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Marca não informado");
 			return carro = null;
 		}
 		
 		if (carro.getModelo() == null || (carro.getModelo().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Modelo não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Modelo não informado");
 			return carro = null;
 		}
 		
 		if (carro.getAnoFabricacao() == null || (carro.getAnoFabricacao().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Ano Fabricação não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Ano Fabricação não informado");
 			return carro = null;
 		}
 		
 		if (carro.getAnoModelo() == null || (carro.getAnoModelo().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Ano Modelo não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Ano Modelo não informado");
 			return carro = null;
 		}
 		
 		if (carro.getCor() == null || (carro.getCor().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Cor não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Cor não informado");
 			return carro = null;
 		}
 		
 		if (carro.getPlaca() == null || (carro.getPlaca().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Placa não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Placa não informado");
 			return carro = null;
 		}
 		
 		if (carro.getQuilometragem() == null){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Quilometragem não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Quilometragem não informado");
 			return carro = null;
 		}
 		
