@@ -4,7 +4,8 @@
 package opet.mygarage.model;
 
 import opet.mygarage.model.persistencia.PersistenciaUsuario;
-import opet.mygarage.util.MensagemRetorno;
+import opet.mygarage.model.persistencia.PersistenciaCodigoAmigo;
+import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Usuario;
 
 /**
@@ -22,6 +23,7 @@ public class UsuarioModel {
 	 * Variáveis de instância
 	 */
 	private PersistenciaUsuario persistenciaUsuario;
+	private PersistenciaCodigoAmigo persistenciaCodigoAmigo;
 	
 	/*
 	 * Função construtora
@@ -29,8 +31,9 @@ public class UsuarioModel {
 
 	public UsuarioModel() {
 		persistenciaUsuario = new PersistenciaUsuario();
-		MensagemRetorno.setCodigodMensagem(0);
-		MensagemRetorno.setDescMensagem("");
+		persistenciaCodigoAmigo = new PersistenciaCodigoAmigo();
+		SessaoSistema.setCodigodMensagem(0);
+		SessaoSistema.setDescMensagem("");
 	}
 	/*
 	 * Operações da classe
@@ -44,24 +47,36 @@ public class UsuarioModel {
 	public Usuario cadastrarUsuarioModel(Usuario usuario){
 		
 		if (usuario.getNome() == null || (usuario.getNome().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Nome não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Nome não informado");
 			return usuario = null;
 		}
 		
 		if (usuario.getEmail() == null || (usuario.getEmail().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Email não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Email não informado");
 			return usuario = null;
 		}
 		
 		if (usuario.getSenha() == null || (usuario.getSenha().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Senha não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Senha não informado");
 			return usuario = null;
 		}
+		//TODO Valida se o email ja existe!!!!
 		
-		return persistenciaUsuario.cadastraUsuarioDAO(usuario);
+		//Cadastra Usuario
+		persistenciaUsuario.cadastraUsuarioDAO(usuario);
+		
+		//Cadastra Codigo Amigo
+		if (SessaoSistema.getCodigodMensagem() == 0){
+			if(!persistenciaCodigoAmigo.cadastraCodigoAmigoDAO(usuario)){
+				SessaoSistema.setCodigodMensagem(3);
+				SessaoSistema.setDescMensagem("Erro ao cadastrar Codigo de Relacionamento do Usuario");
+			}
+		}
+		
+		return usuario;
 	}
 
 	/**
@@ -91,20 +106,20 @@ public class UsuarioModel {
 	 */
 	public Usuario alteraUsuarioModel(Usuario usuario) {
 		if (usuario.getNome() == null || (usuario.getNome().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Nome não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Nome não informado");
 			return usuario;
 		}
 		
 		if (usuario.getEmail() == null || (usuario.getEmail().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Email não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Email não informado");
 			return usuario;
 		}
 		
 		if (usuario.getSenha() == null || (usuario.getSenha().equalsIgnoreCase(""))){
-			MensagemRetorno.setCodigodMensagem(1);
-			MensagemRetorno.setDescMensagem("Campo Senha não informado");
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Senha não informado");
 			return usuario;
 		}
 		return persistenciaUsuario.alteraUsuarioDAO(usuario);
@@ -120,9 +135,11 @@ public class UsuarioModel {
 			
 		usuarioBase.setEmail(usuarioTela.getEmail());
 		
-		persistenciaUsuario.validaLoginUsuarioDAO(usuarioBase);
+		persistenciaUsuario.consultaPorEmailUsuarioDAO(usuarioBase);
 		
 		if(usuarioTela.getSenha().equalsIgnoreCase(usuarioBase.getSenha())){
+			SessaoSistema.setIdUsuarioLogado(usuarioBase.getIdUsuario());
+			SessaoSistema.setNomeUsuarioLogado(usuarioBase.getNome());
 			return true;
 		}else{
 			return false;

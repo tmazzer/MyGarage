@@ -3,6 +3,8 @@
  */
 package opet.mygarage.model.persistencia;
 
+import java.util.List;
+
 import opet.mygarage.vo.Usuario;
 
 /**
@@ -83,14 +85,23 @@ public class PersistenciaUsuario implements IUsuarioDAO {
 		return usuarioDAO.alteraUsuarioDAO(usuario);
 	}
 	/**
-	 * Valida login válido na tabela Usuario 
+	 * Consulta Usuario, procurando por Email
 	 * 
 	 * @see
 	 * cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
 	 */
 	@Override
-	public Usuario validaLoginUsuarioDAO(Usuario usuario) {
-		return usuarioDAO.validaLoginUsuarioDAO(usuario);
+	public Usuario consultaPorEmailUsuarioDAO(Usuario usuario) {
+		return usuarioDAO.consultaPorEmailUsuarioDAO(usuario);
 	}
 
+	@Override
+	public List<Usuario> listaAmigosDAO() {
+		return usuarioDAO.listaAmigosDAO();
+	}
+
+	@Override
+	public List<Usuario> buscaUsuarioDAO(Usuario usuario) {
+		return usuarioDAO.buscaUsuarioDAO(usuario);		
+	}
 }

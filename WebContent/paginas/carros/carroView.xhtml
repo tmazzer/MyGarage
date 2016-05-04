@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage</title>
+</h:head>
+<h:body>
+
+	<h:outputLabel value="MyGarage - Carro"
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"/>
+	
+	<br></br><br></br>
+	<h:outputText value="#{carroBean.msgRetorno}" styleClass="msgInfo" />
+	<hr />
+	<h:form id="inputForm">		
+		<h:panelGrid  columns="2">
+
+			<h:outputLabel value="Codigo: "/> 	
+			<h:outputText value="#{carroBean.carro.idCarro}"/>
+			
+			<h:outputLabel value="Apelido: "/>
+			<h:outputText value="#{carroBean.carro.apelido}"/>
+			
+			<h:outputLabel value="Marca "/>
+			<h:outputText value="#{carroBean.carro.marca}"/>
+			
+			<h:outputLabel value="Modelo: "/>
+			<h:outputText value="#{carroBean.carro.modelo}"/>
+			
+			<h:outputLabel value="Ano Fabricação: "/>
+			<h:outputText value="#{carroBean.carro.anoFabricacao}"/>
+			
+			<h:outputLabel value="Ano Modelo: "/>
+			<h:outputText value="#{carroBean.carro.anoModelo}"/>
+			
+			<h:outputLabel value="Cor: "/>
+			<h:outputText value="#{carroBean.carro.cor}"/>
+			
+			<h:outputLabel value="Placa: "/>
+			<h:outputText value="#{carroBean.carro.placa}"/>
+			
+			<h:outputLabel value="Quilometragem: "/>
+			<h:outputText value="#{carroBean.carro.quilometragem}"/>
+			
+	</h:panelGrid>
+		
+		<h:commandLink action="#{carroBean.excluiCarroController()}" value="Excluir"
+			onclick="if(!confirm('Confirma a exclusão do #{carroBean.carro.apelido}?')) return false"><br></br>
+		<h:commandLink action="#{carroBean.telaAlteraCarroController()}" value="Alterar"/>
+		</h:commandLink><br></br><br></br>
+		<h:outputText />
+			<h:commandButton value="Tela Inicial" action="/paginas/loginView"/>
+		<h:outputText />
+
+
+	</h:form>
+
+	<hr />
+
+
+</h:body>
+</html>

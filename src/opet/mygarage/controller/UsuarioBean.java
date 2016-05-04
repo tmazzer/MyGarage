@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import opet.mygarage.model.UsuarioModel;
-import opet.mygarage.util.MensagemRetorno;
+import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Usuario;
 
 
@@ -59,12 +59,14 @@ public class UsuarioBean implements Serializable {
 	 * Construtor CadastraUsuarioBean()
 	 */
 	public UsuarioBean() {
+		
 		System.out.println("LOG::UsuarioBean:CONSTRUTOR");
+		
 		usuario = new Usuario();
 		usuarioModel = new UsuarioModel();
 
 		//Inicializa Mensagens
-		MensagemRetorno.setCodigodMensagem(0);
+		SessaoSistema.setCodigodMensagem(0);
 		msgRetorno = "";
 	}
 	
@@ -123,57 +125,67 @@ public class UsuarioBean implements Serializable {
 		// Processamento dos dados
 		
 		if (this.usuario.getIdUsuario() == null){		
-			
+			/////Cadastra Usuario
 			this.usuario = usuarioModel.cadastrarUsuarioModel(usuario);
 	
-			if (MensagemRetorno.getCodigodMensagem() == 0){
+			if (SessaoSistema.getCodigodMensagem() == 0){
 				usuario = new Usuario();
 				msgRetorno = "Usuário cadastrado com sucesso";
+				return "/paginas/timeline/timelineView";	
 			}else {
 				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", MensagemRetorno.getDescMensagem()));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
 	
-				msgRetorno = MensagemRetorno.getDescMensagem();
+				msgRetorno = SessaoSistema.getDescMensagem();
+				return "/paginas/loginView";	
 			}
 		}else
 		{
+			///////Altera Usuario
 			this.usuario = usuarioModel.alteraUsuarioModel(usuario);
 			
-			if (MensagemRetorno.getCodigodMensagem() == 0){
-				usuario = new Usuario();
-				msgRetorno = "Usuário alterado com sucesso";
+			if (SessaoSistema.getCodigodMensagem() == 0){
+				usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
+				this.usuario = usuarioModel.consultaUsuarioModel(usuario);
+				msgRetorno = "Usuário Alterado com sucesso";
+				return "/paginas/usuario/usuarioView";
 			}else {
 				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", MensagemRetorno.getDescMensagem()));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
 	
-				msgRetorno = MensagemRetorno.getDescMensagem();
-				MensagemRetorno.setCodigodMensagem(0);
-				MensagemRetorno.setDescMensagem("");
+				msgRetorno = SessaoSistema.getDescMensagem();
+				SessaoSistema.setCodigodMensagem(0);
+				SessaoSistema.setDescMensagem("");				
+				return "/paginas/usuario/manterUsuarioView";
 			}
-		}
-		return "/paginas/loginView";
+		}		
+		
 	}
 	/**
 	 * Consulta os dados do Usuario logado. Acessa usuarioModel.consultaUsuarioModel()
 	 * 
 	 */
 	public String consultaUsuarioController(){
-		
+		// Declaração de variáveis
 		msgRetorno = "";
+		FacesContext context = FacesContext.getCurrentInstance();
 		
-		//////////////////////////
-		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
-		usuario.setIdUsuario(2);
+
+		
+		usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
 		System.out.println("LOG::BEAN::USUARIO: " + usuario.getIdUsuario());
-		//////////////////////////
-		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
+
+
 
 		this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 		
-		if (MensagemRetorno.getCodigodMensagem() != 0){
+		if (SessaoSistema.getCodigodMensagem() != 0){
 			msgRetorno = "Usuário não encontrado. Favor verificar mais tarde.";
-			MensagemRetorno.setCodigodMensagem(0);
-			MensagemRetorno.setDescMensagem("");
+			SessaoSistema.setCodigodMensagem(0);
+			SessaoSistema.setDescMensagem("");
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Erro ao consultar usuario logado: ", SessaoSistema.getDescMensagem()));
+
 		}
 		
 		return "/paginas/usuario/usuarioView";
@@ -187,14 +199,11 @@ public class UsuarioBean implements Serializable {
 		
 		msgRetorno = "";
 		
-		//////////////////////////
-		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
-		usuario.setIdUsuario(3);
-		//////////////////////////
-		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
+		usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
 
 		if(usuarioModel.excluiUsuarioModel(usuario)){
 			msgRetorno = "Usuario excluído com sucesso!";
+			SessaoSistema.limpaSessao();
 			return "/paginas/loginView";
 		} else{
 			msgRetorno = "Erro ao excluir Usuario. Tente mais tarde!";
@@ -206,46 +215,19 @@ public class UsuarioBean implements Serializable {
 		
 		msgRetorno = "";
 		
-		//////////////////////////
-		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
-		usuario.setIdUsuario(2);
-		//////////////////////////
-		/////////APAGAR//////////FORÇANDO CODIGO PARA TESTE - CORRETO PEGAR DA SECAO
+		usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
 
 		this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 		
 		return "/paginas/usuario/manterUsuarioView";
 		
 	}
-	
-	public String alteraUsuarioController(){
-		
-		msgRetorno = "";
-		
-		FacesContext context = FacesContext.getCurrentInstance();
-		
-		this.usuario = usuarioModel.alteraUsuarioModel(usuario);
-		
-		if (MensagemRetorno.getCodigodMensagem() == 0){
-			return this.msgRetorno = "Usuário Alterado com sucesso";
-		}else {
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", MensagemRetorno.getDescMensagem()));
 
-			return this.msgRetorno = MensagemRetorno.getDescMensagem();
-		}
-		
-	}
 	
 	public String validaLogin(){
 
-		
-		
-		//TimelineController timeline = new TimelineController();
-		
 		if (usuarioModel.validaLoginModel(usuario)){
 			msgRetorno = "Validado com sucesso";
-			//timeline.telaPrincipalController();
 			return "/paginas/timeline/timelineView";
 		}else{
 			msgRetorno = "Email ou Senha invalidos!";

@@ -8,10 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import opet.mygarage.vo.Usuario;
 import opet.mygarage.util.ConnectionFactory;
-import opet.mygarage.util.MensagemRetorno;
+import opet.mygarage.util.SessaoSistema;
 
 /**
  * Classe UsuarioDAO persistencia PersistenciaUsuario
@@ -29,7 +31,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 	 * Variáveis de instância
 	 */
 	private Connection connection;
-
+	
+	
 	/*
 	 * Função construtora da classe
 	 */
@@ -45,7 +48,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 	/**
 	 * Cadastra um novo Usuario na tabela Usuario
 	 * 
-	 * @see cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
+	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
 	@Override
 	public Usuario cadastraUsuarioDAO(Usuario usuario) {
@@ -60,9 +63,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 			// Processamento dos dados
 			if (connection == null) {
-				MensagemRetorno.setCodigodMensagem(101);
-				MensagemRetorno.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			} 
 
@@ -99,20 +102,21 @@ public class UsuarioDAO implements IUsuarioDAO {
 			count = new Integer(preparedStatement.executeUpdate());
 
 			if (count != null && count.equals(1)) {
-				System.out.println("LOG::DAO:Insert com sucesso");
+				System.out.println("LOG::UsuarioDAO:Insert com sucesso");
 				connection.commit();
-				MensagemRetorno.setCodigodMensagem(0);
+				SessaoSistema.setCodigodMensagem(0);
+				usuario = consultaPorEmailUsuarioDAO(usuario);				
 			} else {
-				MensagemRetorno.setCodigodMensagem(105);
-				MensagemRetorno.setDescMensagem("Erro ao inserir os dados!");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(105);
+				SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {
-			MensagemRetorno.setCodigodMensagem(105);
-			MensagemRetorno.setDescMensagem("Erro ao inserir os dados!");
-			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			SessaoSistema.setCodigodMensagem(105);
+			SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 
 			e.printStackTrace();
@@ -126,7 +130,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 	/**
 	 * Consulta Usuario existente na tabela Usuario
 	 * 
-	 * @see cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
+	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
 	@Override
 	public Usuario consultaUsuarioDAO(Usuario usuario) {
@@ -140,9 +144,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 			connection = ConnectionFactory.getConnection();
 
 			if (connection == null) {
-				MensagemRetorno.setCodigodMensagem(101);
-				MensagemRetorno.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			} 
 
@@ -178,17 +182,17 @@ public class UsuarioDAO implements IUsuarioDAO {
 					usuario.setTelefone(null);
 				}
 			} else {
-				MensagemRetorno.setCodigodMensagem(100);
-				MensagemRetorno.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(100);
+				SessaoSistema.setDescMensagem("Select não retornou dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
 		} catch (SQLException e) {
-			MensagemRetorno.setCodigodMensagem(103);
-			MensagemRetorno.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			SessaoSistema.setCodigodMensagem(103);
+			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 			e.printStackTrace();
 		}
@@ -200,7 +204,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 	 * Exclui Usuario existente na tabela Usuario Retorna TRUE para Excluido com
 	 * sucesso Retorna FALSE se ERRO	ao Excluir
 	 * 
-	 * @see cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
+	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
 	@Override
 	public Boolean excluiUsuarioDAO(Usuario usuario) {
@@ -217,9 +221,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 			// Processamento dos dados
 
 			if (connection == null) {
-				MensagemRetorno.setCodigodMensagem(101);
-				MensagemRetorno.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			} 
 
@@ -234,22 +238,22 @@ public class UsuarioDAO implements IUsuarioDAO {
 			if (count != null && count.equals(1)) {
 				connection.commit();
 
-				MensagemRetorno.setCodigodMensagem(0);
-				MensagemRetorno.setDescMensagem("Dados excluídos com sucesso!");
+				SessaoSistema.setCodigodMensagem(0);
+				SessaoSistema.setDescMensagem("Dados excluídos com sucesso!");
 				return true;
 
 			} else {
-				MensagemRetorno.setCodigodMensagem(102);
-				MensagemRetorno.setDescMensagem("Erro ao excluir os dados! Usuario não encontrado");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(102);
+				SessaoSistema.setDescMensagem("Erro ao excluir os dados! Usuario não encontrado");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return false;
 			}
 
 		} catch (SQLException e) {
-			MensagemRetorno.setCodigodMensagem(102);
-			MensagemRetorno.setDescMensagem("Erro ao excluir os dados!");
-			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			SessaoSistema.setCodigodMensagem(102);
+			SessaoSistema.setDescMensagem("Erro ao excluir os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			e.printStackTrace();
 			return false;
 
@@ -259,7 +263,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 	/**
 	 * Altera Usuario existente na tabela Usuario
 	 * 
-	 * @see cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
+	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
 	@Override
 	public Usuario alteraUsuarioDAO(Usuario usuario) {
@@ -275,9 +279,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 			connection = ConnectionFactory.getConnection();
 
 			if (connection == null) {
-				MensagemRetorno.setCodigodMensagem(101);
-				MensagemRetorno.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			} 
 			
@@ -317,18 +321,18 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 			if (count != null && count.equals(1)) {
 				connection.commit();
-				MensagemRetorno.setCodigodMensagem(0);
+				SessaoSistema.setCodigodMensagem(0);
 			} else {
-				MensagemRetorno.setCodigodMensagem(104);
-				MensagemRetorno.setDescMensagem("Erro ao Atualizar os dados!");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(104);
+				SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {			
-			MensagemRetorno.setCodigodMensagem(104);
-			MensagemRetorno.setDescMensagem("Erro ao Atualizar os dados!");
-			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			SessaoSistema.setCodigodMensagem(104);
+			SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 
 			e.printStackTrace();
@@ -342,12 +346,12 @@ public class UsuarioDAO implements IUsuarioDAO {
 	}
 
 	/**
-	 * Valida Login válido na tabela Usuario
+	 * Consulta Usuario, procurando por Email
 	 * 
-	 * @see cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
+	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
 	@Override
-	public Usuario validaLoginUsuarioDAO(Usuario usuario) {
+	public Usuario consultaPorEmailUsuarioDAO(Usuario usuario) {
 
 		PreparedStatement preparedStatement = null;
 
@@ -358,9 +362,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 			connection = ConnectionFactory.getConnection();
 
 			if (connection == null) {
-				MensagemRetorno.setCodigodMensagem(101);
-				MensagemRetorno.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			} 
 
@@ -396,22 +400,196 @@ public class UsuarioDAO implements IUsuarioDAO {
 					usuario.setTelefone(null);
 				}
 			} else {
-				MensagemRetorno.setCodigodMensagem(100);
-				MensagemRetorno.setDescMensagem("Select não retornou dados! Login invalido");
-				System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
+				SessaoSistema.setCodigodMensagem(100);
+				SessaoSistema.setDescMensagem("Select não retornou dados! Login invalido");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
 		} catch (SQLException e) {
-			MensagemRetorno.setCodigodMensagem(103);
-			MensagemRetorno.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::DAO:: " + MensagemRetorno.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			SessaoSistema.setCodigodMensagem(103);
+			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 			e.printStackTrace();
 		}
 		
 		return usuario;
 	}
+	/**
+	 * Lista todos os amigos!
+	 * 
+	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
+	 */
+	@Override
+	public List<Usuario> listaAmigosDAO() {
+		
+		List<Usuario> usuarioList = null;
+		Usuario usuario = null;
+		
+		//
+		// BUSCAR COM STORE PROCEDURE!!!! 3 tabelas
+		//		
+		
+		PreparedStatement preparedStatement = null;
 
+		String query = null;
+
+		ResultSet resultSet = null;
+		try {
+			connection = ConnectionFactory.getConnection();
+
+			if (connection == null) {
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				return null;
+			} 
+
+			query = "SELECT * FROM USUARIO";
+
+			preparedStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.last()) {
+				
+				resultSet.beforeFirst();
+				usuarioList = new ArrayList<>();
+				
+				while (resultSet.next()) {
+
+					usuario = new Usuario();
+					usuario.setIdUsuario(resultSet.getInt("IDUSUARIO"));
+					usuario.setNome(resultSet.getString("NOME"));
+					usuario.setEmail(resultSet.getString("EMAIL"));
+					usuario.setSenha(resultSet.getString("SENHA"));
+	
+					if (resultSet.getString("SOBRENOME") != null) {
+	
+						usuario.setSobrenome(resultSet.getString("SOBRENOME"));
+	
+					} else {
+	
+						usuario.setSobrenome(null);
+					}
+	
+					if (resultSet.getString("TELEFONE") != null) {
+	
+						usuario.setTelefone(resultSet.getString("TELEFONE"));
+	
+					} else {
+	
+						usuario.setTelefone(null);
+					}
+					
+					usuarioList.add(usuario);
+				}
+			}
+			else {
+				SessaoSistema.setCodigodMensagem(100);
+				SessaoSistema.setDescMensagem("Select não retornou dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				return null;
+			}
+
+		} catch (SQLException e) {
+			SessaoSistema.setCodigodMensagem(103);
+			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
+			usuario = null;
+			e.printStackTrace();
+		}
+
+		return usuarioList;
+	}
+
+	@Override
+	public List<Usuario> buscaUsuarioDAO(Usuario usuario) {
+		
+		List<Usuario> usuarioList = null;
+		
+		PreparedStatement preparedStatement = null;
+
+		String query = null;
+
+		ResultSet resultSet = null;
+		try {		
+			
+			connection = ConnectionFactory.getConnection();
+
+			if (connection == null) {
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				return null;
+			} 
+			
+			String concatenaLike = "%" + usuario.getNome() + "%";
+			
+			query = "SELECT * FROM USUARIO WHERE NOME LIKE ? ORDER BY NOME ASC";
+		
+			preparedStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+		
+			preparedStatement.setString(1, concatenaLike);
+
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.last()) {
+				
+				resultSet.beforeFirst();
+				usuarioList = new ArrayList<>();
+				
+				while (resultSet.next()) {
+
+					usuario = new Usuario();
+					usuario.setIdUsuario(resultSet.getInt("IDUSUARIO"));
+					usuario.setNome(resultSet.getString("NOME"));
+					usuario.setEmail(resultSet.getString("EMAIL"));
+					usuario.setSenha(resultSet.getString("SENHA"));
+	
+					if (resultSet.getString("SOBRENOME") != null) {
+	
+						usuario.setSobrenome(resultSet.getString("SOBRENOME"));
+	
+					} else {
+	
+						usuario.setSobrenome(null);
+					}
+	
+					if (resultSet.getString("TELEFONE") != null) {
+	
+						usuario.setTelefone(resultSet.getString("TELEFONE"));
+	
+					} else {
+	
+						usuario.setTelefone(null);
+					}
+					
+					usuarioList.add(usuario);
+				}
+			}
+			else {
+				SessaoSistema.setCodigodMensagem(100);
+				SessaoSistema.setDescMensagem("Select não retornou dados");
+				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				return null;
+			}
+
+		} catch (SQLException e) {
+			SessaoSistema.setCodigodMensagem(103);
+			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
+			usuario = null;
+			e.printStackTrace();
+			return null;
+		}
+
+		return usuarioList;
+	}
 }

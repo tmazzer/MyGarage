@@ -1,46 +1,132 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html 	xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html" 
-		xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>MyGarage</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage</title>
 
 </h:head>
 <h:body onload="#{amigosBean.inicializaPagina()}">
 
 	<h:outputLabel value="Amigos"
-		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"/>
-	<br></br><br></br>
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';" />
+	<br></br>
+	<br></br>
 
-	<h:outputText value="#{amigosBean.msgRetorno}"
-		styleClass="msgInfo" /><br></br><br></br>
-	<hr />	
-	
+	<h:outputText value="#{amigosBean.msgRetorno}" styleClass="msgInfo" />
+	<br></br>
+	<br></br>
+	<hr />
+
 	<h:panelGrid>
 		<h:form id="buscaAmigosForm">
-			<h:outputLabel value="Digite o Nome para buscar novos amigos:" for="inputNome" />
-			<h:inputText id="inputNome" value="#{usuarioBean.usuario.nome}"
+			<h:outputLabel value="Digite o Nome para buscar novos amigos:"
+				for="inputNome" />
+		
+			<h:inputText id="inputNome" value="#{amigosBean.usuario.nome}"
 				label="Campo Nome" maxlength="50" size="50" required="true" />
 			<h:outputText />
-			<h:commandButton value="Buscar" action="#{usuarioBean.salvarUsuarioController()}"/>
-			<h:outputText /><br></br><br></br>
+			
+			<h:commandButton value="Buscar"
+				action="#{amigosBean.consultaUsuariosController(amigosBean.usuario)}" />
+			<h:outputText />
+
+			<h:dataTable value="#{amigosBean.usuarioList}" align="left"
+				cellspacing="5" cellpadding="5" var="usuarioLinha"
+				rendered="#{!empty amigosBean.usuarioList}">
+
+				<f:facet name="header">
+					<h:outputLabel value="Resultado da Busca:" />
+				</f:facet>
+
+				<f:facet name="footer">
+					<h:outputLabel value="Fim da Lista" styleClass="titleStrong" />
+				</f:facet>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:commandLink value="#{usuarioLinha.nome}"
+						action="#{amigosBean.consultaUsuarioAmigoController(usuarioLinha)}" />
+
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sobrenome" />
+					</f:facet>
+					<h:outputText value="#{usuarioLinha.sobrenome}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:outputText value="#{usuarioLinha.email}" />
+				</h:column>
+			</h:dataTable>
+
 		</h:form>
-	</h:panelGrid>	
-	
+	</h:panelGrid>
+
 	<hr />
-	
-	<h:panelGrid>
-		<h:outputLabel value="Seus amigos:" />
-	</h:panelGrid>	
-	
-	<hr /><br></br><br></br><br></br><br></br>
+
+	<h:form id="formConsultar">
+		<h:dataTable value="#{amigosBean.amigosList}" align="left"
+			cellspacing="5" cellpadding="5" var="amigoLinha"
+			rendered="#{!empty amigosBean.amigosList}">
+
+			<f:facet name="header">
+				<h:outputLabel value="Seus amigos:" />
+			</f:facet>
+
+			<f:facet name="footer">
+				<h:outputLabel value="Fim da Lista" styleClass="titleStrong" />
+			</f:facet>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Nome" />
+				</f:facet>
+				<h:commandLink value="#{amigoLinha.nome}"
+					action="#{amigosBean.consultaUsuarioAmigoController(amigoLinha)}" />
+
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Sobrenome" />
+				</f:facet>
+				<h:outputText value="#{amigoLinha.sobrenome}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Email" />
+				</f:facet>
+				<h:outputText value="#{amigoLinha.email}" />
+			</h:column>
+			
+		</h:dataTable>
+	</h:form>
+
+
+
+
+	<hr />
+	<br></br>
+	<br></br>
+	<br></br>
+	<br></br>
 
 
 
 	<h:form id="linkVoltar">
-		<h:commandButton value="Tela Inicial" action="/paginas/timeline/timelineView"/>
+		<h:commandButton value="Tela Inicial"
+			action="/paginas/timeline/timelineView" />
 	</h:form>
 </h:body>
 

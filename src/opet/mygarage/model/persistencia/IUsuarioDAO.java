@@ -3,6 +3,8 @@
  */
 package opet.mygarage.model.persistencia;
 
+import java.util.List;
+
 import opet.mygarage.vo.Usuario;
 
 /**
@@ -21,5 +23,8 @@ public interface IUsuarioDAO {
 	public Usuario consultaUsuarioDAO(Usuario usuario);
 	public Boolean excluiUsuarioDAO(Usuario usuario);
 	public Usuario alteraUsuarioDAO(Usuario usuario);
-	public Usuario validaLoginUsuarioDAO(Usuario usuario);
+	public Usuario consultaPorEmailUsuarioDAO(Usuario usuario);
+	//Amigos
+	public List<Usuario> listaAmigosDAO();
+	public List<Usuario> buscaUsuarioDAO(Usuario usuario);
 }

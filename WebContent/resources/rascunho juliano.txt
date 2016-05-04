@@ -8,16 +8,16 @@ if (login.isOff())
 
 singleton
 
------------------------------
+--------PENDENCIAS--------------------
 
 no insert validar se ja existe email
-
-
-
-
-
------------------------
-
-
-<h:body onload="javascript:LINKS.submit();return false;">
-
+amigos.. fazer toda consulta
+	- buscar na tabela Amigo o codigo
+	- com o codigo, buscar na tabela Relacionamento lista de amigos
+	- pra cada amigo, buscar no Usuario os detalhes
+	---------------------
+	ok- no cadastrar Usuario: cadastrar codigo Amigo.
+	- cadastrar amigo: tabela relacionamento, gravar codigo_amigo do usuario logado e o Id do amigo, e o inverso
+	- no excluir Usuario: excluir CODIGO_AMIGO e todos os demais relacionamentos!! Amigos, Carros, Post... ETC
+	- se erro ao inserir COdigo_amigo, fazer rollback no cadastro do Usuario
+	- ao entrar no detalhe do amigo, verificar se é amigo

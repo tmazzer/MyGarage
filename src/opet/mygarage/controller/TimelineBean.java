@@ -8,6 +8,8 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import opet.mygarage.util.SessaoSistema;
+
 @Named("timelineBean")
 @SessionScoped
 /**
@@ -38,7 +40,7 @@ public class TimelineBean implements Serializable {
 	 */
 	public TimelineBean() {
 		System.out.println("TimelineBean::Construtor()");
-		msgRetorno = "DEU BOOOOOA";
+		msgRetorno = "Seja bem vindo  " + SessaoSistema.getNomeUsuarioLogado();
 	}
 	
 	/*
