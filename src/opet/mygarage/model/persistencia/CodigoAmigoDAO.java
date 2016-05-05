@@ -106,7 +106,7 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
 	@Override
-	public Integer consultaCodigoAmigoDAO(Usuario usuario) {
+	public Integer consultaCodigoAmigoDAO(Integer idUsuario) {
 		
 		PreparedStatement preparedStatement = null;
 
@@ -130,15 +130,14 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 
 			preparedStatement = connection.prepareStatement(query);
 
-			preparedStatement.setInt(1, usuario.getIdUsuario());
+			preparedStatement.setInt(1, idUsuario);
 
 			resultSet = preparedStatement.executeQuery();
 
 			if (resultSet.next()) {
-
-				codigoAmigo = resultSet.getInt("IDCODIGO_AMIGO");
-				System.out.println("LOG::CodigoAmigoDAO::Insert com Sucesso");
+				System.out.println("LOG::CodigoAmigoDAO::Select com Sucesso");
 				System.out.println("LOG::CodigoAmigoDAO::Codigo: " + codigoAmigo);
+				return codigoAmigo = resultSet.getInt("IDCODIGO_AMIGO");
 				
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
@@ -152,11 +151,9 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
 			System.out.println("LOG::CodigoAmigoDAO:: " + SessaoSistema.getDescMensagem());
 			System.out.println("LOG::CodigoAmigoDAO::ERRO::  " + e);
-			usuario = null;
 			e.printStackTrace();
-		}
-
-		return codigoAmigo;
+			return null;
+		}		
 	}
 
 }

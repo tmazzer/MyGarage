@@ -53,8 +53,8 @@ public class PersistenciaCodigoAmigo implements ICodigoAmigoDAO {
 	 * cadastro.pessoa.persistencia.IPessoaDAO#salvar(cadastro.pessoa.vo.Pessoa)
 	 */
 	@Override
-	public Integer consultaCodigoAmigoDAO(Usuario usuario) {
-		return codigoAmigoDAO.consultaCodigoAmigoDAO(usuario);
+	public Integer consultaCodigoAmigoDAO(Integer idUsuario) {
+		return codigoAmigoDAO.consultaCodigoAmigoDAO(idUsuario);
 	}
 
 }

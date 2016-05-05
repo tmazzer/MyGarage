@@ -195,6 +195,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection();
 		}
 
 		return usuario;
@@ -256,7 +258,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			e.printStackTrace();
 			return false;
-
+		} finally {
+			ConnectionFactory.closeConnection();
 		}
 	}
 
@@ -413,6 +416,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection();
 		}
 		
 		return usuario;
@@ -502,6 +507,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
 			usuario = null;
 			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection();
 		}
 
 		return usuarioList;
@@ -588,6 +595,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			usuario = null;
 			e.printStackTrace();
 			return null;
+		} finally {
+			ConnectionFactory.closeConnection();
 		}
 
 		return usuarioList;

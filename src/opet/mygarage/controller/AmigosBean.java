@@ -103,7 +103,6 @@ public class AmigosBean  implements Serializable{
 	 */
 	public String adicionaAmigoController()
 	{
-		System.out.println("AmigosBean::adicionaAmigo");
 		if(amigosModel.adicionaAmigoModel(usuario)){
 			isFriend = "amigo";
 			return msgRetorno = "Amigo Adicionado com sucesso";			
@@ -119,20 +118,25 @@ public class AmigosBean  implements Serializable{
 	 */
 	public String consultaUsuarioAmigoController(Usuario usuario){
 
-		System.out.println("AmigosBean::consultaUsuarioAmigoController");
-
 		UsuarioModel usuarioModel = new UsuarioModel();
 		
 		this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 		
-		if (SessaoSistema.getCodigodMensagem() != 0){
+		if (SessaoSistema.getCodigodMensagem() == 0){
+			//Consulta se é amigo
+			if(amigosModel.validaAmigo(usuario.getIdUsuario())){
+				isFriend = "amigo";
+			} else{
+				isFriend = "";
+			}
+			return "/paginas/amigos/usuarioAmigoView";
+
+		} else
+		{
 			msgRetorno = "Usuário não encontrado. Favor verificar mais tarde.";
 			SessaoSistema.setCodigodMensagem(0);
 			SessaoSistema.setDescMensagem("");
 			return msgRetorno;
-		} else
-		{
-			return "/paginas/amigos/usuarioAmigoView";
 		}
 
 	}

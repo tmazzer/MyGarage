@@ -1,4 +1,19 @@
 ==================================================================
+=====================CARRO==============================
+==================================================================
+
+
+DELETE FROM CARRO;
+
+DROP SEQUENCE idCarro_SEQUENCE;
+
+CREATE SEQUENCE idCarro_SEQUENCE 
+MINVALUE 1
+MAXVALUE 100000
+INCREMENT BY 1
+START WITH 1;
+
+==================================================================
 =================USUARIO==========================================
 ==================================================================
 
@@ -47,17 +62,20 @@ INSERT INTO CODIGO_AMIGO (IDCODIGO_AMIGO, USUARIO_IDUSUARIO) VALUES (IDCODIGO_AM
 
 
 SELECT * FROM CODIGO_AMIGO;
+
 ==================================================================
-=====================CARRO==============================
+=================CODIGO_AMIGO=====================================
 ==================================================================
 
+DELETE FROM RELACIONAMENTO;
 
-DELETE FROM CARRO;
+DROP SEQUENCE IDRELACIONAMENTO_SEQUENCE;
 
-DROP SEQUENCE idCarro_SEQUENCE;
-
-CREATE SEQUENCE idCarro_SEQUENCE 
+CREATE SEQUENCE IDRELACIONAMENTO_SEQUENCE 
 MINVALUE 1
 MAXVALUE 100000
 INCREMENT BY 1
 START WITH 1;
+
+SELECT * FROM RELACIONAMENTO;
+

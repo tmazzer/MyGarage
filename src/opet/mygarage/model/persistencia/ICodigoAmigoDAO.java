@@ -17,6 +17,6 @@ import opet.mygarage.vo.Usuario;
  */
 public interface ICodigoAmigoDAO {
 	public Boolean cadastraCodigoAmigoDAO(Usuario usuario);
-	public Integer consultaCodigoAmigoDAO(Usuario usuario);
+	public Integer consultaCodigoAmigoDAO(Integer idUsuario);
 	
 }
