@@ -3,6 +3,9 @@
  */
 package opet.mygarage.model.persistencia;
 
+import java.util.List;
+
+import opet.mygarage.vo.Acessorios;
 import opet.mygarage.vo.Carro;
 
 /**
@@ -13,7 +16,7 @@ import opet.mygarage.vo.Carro;
  * @since 19/04/2016
  * 
  * @version 1.0
- * 
+ * 	
  */
 public class PersistenciaCarro implements ICarroDAO {
 	
@@ -68,6 +71,56 @@ public class PersistenciaCarro implements ICarroDAO {
 	@Override
 	public Carro alteraCarroDAO(Carro carro) {
 		return carroDAO.alteraCarroDAO(carro);
+	}
+	
+	/**
+	 * Lista todos os carros do Usuario informado
+	 */
+	@Override
+	public List<Carro> listaCarrosDAO(Integer idUsuario){
+		return carroDAO.listaCarrosDAO(idUsuario);
+	}
+
+	/**
+	 * Cadastra um novo Acessorio na tabela Acessorios
+	 * 
+	 */
+	@Override
+	public Acessorios cadastraAcessoriosDAO(Carro carro, Acessorios acessorios) {
+		return carroDAO.cadastraAcessoriosDAO(carro, acessorios);
+	}
+
+	/**
+	 * Consulta Acessorio existente na tabela Acessorios
+	 */
+	@Override
+	public Acessorios consultaAcessoriosDAO(Acessorios acessorios) {
+		return carroDAO.consultaAcessoriosDAO(acessorios);
+	}
+	
+	/**
+	 * Exclui Acessorio existente na tabela Acessorios
+	 * Retorna TRUE para Excluido com sucesso
+	 * Retorna FALSE se ERRO ao Excluir
+	 */
+	@Override
+	public Boolean excluiAcessoriosDAO(Acessorios acessorios) {
+		if(carroDAO.excluiAcessoriosDAO(acessorios)){
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	/**
+	 * Altera Acessorio existente na tabela Acessorios
+	 */
+	@Override
+	public Acessorios alteraAcessoriosDAO(Acessorios acessorios) {
+		return carroDAO.alteraAcessoriosDAO(acessorios);
+	}
+
+	public List<Acessorios> listaAcessoriosDAO(Carro carro) {
+		return carroDAO.listaAcessoriosDAO(carro);
 	}
 
 }

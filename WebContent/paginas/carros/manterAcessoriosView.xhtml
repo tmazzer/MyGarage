@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage - Mantem Aessorios</title>
+</h:head>
+<h:body>
+	<b:container layout="fluid">
+		<h3>
+			<h:outputLabel value="MyGarage - Cadastrar Acessorio"
+				rendered="#{empty carroBean.acessorios.idAcessorios}" />
+
+			<h:outputLabel value="MyGarage - Alterar Acessorios"
+				rendered="#{!empty carroBean.acessorios.idAcessorios}" />
+			<h:outputText value="#{carroBean.msgRetorno}" styleClass="msgInfo" />
+		</h3>
+	</b:container>
+	<b:container layout="fluid">
+		<h:form id="inputForm">
+			<h:messages styleClass="msgWarn2" />
+			<h:panelGrid>
+				<h:outputLabel value="Código"
+					rendered="#{!empty carroBean.acessorios.idAcessorios}" />
+				<h:outputText value="#{carroBean.acessorios.idAcessorios}"
+					rendered="#{!empty carroBean.acessorios.idAcessorios}" />
+
+				<h:outputLabel value="Id Carro"
+					rendered="#{!empty carroBean.carro.idCarro}" />
+				<h:outputText value="#{carroBean.carro.idCarro}"
+					rendered="#{!empty carroBean.carro.idCarro}" />
+					
+				<h:outputLabel for="inputNome" />
+				<b:inputText id="inputNome" value="#{carroBean.acessorios.nome}"
+					label="Nome" maxlength="50" size="50" required="true" />
+				<h:outputText />
+
+				<h:outputLabel for="inputDescricao" />
+				<b:inputText id="inputDescricao" value="#{carroBean.acessorios.descricao}"
+					label="Descrição" maxlength="50" size="50" />
+				<h:outputText />
+
+				<h:outputLabel for="inputMarca" />
+				<b:inputText id="inputMarca" value="#{carroBean.acessorios.marca}"
+					label="Marca" maxlength="50" size="50" />
+				<h:outputText />
+				
+				<h:outputLabel for="inputModelo" />
+				<b:inputText id="inputModelo" value="#{carroBean.acessorios.modelo}"
+					label="Modelo" maxlength="50" size="50" />
+				<h:outputText />
+				
+				<b:commandButton
+					action="#{carroBean.salvarAcessoriosController()}"
+					rendered="#{empty carroBean.acessorios.idAcessorios}"
+					value="Adicionar" look="primary" icon="pencil" />
+					
+				<b:commandButton
+					action="#{carroBean.salvarAcessoriosController()}"
+					rendered="#{!empty carroBean.acessorios.idAcessorios}"
+					value="Alterar" look="primary" icon="pencil" />
+			</h:panelGrid>
+		</h:form>
+	</b:container>
+
+	<h:form>
+		<h:outputText />
+		<b:commandButton value="Voltar"
+			action="/paginas/carros/carroView" 
+			look="primary" icon="arrow-left"/>
+		<h:outputText />
+	</h:form>
+</h:body>
+</html>

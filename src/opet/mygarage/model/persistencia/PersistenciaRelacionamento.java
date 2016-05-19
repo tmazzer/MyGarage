@@ -50,8 +50,8 @@ public class PersistenciaRelacionamento implements IRelacionamentoDAO {
 	 * @see opet.mygarage.model.persistencia.IRelacionamentoDAO#desativaRelacionamentoDAO(java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public Boolean desativaRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario) {
-		return relacionamentoDAO.desativaRelacionamentoDAO(codigoAmigo, idUsuario);
+	public Boolean excluiRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario) {
+		return relacionamentoDAO.excluiRelacionamentoDAO(codigoAmigo, idUsuario);
 	}
 
 	/**
@@ -65,12 +65,21 @@ public class PersistenciaRelacionamento implements IRelacionamentoDAO {
 	}
 	
 	/**
+	 * Acessa RelacionamentoDAO para listar relacionamento na base Relacionamento, amigos em orderm de data
+	 * 
+	 * @see opet.mygarage.model.persistencia.IRelacionamentoDAO#listaAmigosRelacionamentoDAO(java.lang.Integer)
+	 */
+	@Override
+	public List<Relacionamento> listaUltimosAmigosRelacionamentoDAO(Integer codigoAmigo) {
+		return relacionamentoDAO.listaUltimosAmigosRelacionamentoDAO(codigoAmigo);
+	}	
+	/**
 	 * Acessa RelacionamentoDAO para consultar Relacionamento
 	 * 
 	 * @see opet.mygarage.model.persistencia.IRelacionamentoDAO#listaAmigosRelacionamentoDAO(java.lang.Integer)
 	 */
 	@Override
-	public Boolean consultaRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario){
+	public Relacionamento consultaRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario){
 		return relacionamentoDAO.consultaRelacionamentoDAO(codigoAmigo, idUsuario);
 	}
 

@@ -96,11 +96,6 @@ public class PersistenciaUsuario implements IUsuarioDAO {
 	}
 
 	@Override
-	public List<Usuario> listaAmigosDAO() {
-		return usuarioDAO.listaAmigosDAO();
-	}
-
-	@Override
 	public List<Usuario> buscaUsuarioDAO(Usuario usuario) {
 		return usuarioDAO.buscaUsuarioDAO(usuario);		
 	}

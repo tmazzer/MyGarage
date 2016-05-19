@@ -25,6 +25,12 @@ public class Carro implements Serializable, Cloneable {
 	 * Variáveis de instância
 	 */
 	
+	private Integer tpCombust;
+	
+	private String DescCombust;
+
+	private Integer usuarioIdUsuario;
+	
 	private String apelido;
 	
 	private String marca;
@@ -47,7 +53,7 @@ public class Carro implements Serializable, Cloneable {
 	 * Função construtora
 	 */
 	public Carro() {
-		System.out.println("LOG::Carro.VO:Construtor");
+		
 	}
 	
 	/**
@@ -158,5 +164,46 @@ public class Carro implements Serializable, Cloneable {
 	public void setIdCarro(Integer idCarro) {
 		this.idCarro = idCarro;
 	}
+	/**
+	 * @return the tpCombust
+	 */
+	public Integer getTpCombust() {
+		return tpCombust;
+	}
+
+	/**
+	 * @param tpCombust the tpCombust to set
+	 */
+	public void setTpCombust(Integer tpCombust) {
+		this.tpCombust = tpCombust;
+	}
+
+	/**
+	 * @return the usuarioIdUsuario
+	 */
+	public Integer getUsuarioIdUsuario() {
+		return usuarioIdUsuario;
+	}
+
+	/**
+	 * @param usuarioIdUsuario the usuarioIdUsuario to set
+	 */
+	public void setUsuarioIdUsuario(Integer usuarioIdUsuario) {
+		this.usuarioIdUsuario = usuarioIdUsuario;
+	}
+
 	
+	/**
+	 * @return the descCombut
+	 */
+	public String getDescCombut() {
+		return DescCombust;
+	}
+
+	/**
+	 * @param descCombut the descCombut to set
+	 */
+	public void setDescCombut(String descCombut) {
+		DescCombust = descCombut;
+	}
 }

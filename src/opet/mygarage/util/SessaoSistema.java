@@ -84,12 +84,14 @@ public class SessaoSistema {
 	 *    1 - Campo obrigatório não preenchido
 	 *    2 - Campo informado inválido
 	 *    3 - Erro ao cadastrar Codigo de Relacionamento do Usuario
+	 *    4 - E-mail já cadastrado. Favor informar outro e-mail.
 	 *    100 - Select não retornou dados
 	 *    101 - Erro ao abrir o BD
 	 *    102 - Erro ao excluir os dados!
 	 *    103 - Erro ao consultar os dados!
 	 *    104 - Erro ao atualizar os dados!
 	 *    105 - Erro ao inserir os dados!
+	 *    106 - Erro ao executar Store Procedure!
 	 */
 	public static void setCodigodMensagem(Integer codigodMensagem) {
 		SessaoSistema.codigodMensagem = codigodMensagem;

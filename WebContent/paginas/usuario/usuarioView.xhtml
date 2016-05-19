@@ -20,7 +20,9 @@
 	<hr />
 	<h:form id="inputForm">		
 		<h:panelGrid  columns="2">
-
+		
+			<h:graphicImage rendered="true" name="/images/#{usuarioBean.usuario.foto}" /><br></br>	
+			
 			<h:outputLabel value="Codigo: "/> 	
 			<h:outputText value="#{usuarioBean.usuario.idUsuario}"/>
 			
@@ -41,9 +43,9 @@
 			
 		</h:panelGrid>
 		
-		<h:commandLink action="#{usuarioBean.excluiUsuarioController()}" value="Excluir"
+		<h:commandLink action="#{usuarioBean.excluiUsuarioController()}" value="Excluir Conta"
 			onclick="if(!confirm('Confirma a exclusão do #{usuarioBean.usuario.nome}?')) return false"><br></br>
-		<h:commandLink action="#{usuarioBean.telaAlteraUsuarioController()}" value="Alterar"/>
+		<h:commandLink action="#{usuarioBean.telaAlteraUsuarioController()}" value="Editar dados da conta"/>
 		</h:commandLink><br></br><br></br>
 		<h:outputText />
 			<h:commandButton value="Tela Inicial" action="/paginas/timeline/timelineView"/>

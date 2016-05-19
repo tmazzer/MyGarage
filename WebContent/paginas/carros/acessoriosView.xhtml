@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage</title>
+</h:head>
+<h:body>
+	<b:container layout="fluid">
+		<h3>
+			<h:outputLabel value="MyGarage - Acessorios" />
+		</h3>
+		<h:form id="linkVoltar1">
+			<b:commandButton value="Home" action="/paginas/timeline/timelineView"
+				look="primary" icon="home" style="float: right;">
+			</b:commandButton>
+		</h:form>
+	</b:container>
+
+	<h:outputText value="#{carroBean.msgRetorno}" styleClass="msgInfo" />
+	<hr />
+	<b:container layout="fluid">
+		<h:form id="inputForm">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Codigo: " />
+				<h:outputText value="#{carroBean.acessorios.idAcessorios}" />
+
+				<h:outputLabel value="Codigo Carro: " />
+				<h:outputText value="#{carroBean.acessorios.carro_idCarro}" />
+
+				<h:outputLabel value="Nome " />
+				<h:outputText value="#{carroBean.acessorios.nome}" />
+
+				<h:outputLabel value="Descrição: " />
+				<h:outputText value="#{carroBean.acessorios.descricao}" />
+
+				<h:outputLabel value="Marca: " />
+				<h:outputText value="#{carroBean.acessorios.marca}" />
+
+				<h:outputLabel value="Modelo: " />
+				<h:outputText value="#{carroBean.acessorios.modelo}" />
+			</h:panelGrid>
+			
+			<b:commandButton action="/paginas/carros/manterAcessoriosView"
+				value="Alterar" look="info" icon="edit" style="margin-right: 5px;" />
+			<b:commandButton action="#{carroBean.excluiAcessoriosController()}"
+				value="Excluir"
+				onclick="if(!confirm('Confirma a exclusão do #{carroBean.acessorios.nome}?')) return false"
+				look="danger" icon="remove" style="margin-right: 5px;">
+			</b:commandButton>
+
+			<br></br>
+			<br></br>
+			<h:outputText />
+		</h:form>
+	</b:container>
+
+	<h:form>
+		<b:commandButton value="Voltar"
+			action="/paginas/carros/carroView" look="primary"
+			icon="arrow-left" />
+	</h:form>
+
+
+
+</h:body>
+</html>

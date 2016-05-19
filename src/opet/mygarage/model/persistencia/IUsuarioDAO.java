@@ -24,7 +24,5 @@ public interface IUsuarioDAO {
 	public Boolean excluiUsuarioDAO(Usuario usuario);
 	public Usuario alteraUsuarioDAO(Usuario usuario);
 	public Usuario consultaPorEmailUsuarioDAO(Usuario usuario);
-	//Amigos
-	public List<Usuario> listaAmigosDAO();
 	public List<Usuario> buscaUsuarioDAO(Usuario usuario);
 }

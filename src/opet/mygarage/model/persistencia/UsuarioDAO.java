@@ -70,16 +70,16 @@ public class UsuarioDAO implements IUsuarioDAO {
 			} 
 
 			query = "INSERT INTO USUARIO "
-					+ "(USUARIO.idUsuario, USUARIO.nome, USUARIO.sobrenome, USUARIO.telefone, USUARIO.email, USUARIO.senha) "
-					+ "VALUES (idUsuario_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?)";
+					+ "(USUARIO.idUsuario, USUARIO.nome, USUARIO.sobrenome, USUARIO.telefone, USUARIO.foto, USUARIO.email, USUARIO.senha) "
+					+ "VALUES (idUsuario_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 
 
 			preparedStatement = connection.prepareStatement(query);
 
 			// ESTES CAMPOS SÃO OBRIGATORIOS. DEVEM TER SIDO VALIDADOS ANTES
 			preparedStatement.setString(1, usuario.getNome());
-			preparedStatement.setString(4, usuario.getEmail());
-			preparedStatement.setString(5, usuario.getSenha());
+			preparedStatement.setString(5, usuario.getEmail());
+			preparedStatement.setString(6, usuario.getSenha());
 
 			// campos NAO obrigarorios. Se vazios, devem ser tratados como NULL
 			if (usuario.getSobrenome() != null) {
@@ -96,6 +96,13 @@ public class UsuarioDAO implements IUsuarioDAO {
 			} else {
 				preparedStatement.setNull(3, Types.NULL);
 			}
+			
+			if (usuario.getFoto() != null) {
+				preparedStatement.setString(4, usuario.getFoto());
+
+			} else {
+				preparedStatement.setNull(4, Types.NULL);
+			}
 
 			// Executa INSERT
 
@@ -105,7 +112,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 				System.out.println("LOG::UsuarioDAO:Insert com sucesso");
 				connection.commit();
 				SessaoSistema.setCodigodMensagem(0);
-				usuario = consultaPorEmailUsuarioDAO(usuario);				
+				usuario = consultaPorEmailUsuarioDAO(usuario);	
+				SessaoSistema.setIdUsuarioLogado(usuario.getIdUsuario());
+				SessaoSistema.setNomeUsuarioLogado(usuario.getNome());
 			} else {
 				SessaoSistema.setCodigodMensagem(105);
 				SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
@@ -180,6 +189,15 @@ public class UsuarioDAO implements IUsuarioDAO {
 				} else {
 
 					usuario.setTelefone(null);
+				}
+				
+				if (resultSet.getString("FOTO") != null) {
+
+					usuario.setFoto(resultSet.getString("FOTO"));
+
+				} else {
+
+					usuario.setFoto(null);
 				}
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
@@ -288,16 +306,17 @@ public class UsuarioDAO implements IUsuarioDAO {
 				return null;
 			} 
 			
-			query = "UPDATE USUARIO SET " + "USUARIO.nome = ?, " + "USUARIO.sobrenome = ?, " + "USUARIO.telefone = ?, "
+			query = "UPDATE USUARIO SET " + "USUARIO.nome = ?, " + "USUARIO.sobrenome = ?, " 
+					+ "USUARIO.telefone = ?, USUARIO.foto = ?, "
 					+ "USUARIO.email = ?, " + "USUARIO.senha = ? " + "WHERE USUARIO.idUsuario = ?";
 
 			preparedStatement = connection.prepareStatement(query);
 
 			// ESTES CAMPOS SÃO OBRIGATORIOS. DEVEM TER SIDO VALIDADOS ANTES
 			preparedStatement.setString(1, usuario.getNome());
-			preparedStatement.setString(4, usuario.getEmail());
-			preparedStatement.setString(5, usuario.getSenha());
-			preparedStatement.setInt(6, usuario.getIdUsuario());
+			preparedStatement.setString(5, usuario.getEmail());
+			preparedStatement.setString(6, usuario.getSenha());
+			preparedStatement.setInt(7, usuario.getIdUsuario());
 
 			// campos NAO obrigarorios. Se vazios, devem ser tratados como NULL
 			if (usuario.getSobrenome() != null) {
@@ -317,6 +336,15 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 				preparedStatement.setNull(3, Types.NULL);
 			}
+			
+			if (usuario.getFoto() != null) {
+
+				preparedStatement.setString(4, usuario.getFoto());
+
+			} else {
+
+				preparedStatement.setNull(4, Types.NULL);
+			}
 
 			// Executa Update
 
@@ -325,6 +353,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 			if (count != null && count.equals(1)) {
 				connection.commit();
 				SessaoSistema.setCodigodMensagem(0);
+				SessaoSistema.setIdUsuarioLogado(usuario.getIdUsuario());
+				SessaoSistema.setNomeUsuarioLogado(usuario.getNome());
 			} else {
 				SessaoSistema.setCodigodMensagem(104);
 				SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
@@ -402,6 +432,14 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 					usuario.setTelefone(null);
 				}
+				if (resultSet.getString("FOTO") != null) {
+
+					usuario.setFoto(resultSet.getString("FOTO"));
+
+				} else {
+
+					usuario.setFoto(null);
+				}
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
 				SessaoSistema.setDescMensagem("Select não retornou dados! Login invalido");
@@ -422,98 +460,12 @@ public class UsuarioDAO implements IUsuarioDAO {
 		
 		return usuario;
 	}
+
 	/**
-	 * Lista todos os amigos!
+	 * Consulta Usuario, procurando por Nome
 	 * 
 	 * @see opet.mygarage.model.persistencia.IUsuarioDAO#salvar(opet.mygarage.vo.Usuario)
 	 */
-	@Override
-	public List<Usuario> listaAmigosDAO() {
-		
-		List<Usuario> usuarioList = null;
-		Usuario usuario = null;
-		
-		//
-		// BUSCAR COM STORE PROCEDURE!!!! 3 tabelas
-		//		
-		
-		PreparedStatement preparedStatement = null;
-
-		String query = null;
-
-		ResultSet resultSet = null;
-		try {
-			connection = ConnectionFactory.getConnection();
-
-			if (connection == null) {
-				SessaoSistema.setCodigodMensagem(101);
-				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
-				return null;
-			} 
-
-			query = "SELECT * FROM USUARIO";
-
-			preparedStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-
-			resultSet = preparedStatement.executeQuery();
-			
-			if (resultSet.last()) {
-				
-				resultSet.beforeFirst();
-				usuarioList = new ArrayList<>();
-				
-				while (resultSet.next()) {
-
-					usuario = new Usuario();
-					usuario.setIdUsuario(resultSet.getInt("IDUSUARIO"));
-					usuario.setNome(resultSet.getString("NOME"));
-					usuario.setEmail(resultSet.getString("EMAIL"));
-					usuario.setSenha(resultSet.getString("SENHA"));
-	
-					if (resultSet.getString("SOBRENOME") != null) {
-	
-						usuario.setSobrenome(resultSet.getString("SOBRENOME"));
-	
-					} else {
-	
-						usuario.setSobrenome(null);
-					}
-	
-					if (resultSet.getString("TELEFONE") != null) {
-	
-						usuario.setTelefone(resultSet.getString("TELEFONE"));
-	
-					} else {
-	
-						usuario.setTelefone(null);
-					}
-					
-					usuarioList.add(usuario);
-				}
-			}
-			else {
-				SessaoSistema.setCodigodMensagem(100);
-				SessaoSistema.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
-				return null;
-			}
-
-		} catch (SQLException e) {
-			SessaoSistema.setCodigodMensagem(103);
-			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
-			usuario = null;
-			e.printStackTrace();
-		} finally {
-			ConnectionFactory.closeConnection();
-		}
-
-		return usuarioList;
-	}
-
 	@Override
 	public List<Usuario> buscaUsuarioDAO(Usuario usuario) {
 		
@@ -575,6 +527,14 @@ public class UsuarioDAO implements IUsuarioDAO {
 					} else {
 	
 						usuario.setTelefone(null);
+					}
+					if (resultSet.getString("FOTO") != null) {
+
+						usuario.setFoto(resultSet.getString("FOTO"));
+
+					} else {
+
+						usuario.setFoto(null);
 					}
 					
 					usuarioList.add(usuario);

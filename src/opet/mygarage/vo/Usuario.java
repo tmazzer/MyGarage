@@ -37,6 +37,8 @@ public class Usuario implements Serializable, Cloneable {
 	
 	private String senha;
 	
+	private String foto;
+	
 	/*
 	 * Função construtora
 	 */
@@ -130,6 +132,20 @@ public class Usuario implements Serializable, Cloneable {
 	 */
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	/**
+	 * @return the foto
+	 */
+	public String getFoto() {
+		return foto;
+	}
+
+	/**
+	 * @param foto the foto to set
+	 */
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 }

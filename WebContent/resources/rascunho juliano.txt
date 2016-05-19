@@ -10,16 +10,21 @@ singleton
 
 --------PENDENCIAS--------------------
 
-no insert validar se ja existe email
-amigos.. fazer toda consulta
-	- buscar na tabela Amigo o codigo
-	- com o codigo, buscar na tabela Relacionamento lista de amigos
-	- pra cada amigo, buscar no Usuario os detalhes
-	---------------------
-	ok- no cadastrar Usuario: cadastrar codigo Amigo.
-	ok- cadastrar amigo: tabela relacionamento, gravar codigo_amigo do usuario logado e o Id do amigo, e o inverso
-	- no excluir Usuario: excluir CODIGO_AMIGO e todos os demais relacionamentos!! Amigos, Carros, Post... ETC
-	- se erro ao inserir COdigo_amigo, fazer rollback no cadastro do Usuario
-	- ao entrar no detalhe do amigo, verificar se é amigo (consulta na base)
-	- no adicionar amigo: validar se ja é amigo (talvez ele esteja desativado)
-	- verificar o CLOSE em todos os SQL
+no excluir Usuario: excluir CODIGO_AMIGO e todos os demais relacionamentos!! Amigos, Carros, Post... ETC
+foto timeline
+
+
+MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP 
+quando adionar carro - publicar timeline
+quando adionar acessorio - publicar timeline
+timeline (bootstrap)
+detalheTimeline (bootstrap)
+usuario (bootstrap)
+fotos carros/acessorios
+MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP 
+
+
+
+validar formato template do professor (comentarios)
+preparar carga de INserts de tudo
+no detalhes usuario da timeline, opcao de adicionar/excluir amigo

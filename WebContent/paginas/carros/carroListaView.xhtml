@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage</title>
+
+</h:head>
+<h:body onload="#{carroBean.inicializaPagina()}">
+
+	<b:container layout="fluid">
+		<h3>
+			<h:outputLabel value="Lista Carros" />
+		</h3>
+		<h:form id="linkVoltar1">
+			<b:commandButton value="Home" action="/paginas/timeline/timelineView"
+				look="primary" icon="home" style="float: right;">
+			</b:commandButton>
+		</h:form>
+	</b:container>
+	<h:outputText value="#{carroBean.msgRetorno}" styleClass="msgInfo" />
+	<br></br>
+
+	<b:container layout="fluid">
+		<h:form id="formCarros">
+			<b:dataTable value="#{carroBean.carrosList}" var="carroLinha"
+				styleClass="table table-striped table-bordered" style="width:100%"
+				rendered="#{!empty carroBean.carrosList}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Apelido" />
+					</f:facet>
+					<b:commandButton
+						action="#{carroBean.consultaCarroController(carroLinha)}" value=""
+						look="primary" icon="check" style="float: left;" size="xs" />
+						&nbsp;
+					<h:outputText value="#{carroLinha.apelido}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Marca" />
+					</f:facet>
+					<h:outputText value="#{carroLinha.marca}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Modelo" />
+					</f:facet>
+					<h:outputText value="#{carroLinha.modelo}" />
+				</h:column>
+
+			</b:dataTable>
+			<b:commandButton action="#{carroBean.telaAdicionar()}"
+				value="Adicionar" look="primary" icon="plus-sign" />
+		</h:form>
+	</b:container>
+
+</h:body>
+
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage - Amigo</title>
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+<h:body>
+
+	<h:outputLabel value="MyGarage - Timeline Detalhe"
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';" />
+
+	<br></br>
+	<br></br>
+	<h:outputText value="#{timelineBean.msgRetorno}" styleClass="msgInfo" />
+	<hr />
+
+	<h:panelGrid columns="1" cellspacing="5" cellpadding="5" border="0">
+		<h:panelGrid>
+			<h:form id="detalheForm">
+				<h:outputLabel value="Postado em " />
+				<h:outputText value="#{timelineBean.timeline.dataCadastro}" />
+				<h:outputText value=" por " />
+				<h:outputText value="#{timelineBean.timeline.nomeUSuario}" />
+				<br></br>
+				<br></br>
+				<h:outputText value="#{timelineBean.timeline.descricao}" />
+				<br></br>
+				<br></br>
+			</h:form>
+		</h:panelGrid>
+
+		<hr />
+
+
+		<h:form id="cadastraTimelineAcao">
+			<h:inputHidden value="#{timelineBean.timeline.idTimeline}" />
+			<h:outputLabel value="Escreva seu comentário:" for="inputDescricao" />
+			<br></br>
+			<h:inputTextarea id="inputDescricao"
+				value="#{timelineBean.descTimelineAcao}" maxlength="450" cols="40"
+				rows="10" />
+			<br></br>
+
+			<h:commandButton value="Like"
+				action="#{timelineBean.curtirPostDetalheController(timelineBean.timeline)}"
+				rendered="#{empty timelineBean.timeline.like}" />
+			<h:commandButton value="UnLike"
+				action="#{timelineBean.curtirPostDetalheController(timelineBean.timeline)}"
+				rendered="#{!empty timelineBean.timeline.like}" />
+
+			<h:commandButton value="Publicar"
+				action="#{timelineBean.publicaComentarioPostController(timelineBean.timeline, timelineBean.descTimelineAcao)}" />
+			<br></br>
+		</h:form>
+
+
+		<h:form id="formTimelineAcao">
+			<h:dataTable value="#{timelineBean.timelineAcaoList}" align="left"
+				columns="1" cellspacing="5" cellpadding="5" var="timelineAcaoLinha"
+				rendered="#{!empty timelineBean.timelineAcaoList}">
+
+				<f:facet name="header">
+					<h:outputLabel value="Comentarios e Curtidas" />
+				</f:facet>
+
+				<h:inputHidden value="#{timelineAcaoLinha.idTimelineAcao}" />
+				<h:inputHidden value="#{timelineAcaoLinha.idUsuario}" />
+				<h:inputHidden value="#{timelineAcaoLinha.idTimeline}" />
+
+
+				<h:column>
+					<h:outputText value="#{timelineAcaoLinha.nomeUsuario}"
+						rendered="#{!empty timelineAcaoLinha.comentario}" />
+
+					<h:outputText value=" comentou em "
+						rendered="#{!empty timelineAcaoLinha.comentario}" />
+
+					<h:outputText value="#{timelineAcaoLinha.dataAcao}"
+						rendered="#{!empty timelineAcaoLinha.comentario}">
+						<f:convertDateTime dateStyle="default" />
+					</h:outputText>
+
+					<h:outputText value=":"
+						rendered="#{!empty timelineAcaoLinha.comentario}" />
+					<br></br>
+					<h:outputText value="#{timelineAcaoLinha.comentario}"
+						rendered="#{!empty timelineAcaoLinha.comentario}" />
+					<br></br>
+
+					<h:commandButton value="Excluir comentário"
+						action="#{timelineBean.excluiComentarioController(timelineAcaoLinha.idTimelineAcao)}"
+						rendered="#{timelineAcaoLinha.idUsuario==timelineBean.idUsuarioLogado}" />
+
+
+
+
+					<h:outputText value="#{timelineAcaoLinha.nomeUsuario}"
+						rendered="#{!empty timelineAcaoLinha.like}" />
+					<h:outputText value=" curtiu seu post em "
+						rendered="#{!empty timelineAcaoLinha.like}" />
+					<h:outputText value="#{timelineAcaoLinha.dataAcao}"
+						rendered="#{!empty timelineAcaoLinha.like}">
+						<f:convertDateTime dateStyle="default" />
+					</h:outputText>
+					<h:outputText value="." rendered="#{!empty timelineAcaoLinha.like}" />
+
+
+					<br></br>
+					<br></br>
+					<hr />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</h:panelGrid>
+
+	<br></br>
+	<br></br>
+	<hr />
+	<br></br>
+	<br></br>
+	<br></br>
+	<h:outputText />
+	<h:form>
+		<h:commandButton value="Voltar Timeline"
+			action="/paginas/timeline/timelineView" />
+	</h:form>
+	<h:outputText />
+
+	<hr />
+
+
+</h:body>
+</html>

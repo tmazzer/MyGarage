@@ -5,6 +5,7 @@ package opet.mygarage.model;
 
 import opet.mygarage.model.persistencia.PersistenciaUsuario;
 import opet.mygarage.model.persistencia.PersistenciaCodigoAmigo;
+import opet.mygarage.model.persistencia.PersistenciaRelacionamento;
 import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Usuario;
 
@@ -64,15 +65,31 @@ public class UsuarioModel {
 			return usuario = null;
 		}
 		//TODO Valida se o email ja existe!!!!
+		persistenciaUsuario.consultaPorEmailUsuarioDAO(usuario);
+		
+		if (SessaoSistema.getCodigodMensagem() == 0){
+			//email já cadastrado
+			SessaoSistema.setCodigodMensagem(4);
+			SessaoSistema.setDescMensagem("E-mail já cadastrado. Favor informar outro e-mail.");
+			return null;
+		}
 		
 		//Cadastra Usuario
 		persistenciaUsuario.cadastraUsuarioDAO(usuario);
 		
 		//Cadastra Codigo Amigo
 		if (SessaoSistema.getCodigodMensagem() == 0){
-			if(!persistenciaCodigoAmigo.cadastraCodigoAmigoDAO(usuario)){
+			if(persistenciaCodigoAmigo.cadastraCodigoAmigoDAO(usuario)){
+				
+				// Consulta codigo_amigo do Usuario logado
+				Integer codigoAmigo = persistenciaCodigoAmigo.consultaCodigoAmigoDAO(SessaoSistema.getIdUsuarioLogado());
+				
+				//Cadastrar Relacionamento com idusuario logado e com o proprio codigoAmigo (necessario por causa da Timeline)
+				PersistenciaRelacionamento persistenciaRelacionamento = new PersistenciaRelacionamento();
+				persistenciaRelacionamento.cadastraRelacionamentoDAO(codigoAmigo, SessaoSistema.getIdUsuarioLogado());
+			}else{
 				SessaoSistema.setCodigodMensagem(3);
-				SessaoSistema.setDescMensagem("Erro ao cadastrar Codigo de Relacionamento do Usuario");
+				SessaoSistema.setDescMensagem("Erro ao cadastrar Codigo de Relacionamento do Usuario");				
 			}
 		}
 		
@@ -144,9 +161,6 @@ public class UsuarioModel {
 		}else{
 			return false;
 		}
-		
-		//ALTERAR Tabela - email obrigatorio!!!! chave primaria
-
 	}
 
 }

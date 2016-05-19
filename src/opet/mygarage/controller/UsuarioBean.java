@@ -3,7 +3,9 @@
  */
 package opet.mygarage.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
+import javax.servlet.http.Part;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -12,6 +14,7 @@ import javax.inject.Named;
 
 import opet.mygarage.model.UsuarioModel;
 import opet.mygarage.util.SessaoSistema;
+import opet.mygarage.util.Upload;
 import opet.mygarage.vo.Usuario;
 
 
@@ -36,9 +39,6 @@ public class UsuarioBean implements Serializable {
 	private static final long serialVersionUID = 3638285027357727602L;
 
 
-
-	
-
 	/*
 	 * Variáveis de instância
 	 */
@@ -47,20 +47,20 @@ public class UsuarioBean implements Serializable {
 	private UsuarioModel usuarioModel;
 	
 	private String msgRetorno;
+	
+	private Part uploadedPhoto;
 		
 	
 	/*
 	 * Função construtora da classe
 	 */
 
-
-
 	/**
 	 * Construtor CadastraUsuarioBean()
 	 */
 	public UsuarioBean() {
 		
-		System.out.println("LOG::UsuarioBean:CONSTRUTOR");
+		System.out.println("UsuarioBean:CONSTRUTOR");
 		
 		usuario = new Usuario();
 		usuarioModel = new UsuarioModel();
@@ -70,43 +70,15 @@ public class UsuarioBean implements Serializable {
 		msgRetorno = "";
 	}
 	
-	/*
-	 * Métodos de acesso
-	 */
-	/**
-	 * @return the usuario
-	 */
-	public Usuario getUsuario() {
-		return usuario;
-	}
 
-
-	/**
-	 * @param usuario the usuario to set
-	 */
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
-	/**
-	 * @return the msgRetorno
-	 */
-	public String getMsgRetorno() {
-		return msgRetorno;
-	}
-
-	/**
-	 * @param msgRetorno the msgRetorno to set
-	 */
-	public void setMsgRetorno(String msgRetorno) {
-		this.msgRetorno = msgRetorno;
-	}
 	
 	/**
 	 * Limpa tela para Cadastrar Usuario 
 	 * 
 	 */
 	public String telaCadastrarUsuarioController(){
+		
+		System.out.println("UsuarioBean::telaCadastrarUsuarioController");
 		msgRetorno = "";
 		usuario = new Usuario();
 		return "/paginas/usuario/manterUsuarioView";
@@ -117,6 +89,8 @@ public class UsuarioBean implements Serializable {
 	 * 
 	 */
 	public String salvarUsuarioController(){
+		
+		System.out.println("UsuarioBean::salvarUsuarioController");
 		
 		// Declaração de variáveis
 		msgRetorno = "";
@@ -166,6 +140,8 @@ public class UsuarioBean implements Serializable {
 	 * 
 	 */
 	public String consultaUsuarioController(){
+		
+		System.out.println("UsuarioBean::consultaUsuarioController");
 		// Declaração de variáveis
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -196,7 +172,7 @@ public class UsuarioBean implements Serializable {
 	 */
 	public String excluiUsuarioController(){
 
-		
+		System.out.println("UsuarioBean::excluiUsuarioController");
 		msgRetorno = "";
 		
 		usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
@@ -211,6 +187,10 @@ public class UsuarioBean implements Serializable {
 		}
 	}
 	
+	/**
+	 * Prepara a tela para Alterar o Usuario
+	 * 
+	 */
 	public String telaAlteraUsuarioController(){
 		
 		msgRetorno = "";
@@ -223,8 +203,13 @@ public class UsuarioBean implements Serializable {
 		
 	}
 
-	
+	/**
+	 * Valida se o Login informado é valido. Acessa usuarioModel.validaLoginModel()
+	 * 
+	 */
 	public String validaLogin(){
+		
+		System.out.println("UsuarioBean::validaLogin");
 
 		if (usuarioModel.validaLoginModel(usuario)){
 			msgRetorno = "Validado com sucesso";
@@ -235,6 +220,75 @@ public class UsuarioBean implements Serializable {
 			
 		return msgRetorno;
 		
+	}
+	
+	/**
+	 * Metodo responsavel por fazer Upload da foto do usuario.
+	 * 
+	 */
+    public void uploadFoto(){
+        try {
+            Upload upload = Upload.getInstance();
+            upload.write(uploadedPhoto);
+            
+            usuario.setFoto(upload.extractFileName(uploadedPhoto));
+
+            System.out.println("Foto carregada: " + usuario.getNome());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	
+	/*
+	 * Métodos de acesso
+	 */
+	/**
+	 * @return the usuario
+	 */
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	/**
+	 * @return the msgRetorno
+	 */
+	public String getMsgRetorno() {
+		return msgRetorno;
+	}
+
+	/**
+	 * @param msgRetorno the msgRetorno to set
+	 */
+	public void setMsgRetorno(String msgRetorno) {
+		this.msgRetorno = msgRetorno;
+	}
+
+
+
+	/**
+	 * @return the uploadedPhoto
+	 */
+	public Part getUploadedPhoto() {
+		return uploadedPhoto;
+	}
+
+
+
+	/**
+	 * @param uploadedPhoto the uploadedPhoto to set
+	 */
+	public void setUploadedPhoto(Part uploadedPhoto) {
+		this.uploadedPhoto = uploadedPhoto;
 	}
 
 }

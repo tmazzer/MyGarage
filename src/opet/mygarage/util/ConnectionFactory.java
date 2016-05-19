@@ -72,13 +72,7 @@ public class ConnectionFactory {
 
 			msg = CONEXAO_NAO_SUCESSO;
 
-		} finally {
-
-			if (msg != null) {
-
-				System.out.println("\n " + msg);
-			}
-		}
+		} 
 	}
 
 	public static Connection getConnection() throws SQLException {
@@ -115,13 +109,7 @@ public class ConnectionFactory {
 
 				msg = CONEXAO_NAO_CLOSE_SUCESSO;
 
-			} finally {
-
-				if (msg != null) {
-
-					System.out.println("\n " + msg);
-				}
-			}
+			} 
 
 		} else {
 

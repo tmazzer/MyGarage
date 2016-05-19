@@ -4,14 +4,18 @@
 package opet.mygarage.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import opet.mygarage.model.AmigosModel;
+import opet.mygarage.model.CarroModel;
 import opet.mygarage.model.UsuarioModel;
 import opet.mygarage.util.SessaoSistema;
+import opet.mygarage.vo.Carro;
+import opet.mygarage.vo.Relacionamento;
 import opet.mygarage.vo.Usuario;
 
 @Named("amigosBean")
@@ -42,11 +46,17 @@ public class AmigosBean  implements Serializable{
 	
 	private List<Usuario> amigosList;
 	
+	private List<Carro> carrosList;
+	
 	private AmigosModel amigosModel;
 	
 	private Usuario usuario;
 	
 	private String isFriend;
+	
+	private Relacionamento relacionamento;
+	
+	private String nomeBusca;
 	
 
 
@@ -60,6 +70,7 @@ public class AmigosBean  implements Serializable{
 		System.out.println("AmigosBean::Controller");
 		amigosModel = new AmigosModel();
 		usuario = new Usuario();
+		relacionamento = new Relacionamento();
 		isFriend = "";
 	}
 	
@@ -73,62 +84,73 @@ public class AmigosBean  implements Serializable{
 	 */
 	public void inicializaPagina()
 	{
-		amigosList = amigosModel.listaAmigosModel();	
+		System.out.println("AmigosBean::inicializaPagina");
+		this.amigosList = amigosModel.listaAmigosModel();	
 		isFriend = "";
-		if (usuarioList == null){
-			msgRetorno = "Não há amigos para listar";			
-		}else{
-			msgRetorno = "";	
-		}			
+		msgRetorno = "";	
+		nomeBusca = "";
 	}
 	
 	/**
-	 * Exclui a amizade entre os Usuarios
-	 */
-	public String excluirAmigoController()
-	{
-		System.out.println("AmigosBean::excluirAmigo");
+	 * Executa a ação do botão Busca Usuarios da tela AmigosView
+	 */	
+	public List<Usuario> consultaUsuariosController(){
 		
-		if(amigosModel.excluiAmigoModel(usuario)){
-			isFriend = "amigo";
-			return msgRetorno = "Amigo excluido com sucesso";			
-		} else{
-			isFriend = "";
-			return msgRetorno = "Problema ao Excluir amigo. Tente mais tarde";		
+		//Se pesquisar vier vazia, limpa tela de consulta.
+		
+		System.out.println("AmigosBean::consultaUsuariosController");
+		
+		if (nomeBusca.equalsIgnoreCase("")){
+			return usuarioList = null;
+		}else{
+			usuario.setNome(nomeBusca);
+			nomeBusca = "";
+			return usuarioList = amigosModel.consultaUsuariosModel(usuario);	
 		}		
 	}
 	
-	/**
-	 * Adiciona amizade entre os Usuarios
-	 */
-	public String adicionaAmigoController()
-	{
-		if(amigosModel.adicionaAmigoModel(usuario)){
-			isFriend = "amigo";
-			return msgRetorno = "Amigo Adicionado com sucesso";			
-		} else{
-			isFriend = "";
-			return msgRetorno = "Problema ao Adicionar amigo. Tente mais tarde";		
-		}
-	}
 	
 	/**
-	 * Consulta os dados do Usuario logado. Acessa usuarioModel.consultaUsuarioModel()
+	 * Consulta os detalhes do Usuario selecionado na tela AmigosView
 	 * 
 	 */
-	public String consultaUsuarioAmigoController(Usuario usuario){
+	public String consultaUsuarioAmigoController(Integer idUsuario){
 
+		
+		if (idUsuario == SessaoSistema.getIdUsuarioLogado()){
+			isFriend = null;
+		}
+		
+		System.out.println("AmigosBean::consultaUsuarioAmigoController");
+		
+		usuarioList = null;
+		
 		UsuarioModel usuarioModel = new UsuarioModel();
+		
+		usuario.setIdUsuario(idUsuario);
 		
 		this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 		
 		if (SessaoSistema.getCodigodMensagem() == 0){
+		
 			//Consulta se é amigo
-			if(amigosModel.validaAmigo(usuario.getIdUsuario())){
-				isFriend = "amigo";
-			} else{
-				isFriend = "";
+			
+			relacionamento = null;
+			
+			relacionamento = amigosModel.validaAmigo(usuario.getIdUsuario());
+			
+			if(relacionamento != null){
+				isFriend = "S";
+			} else{				
+				isFriend = "N";
 			}
+			
+			//Lista os carros do Usuario
+			
+			setCarrosList(new ArrayList<>());
+			CarroModel carroModel = new CarroModel();			
+			setCarrosList(carroModel.listaCarrosModel(idUsuario));	
+			
 			return "/paginas/amigos/usuarioAmigoView";
 
 		} else
@@ -141,19 +163,40 @@ public class AmigosBean  implements Serializable{
 
 	}
 	
-	public List<Usuario> consultaUsuariosController(Usuario usuario){
-		return usuarioList = amigosModel.consultaUsuariosModel(usuario);			
+	/**
+	 * Exclui a amizade entre os Usuarios
+	 */
+	public String excluirAmigoController()
+	{
+		
+		if(amigosModel.excluiAmigoModel(usuario)){
+			isFriend = "";
+			return msgRetorno = "Amigo excluido com sucesso";			
+		} else{
+			isFriend = "amigo";
+			return msgRetorno = "Problema ao Excluir amigo. Tente mais tarde";		
+		}		
 	}
 	
+	/**
+	 * Adiciona amizade entre os Usuarios
+	 */
+	public String adicionaAmigoController()
+	{
+		
+		System.out.println("AmigosBean::adicionaAmigoController");
+		
+		if(amigosModel.adicionaAmigoModel(usuario)){
+			isFriend = "amigo";
+			return msgRetorno = "Amigo Adicionado com sucesso";			
+		} else{
+			isFriend = "";
+			return msgRetorno = "Problema ao Adicionar amigo. Tente mais tarde";		
+		}
+	}	
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * @return the msgRetorno
 	 */
@@ -229,6 +272,54 @@ public class AmigosBean  implements Serializable{
 	 */
 	public void setIsFriend(String isFriend) {
 		this.isFriend = isFriend;
+	}
+
+
+	/**
+	 * @return the relacionamento
+	 */
+	public Relacionamento getRelacionamento() {
+		return relacionamento;
+	}
+
+
+	/**
+	 * @param relacionamento the relacionamento to set
+	 */
+	public void setRelacionamento(Relacionamento relacionamento) {
+		this.relacionamento = relacionamento;
+	}
+
+
+	/**
+	 * @return the nomeBusca
+	 */
+	public String getNomeBusca() {
+		return nomeBusca;
+	}
+
+
+	/**
+	 * @param nomeBusca the nomeBusca to set
+	 */
+	public void setNomeBusca(String nomeBusca) {
+		this.nomeBusca = nomeBusca;
+	}
+
+
+	/**
+	 * @return the carrosList
+	 */
+	public List<Carro> getCarrosList() {
+		return carrosList;
+	}
+
+
+	/**
+	 * @param carrosList the carrosList to set
+	 */
+	public void setCarrosList(List<Carro> carrosList) {
+		this.carrosList = carrosList;
 	}
 
 

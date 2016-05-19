@@ -11,5 +11,5 @@ git pull https://github.com/tmazzer/MyGarage //baixa o codigo
 =============copiaR========
 
 git add --a
-git commit -m "Amigos em desenvolvimento"
+git commit -m "Amigos quase"
 git push

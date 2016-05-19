@@ -3,8 +3,11 @@
  */
 package opet.mygarage.model;
 
+import java.util.List;
+
 import opet.mygarage.model.persistencia.PersistenciaCarro;
 import opet.mygarage.util.SessaoSistema;
+import opet.mygarage.vo.Acessorios;
 import opet.mygarage.vo.Carro;
 
 /**
@@ -90,17 +93,46 @@ public class CarroModel {
 	}
 
 	public Carro alteraCarroModel(Carro carro) {
-		// TODO Auto-generated method stub
-		return null;
+		return persistenciaCarro.alteraCarroDAO(carro);
 	}
 
 	public Carro consultaCarroModel(Carro carro) {
-		// TODO Auto-generated method stub
-		return null;
+		return persistenciaCarro.consultaCarroDAO(carro);
 	}
 
 	public boolean excluiCarroModel(Carro carro) {
-		// TODO Auto-generated method stub
-		return false;
+		return persistenciaCarro.excluiCarroDAO(carro);
 	}
+
+	public List<Carro> listaCarrosModel(Integer idUsuario) {
+		return persistenciaCarro.listaCarrosDAO(idUsuario);
+		
+	}
+	public Acessorios cadastrarAcessoriosModel(Carro carro, Acessorios acessorios) {
+		
+		if (acessorios.getNome() == null || (acessorios.getNome().equalsIgnoreCase(""))){
+			SessaoSistema.setCodigodMensagem(1);
+			SessaoSistema.setDescMensagem("Campo Nome não informado");
+			return acessorios = null;
+		}
+		
+		return persistenciaCarro.cadastraAcessoriosDAO(carro, acessorios);
+	}
+	
+	public Acessorios alteraAcessoriosModel(Acessorios acessorios) {
+		return persistenciaCarro.alteraAcessoriosDAO(acessorios);
+	}
+
+	public Acessorios consultaAcessoriosModel(Acessorios acessorios) {
+		return persistenciaCarro.consultaAcessoriosDAO(acessorios);
+	}
+
+	public boolean excluiAcessoriosModel(Acessorios acessorios) {
+		return persistenciaCarro.excluiAcessoriosDAO(acessorios);
+	}
+
+	public List<Acessorios> listaAcessoriosModel(Carro carro) {
+		return persistenciaCarro.listaAcessoriosDAO(carro);
+	}
+
 }

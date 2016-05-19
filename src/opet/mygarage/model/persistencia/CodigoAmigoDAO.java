@@ -135,8 +135,6 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 			resultSet = preparedStatement.executeQuery();
 
 			if (resultSet.next()) {
-				System.out.println("LOG::CodigoAmigoDAO::Select com Sucesso");
-				System.out.println("LOG::CodigoAmigoDAO::Codigo: " + codigoAmigo);
 				return codigoAmigo = resultSet.getInt("IDCODIGO_AMIGO");
 				
 			} else {
@@ -153,6 +151,8 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 			System.out.println("LOG::CodigoAmigoDAO::ERRO::  " + e);
 			e.printStackTrace();
 			return null;
+		} finally {
+			ConnectionFactory.closeConnection();
 		}		
 	}
 

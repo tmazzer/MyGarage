@@ -4,14 +4,16 @@
 package opet.mygarage.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import opet.mygarage.model.CarroModel;
 import opet.mygarage.util.SessaoSistema;
+import opet.mygarage.vo.Acessorios;
 import opet.mygarage.vo.Carro;
 
 
@@ -26,7 +28,7 @@ import opet.mygarage.vo.Carro;
  * 
  */
 @Named("carroBean")
-@RequestScoped
+@SessionScoped
 
 public class CarroBean implements Serializable  {
 
@@ -38,8 +40,12 @@ public class CarroBean implements Serializable  {
 	 * Variáveis de instância
 	 */
 	private String msgRetorno;
+	
+	private List<Carro> carrosList;
+	private List<Acessorios> acessoriosList;
 
 	private Carro carro;
+	private Acessorios acessorios;
 	
 	private CarroModel carroModel;
 	
@@ -51,6 +57,7 @@ public class CarroBean implements Serializable  {
 	 */
 	public CarroBean() {
 		carro = new Carro();
+		acessorios = new Acessorios();
 		carroModel = new CarroModel();
 		
 		msgRetorno = "";
@@ -59,10 +66,49 @@ public class CarroBean implements Serializable  {
 	/*
 	 * Métodos de acesso
 	 */
+	/**
+	 * Monta a tela inicial carros	ListaView.xhtml
+	 */
+	
+	public void inicializaPagina()
+	{
+		carrosList = carroModel.listaCarrosModel(SessaoSistema.getIdUsuarioLogado());	
+		if (carrosList == null){
+			msgRetorno = "Não há carros para listar";			
+		}else{
+			msgRetorno = "";	
+		}		
+		
+		//acessoriosList = carroModel.listaAcessoriosModel();		
+	}
+	
+	public void inicializaPaginaAcessorios()
+	{
+		System.out.println("LOG::CarroBean::inicializaPaginaAcessorios");
+		acessoriosList = carroModel.listaAcessoriosModel(carro);					
+	}
+	
+	public String consultaCarroController(Carro carro){
+		this.carro = carroModel.consultaCarroModel(carro);
+		return "/paginas/carros/carroView";
+	}
+	
+	public String telaAdicionar(){
+		carro = new Carro();
+		return "/paginas/carros/manterCarroView";
+	}
+	
+	public String excluiCarroController(){
+		if (carroModel.excluiCarroModel(carro)){
+			msgRetorno = "Carro excluido com sucesso";
+			return "/paginas/carros/carroListaView";
+		}else {
+			return msgRetorno = "Problema ao Excluir Carro. Tente mais tarde";	
+		}
+	}
 	
 	public String salvarCarroController(){
-		System.out.println("LOG::CarroBean:salvarCarroController");
-
+		System.out.println("LOG::CarroBean::salvarCarroController");
 
 		// Declaração de variáveis
 		msgRetorno = "";
@@ -70,14 +116,22 @@ public class CarroBean implements Serializable  {
 
 		// Processamento dos dados
 		
-		if (this.carro.getIdCarro() == null){		
+		if (this.carro.getIdCarro() == null){	
+			
+			if ((this.carro.getDescCombut()).equals("FLEX")){
+				this.carro.setTpCombust(1);
+			}else if((this.carro.getDescCombut()).equals("GASOLINA")){
+				this.carro.setTpCombust(2);
+			}else {
+				this.carro.setTpCombust(3);
+			}
 			
 			this.carro = carroModel.cadastrarCarroModel(carro);
 	
 			if (SessaoSistema.getCodigodMensagem() == 0){
 				carro = new Carro();
 				msgRetorno = "Carro cadastrado com sucesso";
-				return "/paginas/carros/carroView";
+				return "/paginas/carros/carroListaView";
 			}else {
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
@@ -86,11 +140,21 @@ public class CarroBean implements Serializable  {
 			}
 		}else
 		{
+			if ((this.carro.getDescCombut()).equals("FLEX")){
+				this.carro.setTpCombust(1);
+			}else if((this.carro.getDescCombut()).equals("GASOLINA")){
+				this.carro.setTpCombust(2);
+			}else {
+				this.carro.setTpCombust(3);
+			}
+			
 			this.carro = carroModel.alteraCarroModel(carro);
 			
 			if (SessaoSistema.getCodigodMensagem() == 0){
 				carro = new Carro();
-				return msgRetorno = "Carro alterado com sucesso";
+				msgRetorno = "Carro alterado com sucesso";
+				return "/paginas/carros/carroListaView";
+				//return msgRetorno = "Carro alterado com sucesso";
 			}else {
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
@@ -131,6 +195,105 @@ public class CarroBean implements Serializable  {
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
+	public List<Carro> getCarrosList() {
+		return carrosList;
+	}
+	public void setCarrosList(List<Carro> carrosList) {
+		this.carrosList = carrosList;
+	}
+	public CarroModel getCarroModel() {
+		return carroModel;
+	}
+	public void setCarroModel(CarroModel carroModel) {
+		this.carroModel = carroModel;
+	}
+//acessorios	
 
+	/**
+	 * @return the acessoriosList
+	 */
+	public List<Acessorios> getAcessoriosList() {
+		return acessoriosList;
+	}
+	/**
+	 * @param acessoriosList the acessoriosList to set
+	 */
+	public void setAcessoriosList(List<Acessorios> acessoriosList) {
+		this.acessoriosList = acessoriosList;
+	}
+	/**
+	 * @return the acessorios
+	 */
+	public Acessorios getAcessorios() {
+		return acessorios;
+	}
+	/**
+	 * @param acessorios the acessorios to set
+	 */
+	public void setAcessorios(Acessorios acessorios) {
+		this.acessorios = acessorios;
+	}
+	
+	public String consultaAcessoriosController(Acessorios acessorios){
+		this.acessorios = carroModel.consultaAcessoriosModel(acessorios);
+		return "/paginas/carros/acessoriosView";
+	}
+	public String telaAdicionarAcessorios(){
+		acessorios = new Acessorios();
+		return "/paginas/carros/manterAcessoriosView";
+	}
+	
+	public String excluiAcessoriosController(){
+		if (carroModel.excluiAcessoriosModel(acessorios)){
+			msgRetorno = "Acessorio excluido com sucesso";
+			return "/paginas/carros/acessoriosListaView";
+		}else {
+			return msgRetorno = "Problema ao Excluir Acessorio. Tente mais tarde";	
+		}
+	}
+
+	public String salvarAcessoriosController(){
+		System.out.println("LOG::AcessoriosBean::salvarACessorioController");
+
+		// Declaração de variáveis
+		msgRetorno = "";
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		// Processamento dos dados
+		
+		if (this.acessorios.getIdAcessorios() == null){		
+			
+			this.acessorios = carroModel.cadastrarAcessoriosModel(carro, acessorios);
+	
+			if (SessaoSistema.getCodigodMensagem() == 0){
+				acessorios = new Acessorios();
+				msgRetorno = "Acessorio cadastrado com sucesso";
+				return "/paginas/carros/carroView";
+			}else {
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
+	
+				return msgRetorno = SessaoSistema.getDescMensagem();
+			}
+		}else
+		{
+			this.acessorios = carroModel.alteraAcessoriosModel(acessorios);
+			
+			if (SessaoSistema.getCodigodMensagem() == 0){
+				acessorios = new Acessorios();
+				msgRetorno = "Acessorio alterado com sucesso";
+				return "/paginas/carros/carroView";
+			}else {
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
+	
+				msgRetorno = SessaoSistema.getDescMensagem();
+				SessaoSistema.setCodigodMensagem(0);
+				SessaoSistema.setDescMensagem("");
+				return msgRetorno;
+			}
+		}
+		
+	}
 
 }

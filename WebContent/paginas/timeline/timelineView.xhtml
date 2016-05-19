@@ -1,50 +1,192 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html 	xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html" 
-		xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>MyGarage</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage</title>
+	<h:outputStylesheet library="css" name="styles.css" />
 
 </h:head>
 <h:body onload="#{timelineBean.inicializaPagina()}">
 
 	<h:outputLabel value="Timeline"
-		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"/>
-	<br></br><br></br>
-
-	<h:outputText value="#{timelineBean.msgRetorno}"
-		styleClass="msgInfo" /><br></br><br></br>
+		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';" />
+	<br></br>
+	<br></br>
+	<br></br>
 	<hr />
-	<h:panelGrid columns="2" cellspacing="5" cellpadding="5" border="1">
-		<h:form id="LINKS">
-			<br></br><br></br>
-			<h:commandLink action="#{usuarioBean.consultaUsuarioController()}" value="Usuario" />
-			<br></br><br></br>	
-						
-			<br></br><br></br>
-			<h:commandLink action="/paginas/amigos/amigosView" value="Amigos" />
-			<br></br><br></br>
-			
-			<br></br><br></br>
-			<h:commandLink action="/paginas/carros/carroView" value="Carros" />
-			<br></br><br></br>
-			
-			<br></br><br></br>
-			<h:commandLink action="#" value="Acessorios" />
-			<br></br><br></br>
-						
-			<br></br><br></br>
-			<h:commandLink action="#" value="Eventos" />
-			<br></br><br></br>
-			
-			<br></br><br></br>
-			<h:commandLink action="#" value="Grupo Discução" />
-			<br></br><br></br>
+	<h:panelGrid columns="2" columnClasses="alignTop,alignTop">
+		<h:form id="links">
+			<h:panelGrid>
+				<h:graphicImage name="/images/#{timelineBean.usuario.foto}" />
+				<h:outputText value="#{timelineBean.msgWelcome}" />
+				<br></br>
+				<h:outputText value="Email:" />
+				<h:outputText value="#{timelineBean.usuario.email}" />
+				<br></br>
+				<h:commandLink action="#{usuarioBean.consultaUsuarioController()}"
+					value="Mais detalhes" />
+				<br></br>
+				<br></br>
+				<hr />
+
+
+
+
+				<h:outputLabel value="Você ainda não tem amigos cadastrados"
+					style="color:red; font-style: italic;font-family: 'Georgia';"
+					rendered="#{empty timelineBean.amigosList}" />
+
+				<h:dataTable value="#{timelineBean.amigosList}" align="left"
+					rows="5" cellspacing="5" cellpadding="5" var="amigoLinha"
+					rendered="#{!empty timelineBean.amigosList}">
+
+					<f:facet name="header">
+						<h:outputLabel value="Seus últimos amigos cadastrados:" />
+					</f:facet>
+
+					<h:column>
+						<h:commandLink value="#{amigoLinha.nome}"
+							action="#{amigosBean.consultaUsuarioAmigoController(amigoLinha.idUsuario)}" />
+						<h:outputText value=" " />
+						<h:outputText value="#{amigoLinha.sobrenome}" />
+						<br></br>
+						<h:outputText value="Email: " />
+						<h:outputText value="#{amigoLinha.email}" />
+					</h:column>
+				</h:dataTable>
+				<br></br>
+
+				<h:commandLink action="/paginas/amigos/amigosView"
+					value="Todos os seus Amigos" />
+				<br></br>
+				<hr />
+
+
+
+				<h:outputLabel value="Você ainda não tem Carros cadastrados"
+					style="color:red; font-style: italic;font-family: 'Georgia';"
+					rendered="#{empty timelineBean.carrosList}" />
+				<br></br>
+
+				<h:dataTable value="#{timelineBean.carrosList}" var="carroLinha"
+					rendered="#{!empty timelineBean.carrosList}" rows="5">
+
+					<f:facet name="header">
+						<h:outputLabel value="Carros cadastrados:" />
+					</f:facet>
+
+					<h:column>
+						<h:commandLink value="#{carroLinha.apelido}"
+							action="#{carroBean.consultaCarroController(carroLinha)}" />
+						<br></br>
+						<h:outputText value="#{carroLinha.marca}" />
+						<h:outputLabel value=" : " />
+						<h:outputText value="#{carroLinha.modelo}" />
+					</h:column>
+				</h:dataTable>
+
+				<br></br>
+				<h:commandLink action="/paginas/carros/carroListaView"
+					value="Todos os seus Carros" />
+				<br></br>
+				<hr />
+
+				<br></br>
+				<h:commandLink action="/paginas/eventos/eventosView" value="Eventos" />
+				<br></br>
+
+				<br></br>
+				<h:commandLink action="/paginas/grupos/gruposView"
+					value="Grupo Discussão" />
+				<br></br>
+			</h:panelGrid>
+		</h:form>
+
+
+
+		<h:form id="formTimeline">
+			<h:outputLabel value="No que você esta pensando:"
+				for="inputDescricao" />
+			<br></br>
+			<h:inputTextarea id="inputDescricao"
+				value="#{timelineBean.timeline.descricao}" maxlength="450" cols="40"
+				rows="10" />
+			<br></br>
+			<h:commandButton value="Publicar"
+				action="#{timelineBean.publicaPostController(timelineBean.timeline)}" />
+			<br></br>
+			<br></br>
+			<hr />
+
+			<h:outputLabel value="Timeline vazia"
+				style="color:red; font-style: italic;font-family: 'Georgia';"
+				rendered="#{empty timelineBean.timelineList}" />
+
+			<h:dataTable value="#{timelineBean.timelineList}" align="left"
+				columns="2" cellspacing="5" cellpadding="5" var="timelineLinha"
+				rendered="#{!empty timelineBean.timelineList}">
+
+				<f:facet name="header">
+					<h:outputLabel value="Feed de Noticias" />
+				</f:facet>
+
+				<f:facet name="footer">
+					<h:outputLabel value="Fim da Timeline" styleClass="titleStrong" />
+				</f:facet>
+
+				<h:column>
+					<h:inputHidden value="#{timelineLinha.idTimeline}" />
+
+
+					<h:commandLink value="#{timelineLinha.nomeUSuario}"
+						action="#{amigosBean.consultaUsuarioAmigoController(timelineLinha.idUSuario)}" />
+
+					<h:outputText value=" postou em " />
+
+					<h:outputText value="#{timelineLinha.dataCadastro}">
+						<f:convertDateTime dateStyle="default" />
+					</h:outputText>
+					<h:outputText value=": " />
+					<br></br>
+					<br></br>
+
+					<h:outputText value="#{timelineLinha.descricao}" />
+					<br></br>
+					<br></br>
+					<h:commandButton value="Like"
+						action="#{timelineBean.curtirPostTimelineController(timelineLinha)}"
+						rendered="#{empty timelineLinha.like}" />
+					<h:commandButton value="UnLike"
+						action="#{timelineBean.curtirPostTimelineController(timelineLinha)}"
+						rendered="#{!empty timelineLinha.like}" />
+
+					<h:commandButton value="Comentar"
+						action="#{timelineBean.consultaDetalhesPostController(timelineLinha)}" />
+
+					<h:commandButton value="Excluir Post"
+						action="#{timelineBean.excluiPostController(timelineLinha.idTimeline)}"
+						rendered="#{timelineLinha.idUSuario==timelineBean.idUsuarioLogado}" />
+
+					<br></br>
+					<br></br>
+					<hr />
+					<br></br>
+				</h:column>
+
+			</h:dataTable>
 		</h:form>
 	</h:panelGrid>
 
+	<br></br>
+	<br></br>
+	<hr />
+
+	<h:form>
+		<h:commandButton value="LogOut" action="#{timelineBean.logOut()}" />
+	</h:form>
 </h:body>
 
 </html>

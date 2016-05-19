@@ -1,48 +1,82 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html 	xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://java.sun.com/jsf/html" 
-		xmlns:f="http://java.sun.com/jsf/core">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>MyGarage</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>MyGarage</title>
 </h:head>
 <h:body>
-	<h1>Welcome to MyGarage</h1>
+	<h1 style="text-align: center">Welcome to MyGarage</h1>
+	<b:jumbotron>
+	<b:container style="text-align: center; margin-left: 580px;">
+		<h3 style="margin-right: 980px;">Login</h3>
 
-	<h:outputLabel value="Login"
-		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"/>
-	<br></br><br></br>
+		<h:outputText 
+			value="#{usuarioBean.msgRetorno}" 
+			styleClass="msgInfo"
+			style="margin-right: 980px;">
+		</h:outputText>
+		<br></br>
 
-	<h:outputText value="#{usuarioBean.msgRetorno}"
-		styleClass="msgInfo" /><br></br><br></br>
-	
-		<h:messages styleClass="msgWarn2" />
+		<h:messages styleClass="msgWarn2" style="margin-right: 785px;" />
 
-		<h:panelGrid columns="2" cellspacing="5" cellpadding="5" border="1">
-		
+		<b:panelGrid colSpans="2,10">
+
 			<h:form id="inputForm">
 				<h:column>
-					
+
 					<h:outputLabel value="Email: " for="inputEmail" />
-					<h:inputText id="inputEmail" label="Campo Email" maxlength="50" size="30" required="true" value="#{usuarioBean.usuario.email}"/>
-					<h:outputText /><br></br>
-					
+					<b:inputText 
+						id="inputEmail"
+						label="Campo Email" 
+						maxlength="50"
+						size="30" 
+						required="true"
+						value="#{usuarioBean.usuario.email}"
+						placeholder="Email">
+						<f:facet name="prepend">
+							<b:icon name="envelope" />
+						</f:facet>
+					</b:inputText>
+					<h:outputText />
+
+					<br></br>
+
 					<h:outputLabel value="Senha: " for="inputSenha" />
-					<h:inputSecret id="inputSenha" label="Campo Senha" maxlength="10" size="30" required="true" value="#{usuarioBean.usuario.senha}"/>
-					<h:outputText /><br></br>
+					<b:inputSecret 
+						id="inputSenha" 
+						label="Campo Senha" 
+						maxlength="10"
+						size="30" 
+						required="true"
+						value="#{usuarioBean.usuario.senha}"
+						placeholder="Password">
+						<f:facet name="prepend">
+							<b:icon name="lock" />
+						</f:facet>
+					</b:inputSecret>
+					<h:outputText />
+					<br></br>
+
+					<b:commandButton value="Sign In"
+						action="#{usuarioBean.validaLogin}" 
+						look="primary" 
+						icon="log-in">
+					</b:commandButton>
 					
-					<h:commandButton value="Confirmar" action="#{usuarioBean.validaLogin}" />
-					<h:outputText />
+					<br></br>
+					<br></br>
+					<h:outputLabel value="Ainda nÃ£o tem um cadastro?" />
+					<b:commandButton
+						action="#{usuarioBean.telaCadastrarUsuarioController}"
+						value="Sign Up" look="info" icon="pencil" /><br></br><br></br>
 				</h:column>
 			</h:form>
-			<h:form id="linkCadastrar">
-				<h:column>
-					<h:outputLabel value="Cadastrar novo Usuário:" />
-					<h:commandLink action="#{usuarioBean.telaCadastrarUsuarioController}" value="CADASTRAR" />
-					<h:outputText />
-				</h:column>
-			</h:form>
-		</h:panelGrid>
+		</b:panelGrid>
+	</b:container>	
+	</b:jumbotron>
 </h:body>
 </html>

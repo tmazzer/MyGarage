@@ -2,6 +2,7 @@ CREATE TABLE Usuario (
   idUsuario INTEGER NOT NULL,
   nome VARCHAR2(50) NOT NULL,
   sobrenome VARCHAR2(50) NULL,
+  foto VARCHAR2(150) NULL,
   telefone VARCHAR2(50) NULL,
   email VARCHAR2(50) NOT NULL,
   senha VARCHAR2(10) NOT NULL,
@@ -136,16 +137,10 @@ CREATE TABLE Grupo_Discussao_Acao (
 CREATE TABLE Timeline (
   idTimeline INTEGER NOT NULL,
   Usuario_idUsuario INTEGER NOT NULL,
-  Evento_idEvento INTEGER NULL,
-  Acessorios_idAcessorios INTEGER NULL,
-  Carro_idCarro INTEGER NULL,
   dataCadastro DATE NULL,
-  comentario VARCHAR2(500) NULL,
+  descricao VARCHAR2(500) NULL,  
   CONSTRAINT pk_idTimeline PRIMARY KEY(idTimeline),
-  CONSTRAINT fk7_Usuario_idUsuario FOREIGN KEY(Usuario_idUsuario) REFERENCES Usuario (idUsuario),
-  CONSTRAINT fk2_Evento_idEvento FOREIGN KEY(Evento_idEvento) REFERENCES Evento (idEvento),
-  CONSTRAINT fk2_Acessorios_idAcessorios FOREIGN KEY(Acessorios_idAcessorios) REFERENCES Acessorios (idAcessorios),
-  CONSTRAINT fk3_Carro_idCarro FOREIGN KEY(Carro_idCarro) REFERENCES Carro (idCarro)
+  CONSTRAINT fk7_Usuario_idUsuario FOREIGN KEY(Usuario_idUsuario) REFERENCES Usuario (idUsuario)
 );
 
 CREATE TABLE Timeline_acao (
@@ -159,11 +154,3 @@ CREATE TABLE Timeline_acao (
   CONSTRAINT fk8_Usuario_idUsuario FOREIGN KEY(Usuario_idUsuario) REFERENCES Usuario (idUsuario),
   CONSTRAINT fk_Timeline_idTimeline FOREIGN KEY(Timeline_idTimeline) REFERENCES Timeline (idTimeline)
 );
-
-
-
-CREATE SEQUENCE idUsuario_SEQUENCE 
-MINVALUE 1
-MAXVALUE 100000
-INCREMENT BY 1
-START WITH 1;

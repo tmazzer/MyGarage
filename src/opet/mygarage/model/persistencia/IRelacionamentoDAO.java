@@ -18,7 +18,8 @@ import opet.mygarage.vo.Relacionamento;
  */
 public interface IRelacionamentoDAO {
 	public Boolean cadastraRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario);
-	public Boolean desativaRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario);
+	public Boolean excluiRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario);
 	public List<Relacionamento> listaAmigosRelacionamentoDAO(Integer codigoAmigo);
-	public Boolean consultaRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario);
+	public List<Relacionamento> listaUltimosAmigosRelacionamentoDAO(Integer codigoAmigo);
+	public Relacionamento consultaRelacionamentoDAO(Integer codigoAmigo, Integer idUsuario);
 }

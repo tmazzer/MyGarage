@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
@@ -11,79 +12,95 @@
 	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
 <h:body>
-	<h:outputLabel value="MyGarage - Cadastrar Carro"
-		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"
-		rendered="#{empty carroBean.carro.idCarro}" />
+	<b:container layout="fluid">
+		<h3>
+			<h:outputLabel value="MyGarage - Cadastrar Carro"
+				rendered="#{empty carroBean.carro.idCarro}" />
 
-	<h:outputLabel value="MyGarage - Alterar Carro"
-		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';"
-		rendered="#{!empty carroBean.carro.idCarro}" />
-	<br></br>
-	<br></br>
-
-	<h:outputText value="#{carroBean.msgRetorno}" styleClass="msgInfo" />
-
-
-	<h:form id="inputForm">
-		<h:messages styleClass="msgWarn2" />
-		<h:panelGrid>
-			<h:outputLabel value="Código"
+			<h:outputLabel value="MyGarage - Alterar Carro"
 				rendered="#{!empty carroBean.carro.idCarro}" />
-			<h:outputText value="#{carroBean.carro.idCarro}"
-				rendered="#{!empty carroBean.carro.idCarro}" />
+			<h:outputText value="#{carroBean.msgRetorno}" styleClass="msgInfo" />
+		</h3>
+	</b:container>
+	<b:container layout="fluid">
+		<h:form id="inputForm">
+			<h:messages styleClass="msgWarn2" />
+			<h:panelGrid>
+				<h:outputLabel value="Código"
+					rendered="#{!empty carroBean.carro.idCarro}" />
+				<h:outputText value="#{carroBean.carro.idCarro}"
+					rendered="#{!empty carroBean.carro.idCarro}" />
 
-			<h:outputLabel value="Apelido" for="inputApelido" />
-			<h:inputText id="inputApelido" value="#{carroBean.carro.apelido}"
-				label="Campo Apelido" maxlength="50" size="50" required="true" />
-			<h:outputText />
-			
-			<h:outputLabel value="Marca" for="inputMarca" />
-			<h:inputText id="inputMarca"  value="#{carroBean.carro.marca}"
-				label="Campo Marca" maxlength="50" size="50" />
-			<h:outputText />
+				<h:outputLabel for="inputApelido" />
+				<b:inputText id="inputApelido" value="#{carroBean.carro.apelido}"
+					label="Apelido" maxlength="50" size="50" required="true" />
+				<h:outputText />
 
-			<h:outputLabel value="Modelo" for="inputModelo" />
-			<h:inputText id="inputModelo"  value="#{carroBean.carro.modelo}"
-				label="Campo Modelo" maxlength="50" size="50" />
-			<h:outputText />
-						
-			<h:outputLabel value="Ano Fabricação" for="inputAnoFabricacao" />
-			<h:inputText id="inputAnoFabricacao"  value="#{carroBean.carro.anoFabricacao}"
-				label="Ano Fabricação" maxlength="50" size="50" required="true" />
-			<h:outputText />
-			
-			<h:outputLabel value="Ano Modelo" for="inputAnoModelo" />
-			<h:inputText id="inputAnoModelo"  value="#{carroBean.carro.anoModelo}"
-				label="Ano Modelo" maxlength="50" size="50" required="true" />
-			<h:outputText />
-			
-			<h:outputLabel value="Cor" for="inputCor" />
-			<h:inputText id="inputCor"  value="#{carroBean.carro.cor}"
-			label="Campo Cor" maxlength="50" size="50" required="true" />
-			<h:outputText />
-			
-			<h:outputLabel value="Placa" for="inputPlaca" />
-			<h:inputText id="inputPlaca"  value="#{carroBean.carro.placa}"
-			label="Campo Placa" maxlength="50" size="50" required="true" />
-			<h:outputText />
-			
-			<h:outputLabel value="Quilometragem" for="inputQuilometragem" />
-			<h:inputText id="inputQuilometragem"  value="#{carroBean.carro.quilometragem}"
-			label="Campo Quilometragem" maxlength="50" size="50" required="true" />
-			<h:outputText />
-			
-			
-			
-			<h:outputText />
-				<h:commandButton value="Confirmar"
-				action="#{carroBean.salvarCarroController()}" />
-			<h:outputText />
-			
-			<br></br>
-			<br></br>
-		</h:panelGrid>
+				<h:outputLabel for="inputMarca" />
+				<b:inputText id="inputMarca" value="#{carroBean.carro.marca}"
+					label="Marca" maxlength="50" size="50" required="true"/>
+				<h:outputText />
+
+				<h:outputLabel for="inputModelo" />
+				<b:inputText id="inputModelo" value="#{carroBean.carro.modelo}"
+					label="Modelo" maxlength="50" size="50" required="true"/>
+				<h:outputText />
+				
+				<b:selectOneMenu  value="#{carroBean.carro.descCombut}" id="combustID" label="Tipo de Combustivel" required="true">
+					<f:selectItem itemLabel="Selecione:" itemValue=""/>
+					<f:selectItem itemLabel="Flex" itemValue="FLEX" />
+					<f:selectItem itemLabel="Gasolina" itemValue="GASOLINA" />
+					<f:selectItem itemLabel="Alcool" itemValue="ALCOOL" />
+				</b:selectOneMenu>
+				
+				<h:outputLabel for="inputAnoFabricacao" />
+				<b:inputText id="inputAnoFabricacao"
+					value="#{carroBean.carro.anoFabricacao}" label="Ano Fabricação"
+					maxlength="50" size="50" required="true" />
+				<h:outputText />
+
+				<h:outputLabel for="inputAnoModelo" />
+				<b:inputText id="inputAnoModelo"
+					value="#{carroBean.carro.anoModelo}" label="Ano Modelo"
+					maxlength="50" size="50" required="true" />
+				<h:outputText />
+
+				<h:outputLabel for="inputCor" />
+				<b:inputText id="inputCor" value="#{carroBean.carro.cor}"
+					label="Cor" maxlength="50" size="50" required="true" />
+				<h:outputText />
+
+				<h:outputLabel for="inputPlaca" />
+				<b:inputText id="inputPlaca" value="#{carroBean.carro.placa}"
+					label="Placa" maxlength="50" size="50" required="true" />
+				<h:outputText />
+
+				<h:outputLabel for="inputQuilometragem" />
+				<b:inputText id="inputQuilometragem"
+					value="#{carroBean.carro.quilometragem}" label="Quilometragem"
+					maxlength="50" size="50" required="true" />
+				<h:outputText />
+
+				<b:commandButton action="#{carroBean.salvarCarroController()}"
+					rendered="#{empty carroBean.carro.idCarro}" value="Adicionar"
+					look="primary" icon="pencil" />
+
+				<b:commandButton action="#{carroBean.salvarCarroController()}"
+					rendered="#{!empty carroBean.carro.idCarro}" value="Alterar"
+					look="primary" icon="pencil" />
+
+				<br></br>
+				<br></br>
+			</h:panelGrid>
+		</h:form>
+	</b:container>
+
+	<h:form>
+		<h:outputText />
+		<b:commandButton value="Voltar"
+			action="/paginas/carros/carroView" look="primary"
+			icon="arrow-left" />
+		<h:outputText />
 	</h:form>
-
-	
 </h:body>
 </html>
