@@ -35,6 +35,9 @@ public class Acessorios implements Serializable, Cloneable  {
 	private String Modelo;
 	
 	private Integer idAcessorios;
+	
+	private String foto;
+	
 	/*
 	 * Função construtora
 	 */
@@ -113,5 +116,19 @@ public class Acessorios implements Serializable, Cloneable  {
 	 */
 	public void setModelo(String modelo) {
 		Modelo = modelo;
+	}
+
+	/**
+	 * @return the foto
+	 */
+	public String getFoto() {
+		return foto;
+	}
+
+	/**
+	 * @param foto the foto to set
+	 */
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 }

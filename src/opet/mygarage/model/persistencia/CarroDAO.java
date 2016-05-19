@@ -71,7 +71,7 @@ public class CarroDAO implements ICarroDAO {
 					+ "?, ?, ?, " 
 					+ "?, ?, " 
 					+ "?, ?, " 
-					+ "?)";
+					+ "?, ?)";
 
 			preparedStatement = connection.prepareStatement(query);
 
@@ -89,6 +89,8 @@ public class CarroDAO implements ICarroDAO {
 			preparedStatement.setString(9, carro.getPlaca());
 
 			preparedStatement.setInt(10, carro.getQuilometragem());
+			
+			preparedStatement.setString(11, carro.getFoto());
 
 			// Executa INSERT
 
@@ -162,6 +164,7 @@ public class CarroDAO implements ICarroDAO {
 				carro.setCor(resultSet.getString("COR"));
 				carro.setPlaca(resultSet.getString("PLACA"));
 				carro.setQuilometragem(resultSet.getInt("KILOMETRAGEM"));
+				carro.setFoto(resultSet.getString("FOTO"));
 
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
@@ -177,8 +180,6 @@ public class CarroDAO implements ICarroDAO {
 			System.out.println("LOG::DAO::ERRO::  " + e);
 			carro = null;
 			e.printStackTrace();
-		} finally {
-			ConnectionFactory.closeConnection();
 		}
 
 		return carro;
@@ -246,8 +247,6 @@ public class CarroDAO implements ICarroDAO {
 			System.out.println("LOG::DAO::ERRO::  " + e);
 			e.printStackTrace();
 			return false;
-		} finally {
-			ConnectionFactory.closeConnection();
 		}
 
 	}
@@ -285,7 +284,8 @@ public class CarroDAO implements ICarroDAO {
 					+ "CARRO.anomodelo = ?, " 
 					+ "CARRO.cor = ?, " 
 					+ "CARRO.placa = ?, "
-					+ "CARRO.kilometragem = ? "
+					+ "CARRO.kilometragem = ?, "
+					+ "CARRO.foto = ? "
 					+ "WHERE CARRO.idCarro = ?";
 
 			preparedStatement = connection.prepareStatement(query);
@@ -294,7 +294,7 @@ public class CarroDAO implements ICarroDAO {
 			preparedStatement.setInt(1, carro.getTpCombust());
 			preparedStatement.setInt(2, carro.getUsuarioIdUsuario());
 			
-			preparedStatement.setInt(11, carro.getIdCarro());
+			preparedStatement.setInt(12, carro.getIdCarro());
 
 			// campos NAO obrigarorios. Se vazios, devem ser tratados como NULL
 			if (carro.getApelido() != null) {
@@ -367,6 +367,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 
 				preparedStatement.setNull(10, Types.NULL);
+			}
+			
+			if (carro.getFoto() != null) {
+
+				preparedStatement.setString(11, carro.getFoto());
+
+			} else {
+
+				preparedStatement.setNull(11, Types.NULL);
 			}
 
 			// Executa Update
@@ -490,6 +499,12 @@ public class CarroDAO implements ICarroDAO {
 					} else {
 						carro.setQuilometragem(null);
 					}
+					
+					if (resultSet.getString("FOTO") != null) {
+						carro.setFoto(resultSet.getString("FOTO"));
+					} else {
+						carro.setFoto(null);
+					}
 
 					carroList.add(carro);
 				}
@@ -542,7 +557,7 @@ public class CarroDAO implements ICarroDAO {
 					+ "ACESSORIOS.DESCRICAO, "
 					+ "ACESSORIOS.MARCA, "
 					+ "ACESSORIOS.MODELO) "
-					+ "VALUES (IDACESSORIOS_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?)";
+					+ "VALUES (IDACESSORIOS_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(query);
 
@@ -552,6 +567,7 @@ public class CarroDAO implements ICarroDAO {
 			preparedStatement.setString(3, acessorios.getDescricao());
 			preparedStatement.setString(4, acessorios.getMarca());
 			preparedStatement.setString(5, acessorios.getModelo());
+			preparedStatement.setString(6, acessorios.getFoto());
 
 			// Executa INSERT
 
@@ -616,6 +632,7 @@ public class CarroDAO implements ICarroDAO {
 				acessorios.setDescricao(resultSet.getString("DESCRICAO"));
 				acessorios.setMarca(resultSet.getString("MARCA"));
 				acessorios.setModelo(resultSet.getString("MODELO"));
+				acessorios.setFoto(resultSet.getString("FOTO"));
 				
 
 			} else {
@@ -632,8 +649,6 @@ public class CarroDAO implements ICarroDAO {
 			System.out.println("LOG::DAO::ERRO::  " + e);
 			acessorios = null;
 			e.printStackTrace();
-		} finally {
-			ConnectionFactory.closeConnection();
 		}
 
 		return acessorios;
@@ -714,13 +729,14 @@ public class CarroDAO implements ICarroDAO {
 					+ "ACESSORIOS.NOME = ?, " 
 					+ "ACESSORIOS.DESCRICAO = ?, "
 					+ "ACESSORIOS.MARCA = ?, " 
-					+ "ACESSORIOS.MODELO = ? "
+					+ "ACESSORIOS.MODELO = ?, "
+					+ "ACESSORIOS.FOTO = ? "
 					+ "WHERE ACESSORIOS.IDACESSORIOS = ?";
 
 			preparedStatement = connection.prepareStatement(query);
 
 			// ESTES CAMPOS SÃO OBRIGATORIOS. DEVEM TER SIDO VALIDADOS ANTES
-			preparedStatement.setInt(6, acessorios.getIdAcessorios());
+			preparedStatement.setInt(7, acessorios.getIdAcessorios());
 			preparedStatement.setInt(1, acessorios.getCarro_idCarro());
 			preparedStatement.setString(2, acessorios.getNome());
 
@@ -750,6 +766,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 
 				preparedStatement.setNull(5, Types.NULL);
+			}
+			
+			if (acessorios.getFoto() != null) {
+
+				preparedStatement.setString(6, acessorios.getFoto());
+
+			} else {
+
+				preparedStatement.setNull(6, Types.NULL);
 			}
 
 			// Executa Update
@@ -841,6 +866,13 @@ public class CarroDAO implements ICarroDAO {
 					} else {
 						acessorios.setModelo(null);
 					}
+					
+					if (resultSet.getString("FOTO") != null) {
+						acessorios.setFoto(resultSet.getString("FOTO"));
+					} else {
+						acessorios.setFoto(null);
+					}
+
 
 					acessoriosList.add(acessorios);
 				}

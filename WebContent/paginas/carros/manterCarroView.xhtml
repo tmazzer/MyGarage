@@ -80,6 +80,12 @@
 					value="#{carroBean.carro.quilometragem}" label="Quilometragem"
 					maxlength="50" size="50" required="true" />
 				<h:outputText />
+				
+				<h:outputLabel value="Foto" for="inputFoto" />
+				<b:inputFile id="inputFoto" value="#{carroBean.uploadedPhoto}" />
+				<b:commandButton value="Upload" action="#{carroBean.uploadFoto()}" />
+				<h:outputLabel value="Foto carregada:" />
+				<h:graphicImage name="/images/#{carroBean.carro.foto}" />
 
 				<b:commandButton action="#{carroBean.salvarCarroController()}"
 					rendered="#{empty carroBean.carro.idCarro}" value="Adicionar"

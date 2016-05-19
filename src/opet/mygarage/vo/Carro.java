@@ -49,6 +49,8 @@ public class Carro implements Serializable, Cloneable {
 	
 	private Integer idCarro;
 	
+	private String foto;
+	
 	/*
 	 * Função construtora
 	 */
@@ -205,5 +207,19 @@ public class Carro implements Serializable, Cloneable {
 	 */
 	public void setDescCombut(String descCombut) {
 		DescCombust = descCombut;
+	}
+
+	/**
+	 * @return the foto
+	 */
+	public String getFoto() {
+		return foto;
+	}
+
+	/**
+	 * @param foto the foto to set
+	 */
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 }

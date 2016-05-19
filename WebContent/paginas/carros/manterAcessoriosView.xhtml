@@ -33,34 +33,39 @@
 					rendered="#{!empty carroBean.carro.idCarro}" />
 				<h:outputText value="#{carroBean.carro.idCarro}"
 					rendered="#{!empty carroBean.carro.idCarro}" />
-					
+
 				<h:outputLabel for="inputNome" />
 				<b:inputText id="inputNome" value="#{carroBean.acessorios.nome}"
 					label="Nome" maxlength="50" size="50" required="true" />
 				<h:outputText />
 
 				<h:outputLabel for="inputDescricao" />
-				<b:inputText id="inputDescricao" value="#{carroBean.acessorios.descricao}"
-					label="Descrição" maxlength="50" size="50" />
+				<b:inputText id="inputDescricao"
+					value="#{carroBean.acessorios.descricao}" label="Descrição"
+					maxlength="50" size="50" />
 				<h:outputText />
 
 				<h:outputLabel for="inputMarca" />
 				<b:inputText id="inputMarca" value="#{carroBean.acessorios.marca}"
 					label="Marca" maxlength="50" size="50" />
 				<h:outputText />
-				
+
 				<h:outputLabel for="inputModelo" />
 				<b:inputText id="inputModelo" value="#{carroBean.acessorios.modelo}"
 					label="Modelo" maxlength="50" size="50" />
 				<h:outputText />
-				
-				<b:commandButton
-					action="#{carroBean.salvarAcessoriosController()}"
+
+				<h:outputLabel value="Foto" for="inputFoto" />
+				<b:inputFile id="inputFoto" value="#{carroBean.uploadedPhoto}" />
+				<b:commandButton value="Upload" action="#{carroBean.uploadFoto()}" />
+				<h:outputLabel value="Foto carregada:" />
+				<h:graphicImage name="/images/#{carroBean.acessorios.foto}" />
+
+				<b:commandButton action="#{carroBean.salvarAcessoriosController()}"
 					rendered="#{empty carroBean.acessorios.idAcessorios}"
 					value="Adicionar" look="primary" icon="pencil" />
-					
-				<b:commandButton
-					action="#{carroBean.salvarAcessoriosController()}"
+
+				<b:commandButton action="#{carroBean.salvarAcessoriosController()}"
 					rendered="#{!empty carroBean.acessorios.idAcessorios}"
 					value="Alterar" look="primary" icon="pencil" />
 			</h:panelGrid>
@@ -69,9 +74,8 @@
 
 	<h:form>
 		<h:outputText />
-		<b:commandButton value="Voltar"
-			action="/paginas/carros/carroView" 
-			look="primary" icon="arrow-left"/>
+		<b:commandButton value="Voltar" action="/paginas/carros/carroView"
+			look="primary" icon="arrow-left" />
 		<h:outputText />
 	</h:form>
 </h:body>

@@ -6,6 +6,7 @@ package opet.mygarage.model;
 import java.util.List;
 
 import opet.mygarage.model.persistencia.PersistenciaCarro;
+import opet.mygarage.model.persistencia.PersistenciaTimeline;
 import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Acessorios;
 import opet.mygarage.vo.Carro;
@@ -89,6 +90,11 @@ public class CarroModel {
 			return carro = null;
 		}
 		
+		if (carro != null){	
+		 	PersistenciaTimeline persistenciaTimeline = new PersistenciaTimeline();
+			String postDescricao = SessaoSistema.getNomeUsuarioLogado() + " adicionou um novo carro: " + carro.getMarca() + " " + carro.getModelo();
+		 	persistenciaTimeline.cadastraPostDAO(postDescricao);	
+		}
 		return persistenciaCarro.cadastraCarroDAO(carro);
 	}
 
@@ -114,6 +120,12 @@ public class CarroModel {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Nome não informado");
 			return acessorios = null;
+		}
+		
+		if (acessorios != null){	
+		 	PersistenciaTimeline persistenciaTimeline = new PersistenciaTimeline();
+			String postDescricao = SessaoSistema.getNomeUsuarioLogado() + " adicionou um novo acessório: " + carro.getMarca() + " " + carro.getModelo();
+		 	persistenciaTimeline.cadastraPostDAO(postDescricao);	
 		}
 		
 		return persistenciaCarro.cadastraAcessoriosDAO(carro, acessorios);

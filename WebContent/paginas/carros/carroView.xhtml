@@ -26,6 +26,9 @@
 	<b:container layout="fluid">
 		<h:form id="inputForm">
 			<h:panelGrid columns="2">
+				<h:outputLabel value="Foto:" />
+				<h:graphicImage name="/images/#{carroBean.carro.foto}" />
+				
 				<h:outputLabel value="Codigo: " />
 				<h:outputText value="#{carroBean.carro.idCarro}" />
 

@@ -30,6 +30,7 @@ CREATE TABLE CARRO
   cor VARCHAR2(50) NULL,
   placa VARCHAR2(50) NULL,
   kilometragem INTEGER NULL,
+  foto VARCHAR2(150) NULL,
   CONSTRAINT pk_idCarro PRIMARY KEY (idCarro),
   CONSTRAINT fk_Usuario_idUsuario FOREIGN KEY (Usuario_idUsuario) REFERENCES USUARIO (idUsuario),
   CONSTRAINT fk_TpCombust_idTpCombust FOREIGN KEY (TpCombust_idTpCombust) REFERENCES TPCOMBUST (idTpCombust)
@@ -45,6 +46,7 @@ CREATE TABLE Acessorios (
   descricao VARCHAR2(500) NULL,
   marca VARCHAR2(50) NULL,
   modelo VARCHAR2(50) NULL,
+  foto VARCHAR2(150) NULL,
   CONSTRAINT pk_idAcessorios PRIMARY KEY(idAcessorios),
   CONSTRAINT fk_Carro_idCarro FOREIGN KEY(Carro_idCarro) REFERENCES Carro (idCarro)
 );
