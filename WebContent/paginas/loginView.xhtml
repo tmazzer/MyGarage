@@ -9,74 +9,67 @@
 	<title>MyGarage</title>
 </h:head>
 <h:body>
-	<h1 style="text-align: center">Welcome to MyGarage</h1>
+	<h1 style="text-align: center; font: bold 2.5em Tahoma">Welcome to MyGarage</h1>
 	<b:jumbotron>
-	<b:container style="text-align: center; margin-left: 580px;">
-		<h3 style="margin-right: 980px;">Login</h3>
+		<b:container styleClass="container">
+			<b:container styleClass="row">
+				<b:container styleClass="col-lg-12">
+					<b:container styleClass="col-xs-12 col-xs-push-0 col-sm-6 col-sm-push-3 col-md-5 col-md-push-4 col-lg-4 col-lg-push-4">
 
-		<h:outputText 
-			value="#{usuarioBean.msgRetorno}" 
-			styleClass="msgInfo"
-			style="margin-right: 980px;">
-		</h:outputText>
-		<br></br>
+						<h2 style="text-align: center; font: 2.5em Tahoma">Login</h2>
 
-		<h:messages styleClass="msgWarn2" style="margin-right: 785px;" />
+						<h:outputText value="#{usuarioBean.msgRetorno}"
+							styleClass="msgInfo">
+						</h:outputText>
+						<br></br>
 
-		<b:panelGrid colSpans="2,10">
+						<h:messages styleClass="msgWarn2" />
 
-			<h:form id="inputForm">
-				<h:column>
+						<h:form id="inputForm">
+							<h:column>
 
-					<h:outputLabel value="Email: " for="inputEmail" />
-					<b:inputText 
-						id="inputEmail"
-						label="Campo Email" 
-						maxlength="50"
-						size="30" 
-						required="true"
-						value="#{usuarioBean.usuario.email}"
-						placeholder="Email">
-						<f:facet name="prepend">
-							<b:icon name="envelope" />
-						</f:facet>
-					</b:inputText>
-					<h:outputText />
+								<h:outputLabel value="Email: " for="inputEmail" />
+								<b:inputText id="inputEmail" maxlength="50" size="30"
+									required="true" value="#{usuarioBean.usuario.email}"
+									placeholder="Email" styleClass="form-control">
+									<f:facet name="prepend">
+										<b:icon name="envelope" />
+									</f:facet>
+								</b:inputText>
+								<h:outputText />
 
-					<br></br>
+								<h:outputLabel value="Senha: " for="inputSenha" />
+								<b:inputSecret id="inputSenha" maxlength="10" size="30"
+									required="true" value="#{usuarioBean.usuario.senha}"
+									placeholder="Password">
+									<f:facet name="prepend">
+										<b:icon name="lock" />
+									</f:facet>
+								</b:inputSecret>
+								<h:outputText />
 
-					<h:outputLabel value="Senha: " for="inputSenha" />
-					<b:inputSecret 
-						id="inputSenha" 
-						label="Campo Senha" 
-						maxlength="10"
-						size="30" 
-						required="true"
-						value="#{usuarioBean.usuario.senha}"
-						placeholder="Password">
-						<f:facet name="prepend">
-							<b:icon name="lock" />
-						</f:facet>
-					</b:inputSecret>
-					<h:outputText />
-					<br></br>
+								<b:commandButton value="Sign In"
+									action="#{usuarioBean.validaLogin}" look="primary"
+									icon="log-in" styleClass="btn btn-primary btn-block"
+									style="margin-top: 20px;">
+								</b:commandButton>
+							</h:column>
+						</h:form>
+						<h:form>
+							<b:container StyleClass="col-lg-12"
+								style="margin-top: 20px; text-align: center; padding:0;">
+								<h:outputLabel value="Ainda não tem um cadastro?" />
+							</b:container>
 
-					<b:commandButton value="Sign In"
-						action="#{usuarioBean.validaLogin}" 
-						look="primary" 
-						icon="log-in">
-					</b:commandButton>
-					
-					<br></br>
-					<br></br>
-					<h:outputLabel value="Ainda não tem um cadastro?" />
-					<b:commandButton
-						action="#{usuarioBean.telaCadastrarUsuarioController}"
-						value="Sign Up" look="info" icon="pencil" /><br></br><br></br>
-				</h:column>
-			</h:form>
-		</b:panelGrid>
-	</b:container>	
+							<b:commandButton
+								action="#{usuarioBean.telaCadastrarUsuarioController}"
+								value="Sign Up" look="info" icon="pencil"
+								styleClass="btn btn-primary btn-block" />
+						</h:form>
+					</b:container>
+				</b:container>
+			</b:container>
+		</b:container>
 	</b:jumbotron>
 </h:body>
 </html>
