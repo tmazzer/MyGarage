@@ -55,12 +55,6 @@
 					label="Modelo" maxlength="50" size="50" />
 				<h:outputText />
 
-				<h:outputLabel value="Foto" for="inputFoto" />
-				<b:inputFile id="inputFoto" value="#{carroBean.uploadedPhoto}" />
-				<b:commandButton value="Upload" action="#{carroBean.uploadFoto()}" />
-				<h:outputLabel value="Foto carregada:" />
-				<h:graphicImage name="/images/#{carroBean.acessorios.foto}" />
-
 				<b:commandButton action="#{carroBean.salvarAcessoriosController()}"
 					rendered="#{empty carroBean.acessorios.idAcessorios}"
 					value="Adicionar" look="primary" icon="pencil" />

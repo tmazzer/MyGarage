@@ -124,7 +124,7 @@ public class CarroModel {
 		
 		if (acessorios != null){	
 		 	PersistenciaTimeline persistenciaTimeline = new PersistenciaTimeline();
-			String postDescricao = SessaoSistema.getNomeUsuarioLogado() + " adicionou um novo acessório: " + carro.getMarca() + " " + carro.getModelo();
+			String postDescricao = SessaoSistema.getNomeUsuarioLogado() + " adicionou um novo acessório: " + acessorios.getMarca() + " " + acessorios.getModelo();
 		 	persistenciaTimeline.cadastraPostDAO(postDescricao);	
 		}
 		

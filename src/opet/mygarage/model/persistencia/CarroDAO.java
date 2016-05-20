@@ -50,7 +50,7 @@ public class CarroDAO implements ICarroDAO {
 	@Override
 	public Carro cadastraCarroDAO(Carro carro) {
 		PreparedStatement preparedStatement = null;
-
+		
 		String query = null;
 
 		Integer count = null;
@@ -66,8 +66,20 @@ public class CarroDAO implements ICarroDAO {
 			}
 
 			query = "INSERT INTO CARRO "
-					+ "(CARRO.idCarro, CARRO.TPCOMBUST_IDTPCOMBUST, CARRO.usuario_idusuario, CARRO.apelidocarro, CARRO.marca, CARRO.modelo, CARRO.anofabricacao, CARRO.anomodelo, CARRO.cor, CARRO.placa, CARRO.kilometragem) "
-					+ "VALUES (idCarro_SEQUENCE.NEXTVAL, ?, ?, " 
+					+ "(CARRO.idCarro, "
+					+ "CARRO.TPCOMBUST_IDTPCOMBUST, "
+					+ "CARRO.usuario_idusuario, "
+					+ "CARRO.apelidocarro, "
+					+ "CARRO.marca, "
+					+ "CARRO.modelo, "
+					+ "CARRO.anofabricacao, "
+					+ "CARRO.anomodelo, "
+					+ "CARRO.cor, "
+					+ "CARRO.placa, "
+					+ "CARRO.kilometragem, "
+					+ "CARRO.FOTO) "
+					+ "VALUES ("
+					+ "idCarro_SEQUENCE.NEXTVAL, ?, ?, " 
 					+ "?, ?, ?, " 
 					+ "?, ?, " 
 					+ "?, ?, " 
@@ -78,19 +90,71 @@ public class CarroDAO implements ICarroDAO {
 			// ESTES CAMPOS SÃO OBRIGATORIOS. DEVEM TER SIDO VALIDADOS ANTES
 			preparedStatement.setInt(1, carro.getTpCombust());
 			preparedStatement.setInt(2, SessaoSistema.getIdUsuarioLogado());
-			preparedStatement.setString(3, carro.getApelido());
-			preparedStatement.setString(4, carro.getMarca());
-			preparedStatement.setString(5, carro.getModelo());
-
-			preparedStatement.setString(6, carro.getAnoFabricacao());
-			preparedStatement.setString(7, carro.getAnoModelo());
-
-			preparedStatement.setString(8, carro.getCor());
-			preparedStatement.setString(9, carro.getPlaca());
-
-			preparedStatement.setInt(10, carro.getQuilometragem());
 			
-			preparedStatement.setString(11, carro.getFoto());
+			// ESTES CAMPOS PODEM SER NULOS. 
+			if (carro.getApelido() != null) {
+				preparedStatement.setString(3, carro.getApelido());
+
+			} else {
+				preparedStatement.setNull(3, Types.NULL);
+			}
+			
+			if (carro.getMarca() != null) {
+				preparedStatement.setString(4, carro.getMarca());
+
+			} else {
+				preparedStatement.setNull(4, Types.NULL);
+			}
+			
+			if (carro.getModelo() != null) {
+				preparedStatement.setString(5, carro.getModelo());
+
+			} else {
+				preparedStatement.setNull(5, Types.NULL);
+			}
+			
+			if (carro.getAnoFabricacao() != null) {
+				preparedStatement.setString(6, carro.getAnoFabricacao());
+
+			} else {
+				preparedStatement.setNull(6, Types.NULL);
+			}
+			
+			if (carro.getAnoModelo() != null) {
+				preparedStatement.setString(7, carro.getAnoModelo());
+
+			} else {
+				preparedStatement.setNull(7, Types.NULL);
+			}
+			
+			if (carro.getCor() != null) {
+				preparedStatement.setString(8, carro.getCor());
+
+			} else {
+				preparedStatement.setNull(8, Types.NULL);
+			}
+			
+			if (carro.getPlaca() != null) {
+				preparedStatement.setString(9, carro.getPlaca());
+
+			} else {
+				preparedStatement.setNull(9, Types.NULL);
+			}
+			
+			if (carro.getQuilometragem() != null) {
+				preparedStatement.setInt(10, carro.getQuilometragem());
+
+			} else {
+				preparedStatement.setNull(10, Types.NULL);
+			}
+			
+			if (carro.getFoto() != null) {
+				preparedStatement.setString(11, carro.getFoto());
+
+			} else {
+				preparedStatement.setNull(11, Types.NULL);
+			}
+			
 
 			// Executa INSERT
 
@@ -556,7 +620,8 @@ public class CarroDAO implements ICarroDAO {
 					+ "ACESSORIOS.NOME, "
 					+ "ACESSORIOS.DESCRICAO, "
 					+ "ACESSORIOS.MARCA, "
-					+ "ACESSORIOS.MODELO) "
+					+ "ACESSORIOS.MODELO, "
+					+ "ACESSORIOS.FOTO) "
 					+ "VALUES (IDACESSORIOS_SEQUENCE.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(query);
@@ -564,10 +629,35 @@ public class CarroDAO implements ICarroDAO {
 			// ESTES CAMPOS SÃO OBRIGATORIOS. DEVEM TER SIDO VALIDADOS ANTES
 			preparedStatement.setInt(1, carro.getIdCarro());
 			preparedStatement.setString(2, acessorios.getNome());
-			preparedStatement.setString(3, acessorios.getDescricao());
-			preparedStatement.setString(4, acessorios.getMarca());
-			preparedStatement.setString(5, acessorios.getModelo());
-			preparedStatement.setString(6, acessorios.getFoto());
+			
+			// ESTES CAMPOS PODEM SER NULOS
+			if (acessorios.getDescricao() != null) {
+				preparedStatement.setString(3, acessorios.getDescricao());
+
+			} else {
+				preparedStatement.setNull(3, Types.NULL);
+			}
+			
+			if (acessorios.getMarca() != null) {
+				preparedStatement.setString(4, acessorios.getMarca());
+
+			} else {
+				preparedStatement.setNull(4, Types.NULL);
+			}
+			
+			if (acessorios.getModelo() != null) {
+				preparedStatement.setString(5, acessorios.getModelo());
+
+			} else {
+				preparedStatement.setNull(5, Types.NULL);
+			}
+			
+			if (acessorios.getFoto() != null) {
+				preparedStatement.setString(6, acessorios.getFoto());
+
+			} else {
+				preparedStatement.setNull(6, Types.NULL);
+			}
 
 			// Executa INSERT
 

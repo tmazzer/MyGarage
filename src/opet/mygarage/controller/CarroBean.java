@@ -120,7 +120,7 @@ public class CarroBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		// Seta foto do Carro
-		carro.setFoto(upload.extractFileName(uploadedPhoto));
+		//carro.setFoto(upload.extractFileName(uploadedPhoto));
 
 		// Processamento dos dados
 
@@ -294,7 +294,7 @@ public class CarroBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		// Seta foto do Acessorio
-		acessorios.setFoto(upload.extractFileName(uploadedPhoto));
+		//acessorios.setFoto(upload.extractFileName(uploadedPhoto));
 
 		// Processamento dos dados
 
