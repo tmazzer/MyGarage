@@ -66,12 +66,6 @@
 
 			<h:outputLabel value="Foto" for="inputFoto" />
 			<h:inputFile id="inputFoto" value="#{usuarioBean.uploadedPhoto}" />
-			<h:commandButton value="Upload" action="#{usuarioBean.uploadFoto()}" />
-			<br></br>
-			<h:outputLabel value="Foto carregada:"/>
-			<br></br>
-			<h:graphicImage  rendered="true"  name="/images/#{usuarioBean.usuario.foto}" />
-
 
 			<h:outputText />
 			<h:commandButton value="Confirmar"

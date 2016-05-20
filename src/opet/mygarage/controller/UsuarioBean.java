@@ -49,6 +49,8 @@ public class UsuarioBean implements Serializable {
 	private String msgRetorno;
 	
 	private Part uploadedPhoto;
+	
+	private Upload upload;
 		
 	
 	/*
@@ -56,7 +58,7 @@ public class UsuarioBean implements Serializable {
 	 */
 
 	/**
-	 * Construtor CadastraUsuarioBean()
+	 * Construtor UsuarioBean()
 	 */
 	public UsuarioBean() {
 		
@@ -90,11 +92,13 @@ public class UsuarioBean implements Serializable {
 	 */
 	public String salvarUsuarioController(){
 		
-		System.out.println("UsuarioBean::salvarUsuarioController");
-		
-		// Declaração de variáveis
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
+		
+        String diretorio = "USUARIO\\" + usuario.getIdUsuario();
+        String fileName = "user_" + usuario.getIdUsuario() + ".jpg";
+        uploadFoto(diretorio, fileName);
+        usuario.setFoto(upload.extractFileName(uploadedPhoto));
 
 		// Processamento dos dados
 		
@@ -110,8 +114,7 @@ public class UsuarioBean implements Serializable {
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
 	
-				msgRetorno = SessaoSistema.getDescMensagem();
-				return "/paginas/loginView";	
+				return msgRetorno = SessaoSistema.getDescMensagem();
 			}
 		}else
 		{
@@ -141,17 +144,12 @@ public class UsuarioBean implements Serializable {
 	 */
 	public String consultaUsuarioController(){
 		
-		System.out.println("UsuarioBean::consultaUsuarioController");
-		// Declaração de variáveis
+		SessaoSistema.setCodigodMensagem(0);
+		
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-
-		
 		usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
-		System.out.println("LOG::BEAN::USUARIO: " + usuario.getIdUsuario());
-
-
 
 		this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 		
@@ -226,15 +224,10 @@ public class UsuarioBean implements Serializable {
 	 * Metodo responsavel por fazer Upload da foto do usuario.
 	 * 
 	 */
-    public void uploadFoto(){
+    public void uploadFoto(String diretorio, String fileName){
         try {
-            Upload upload = Upload.getInstance();
-            upload.write(uploadedPhoto);
-            
-            usuario.setFoto(upload.extractFileName(uploadedPhoto));
-
-            System.out.println("Foto carregada: " + usuario.getNome());
-
+            upload = Upload.getInstance();
+            upload.write(uploadedPhoto, diretorio, fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }

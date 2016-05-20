@@ -10,10 +10,9 @@ public class Upload {
 
     private Upload() {}
 
-    public void write(Part part) throws IOException {
-        String fileName = extractFileName(part);
-        String filePath = "C:\\DEV\\workspace\\MyGarage\\WebContent\\resources\\images";
-//          String filePath = "resources\\images";
+    public void write(Part part, String diretorio, String fileName) throws IOException {
+        String filePath = "C:\\MyGarage\\img\\" + diretorio;
+//        String filePath = "resources\\images\\" + diretorio;
 
         File fileSaveDir = new File(filePath);
         if (!fileSaveDir.exists()) {

@@ -337,15 +337,15 @@ public class CarroBean implements Serializable {
 	 * 
 	 */
 	public void uploadFoto() {
-		try {
-			upload = Upload.getInstance();
-			upload.write(uploadedPhoto);
-
-			System.out.println("Foto carregada: " + carro.getApelido());
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			upload = Upload.getInstance();
+//			upload.write(uploadedPhoto);
+//
+//			System.out.println("Foto carregada: " + carro.getApelido());
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
