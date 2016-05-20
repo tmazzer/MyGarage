@@ -12,7 +12,14 @@
 </h:head>
 
 <h:body onload="#{timelineBean.inicializaPagina()}">
-	<b:container style="padding: 0">
+	<b:container styleClass="col-lg-12"
+		style="height: 60px; background: #CECECE; margin-bottom: 20px;">
+		<h:form>
+			<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
+				styleClass="btn btn-danger" iconAwesome="sign-out" style="float: right; margin-top: 10px;" />
+		</h:form>
+	</b:container>
+	<b:container style="padding: 0;">
 		<b:row>
 			<b:container styleClass="col-lg-12" style="padding: 0">
 				<b:container styleClass="col-lg-3" style="padding: 0">
@@ -30,7 +37,8 @@
 						<b:container>
 							<b:commandButton
 								action="#{usuarioBean.consultaUsuarioController()}"
-								value="Editar Perfil" styleClass="btn btn-primary" size="xs" iconAwesome="cog" />
+								value="Editar Perfil" styleClass="btn btn-primary" size="xs"
+								iconAwesome="cog" />
 						</b:container>
 					</h:form>
 				</b:container>
@@ -46,7 +54,8 @@
 
 						<b:commandButton value="Publicar"
 							action="#{timelineBean.publicaPostController(timelineBean.timeline)}"
-							styleClass="btn btn-primary" style="margin-bottom: 20px;" iconAwesome="pencil" />
+							styleClass="btn btn-primary" style="margin-bottom: 20px;"
+							iconAwesome="pencil" />
 
 						<h:outputLabel value="Timeline vazia"
 							style="color:red; font-style: italic;font-family: 'Georgia';"
@@ -94,7 +103,8 @@
 
 									<b:commandButton value="Comentar"
 										action="#{timelineBean.consultaDetalhesPostController(timelineLinha)}"
-										styleClass="btn btn-info" style="margin-right: 5px;" size="xs" iconAwesome="comments" />
+										styleClass="btn btn-info" style="margin-right: 5px;" size="xs"
+										iconAwesome="comments" />
 
 									<b:commandButton value=""
 										action="#{timelineBean.excluiPostController(timelineLinha.idTimeline)}"
@@ -133,7 +143,7 @@
 								</h:column>
 							</h:dataTable>
 							<b:commandButton action="/paginas/amigos/amigosView"
-								value="Amigos" styleClass="btn btn-primary" iconAwesome="users"/>
+								value="Amigos" styleClass="btn btn-primary" iconAwesome="users" />
 						</h:form>
 					</b:container>
 
@@ -162,7 +172,7 @@
 							</h:dataTable>
 							<b:row styleClass="col-lg-12">
 								<b:commandButton action="/paginas/carros/carroListaView"
-									value="Carros" styleClass="btn btn-primary" iconAwesome="car"/>
+									value="Carros" styleClass="btn btn-primary" iconAwesome="car" />
 							</b:row>
 						</h:form>
 					</b:container>
@@ -170,12 +180,5 @@
 			</b:container>
 		</b:row>
 	</b:container>
-	<b:container>
-		<h:form>
-			<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
-				styleClass="btn btn-danger" iconAwesome="sign-out" />
-		</h:form>
-	</b:container>
-
 </h:body>
 </html>
