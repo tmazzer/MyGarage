@@ -1,11 +1,9 @@
 package opet.mygarage.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import opet.mygarage.model.persistencia.PersistenciaTimeline;
 import opet.mygarage.model.persistencia.PersistenciaTimelineAcao;
-import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Timeline;
 import opet.mygarage.vo.TimelineAcao;
 
@@ -46,32 +44,7 @@ public class TimelineModel {
 	 */
 
 	public List<Timeline> listaTimelineModel() {
-		
-		List<Timeline> timelineListDAO = new ArrayList<>();
-		List<Timeline> timelineList = new ArrayList<>();
-		Timeline timeline = new Timeline();
-		TimelineAcao timelineAcao;
-				
-		//recupera lista Timeline
-		timelineListDAO = persistenciaTimeline.listaTimelineDAO();
-		
-		for (int i = 0; i < timelineListDAO.size(); i++) {
-			timeline = timelineListDAO.get(i);
-			
-			timelineAcao = new TimelineAcao();
-			timelineAcao.setIdTimeline(timeline.getIdTimeline());
-			timelineAcao.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
-			
-			//verifica se o post foi curtido pelo usuario logado
-			if (persistenciaTimelineAcao.validaLikePostDAO(timelineAcao)){
-				timeline.setLike("S");	
-			}else{
-				timeline.setLike(null);
-			}
-			timelineList.add(timeline);
-		}
-		
-		return timelineList;
+		return persistenciaTimeline.listaTimelineDAO();
 	}
 	
 	/**
@@ -104,14 +77,6 @@ public class TimelineModel {
 	 */
 	public Boolean cadastraTimelineAcaoModel(TimelineAcao timelineAcao) {
 		return persistenciaTimelineAcao.cadastraTimelineAcaoDAO(timelineAcao);
-	}
-
-
-	/**
-	 * Acessa PersistenciaTimelineAcao para validar se o post ja foi "curtido" na base Timeline_Acao
-	 */
-	public Boolean validaLikePost(TimelineAcao timelineAcao) {
-		return persistenciaTimelineAcao.validaLikePostDAO(timelineAcao);
 	}
 
 	/**

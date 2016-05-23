@@ -88,6 +88,15 @@
 								<b:row styleClass="col-lg-12">
 									<h:outputText value="#{timelineLinha.descricao}" />
 								</b:row>
+								
+								<br></br><br></br>
+								<h:outputLabel value="qtddLikes: " />
+								<h:outputText value="#{timelineLinha.qtddLike}" />
+								<br></br>
+								<h:outputLabel value="qtddComentarios: " />
+								<h:outputText value="#{timelineLinha.qtddComentarios}" />
+								<br></br><br></br>
+								
 								<b:row styleClass="col-lg-12" style="margin-top: 10px;">
 									<b:commandButton value="Like"
 										action="#{timelineBean.curtirPostTimelineController(timelineLinha)}"

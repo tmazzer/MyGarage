@@ -219,65 +219,9 @@ public class TimelineAcaoDAO implements ITimelineAcaoDAO {
 	}
 
 	/**
-	 * Acessa a base Timeline_Acao para validar se o post ja foi "curtido"
-	 * 
-	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#validaLikePostDAO(opet.mygarage.vo.TimelineAcao)
-	 */
-	@Override
-	public Boolean validaLikePostDAO(TimelineAcao timelineAcao) {
-
-		PreparedStatement preparedStatement = null;
-
-		String query = null;
-
-		ResultSet resultSet = null;
-		try {
-			connection = ConnectionFactory.getConnection();
-
-			if (connection == null) {
-				SessaoSistema.setCodigodMensagem(101);
-				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
-				return null;
-			}
-
-			query = "SELECT * FROM TIMELINE_ACAO WHERE " + "USUARIO_IDUSUARIO = ? AND " // 1
-					+ "TIMELINE_IDTIMELINE = ? AND " // 2
-					+ "CURTIR = 'S'";
-
-			preparedStatement = connection.prepareStatement(query);
-
-			preparedStatement.setInt(1, timelineAcao.getIdUsuario());
-			preparedStatement.setInt(2, timelineAcao.getIdTimeline());
-
-			resultSet = preparedStatement.executeQuery();
-
-			if (resultSet.next()) {
-				SessaoSistema.setCodigodMensagem(0);
-				SessaoSistema.setDescMensagem("Select com sucesso!");
-				return true;
-			} else {
-				SessaoSistema.setCodigodMensagem(100);
-				SessaoSistema.setDescMensagem("Select não retornou dados!");
-				return false;
-			}
-
-		} catch (SQLException e) {
-			SessaoSistema.setCodigodMensagem(103);
-			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("TimelineAcaoDAO::validaLikePostDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("TimelineAcaoDAO::validaLikePostDAO::ERRO::  " + e);
-			e.printStackTrace();
-			return null;
-		} finally {
-			ConnectionFactory.closeConnection();
-		}
-	}
-
-	/**
 	 * Acessa a base Timeline_Acao para excluir o Like do Usuario Logado
 	 * 
-	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#listaTimelineAcaoDAO()
+	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#excluiLikeTimelineAcaoDAO()
 	 */
 	@Override
 	public Boolean excluiLikeTimelineAcaoDAO(TimelineAcao timelineAcao) {
@@ -336,7 +280,7 @@ public class TimelineAcaoDAO implements ITimelineAcaoDAO {
 	/**
 	 * Acessa a base Timeline_Acao para excluir o Comentario
 	 * 
-	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#listaTimelineAcaoDAO()
+	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#excluiTimelineAcaoDAO()
 	 */
 	@Override
 	public Boolean excluiTimelineAcaoDAO(Integer idTimelineAcao) {
@@ -391,4 +335,5 @@ public class TimelineAcaoDAO implements ITimelineAcaoDAO {
 		}
 
 	}
+
 }

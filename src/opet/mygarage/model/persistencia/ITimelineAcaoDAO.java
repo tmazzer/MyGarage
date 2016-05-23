@@ -21,6 +21,5 @@ public interface ITimelineAcaoDAO {
 	public List<TimelineAcao> listaTimelineAcaoDAO(Integer idTimeline);
 	public Boolean cadastraTimelineAcaoDAO(TimelineAcao timelineAcao);
 	public Boolean excluiLikeTimelineAcaoDAO(TimelineAcao timelineAcao);
-	public Boolean validaLikePostDAO(TimelineAcao timelineAcao);
 	public Boolean excluiTimelineAcaoDAO(Integer idTimelineAcao);
 }

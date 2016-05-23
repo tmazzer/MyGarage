@@ -58,16 +58,6 @@ public class PersistenciaTimelineAcao implements ITimelineAcaoDAO {
 
 
 	/**
-	 * Acessa TimelineDAO para validar se o post ja foi "curtido" na base Timeline_Acao
-	 * 
-	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#validaLikePostDAO(opet.mygarage.vo.TimelineAcao)
-	 */
-	@Override
-	public Boolean validaLikePostDAO(TimelineAcao timelineAcao) {
-		return timelineAcaoDAO.validaLikePostDAO(timelineAcao);
-	}
-
-	/**
 	 * Acessa TimelineDAO para excluir o curtir na base Timeline_Acao
 	 * 
 	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#excluiLikeTimelineAcaoDAO(opet.mygarage.vo.TimelineAcao)
@@ -85,5 +75,4 @@ public class PersistenciaTimelineAcao implements ITimelineAcaoDAO {
 	public Boolean excluiTimelineAcaoDAO(Integer idTimelineAcao) {
 		return timelineAcaoDAO.excluiTimelineAcaoDAO(idTimelineAcao);
 	}
-
 }

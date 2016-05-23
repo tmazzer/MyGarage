@@ -36,6 +36,10 @@ public class Timeline implements Serializable, Cloneable {
 	
 	private String like;
 	
+	private Integer qtddLike;
+	
+	private Integer qtddComentarios;
+	
 	
 	
 	/*
@@ -154,6 +158,42 @@ public class Timeline implements Serializable, Cloneable {
 	 */
 	public void setLike(String like) {
 		this.like = like;
+	}
+
+
+
+	/**
+	 * @return the qtddLike
+	 */
+	public Integer getQtddLike() {
+		return qtddLike;
+	}
+
+
+
+	/**
+	 * @param qtddLike the qtddLike to set
+	 */
+	public void setQtddLike(Integer qtddLike) {
+		this.qtddLike = qtddLike;
+	}
+
+
+
+	/**
+	 * @return the qtddComentarios
+	 */
+	public Integer getQtddComentarios() {
+		return qtddComentarios;
+	}
+
+
+
+	/**
+	 * @param qtddComentarios the qtddComentarios to set
+	 */
+	public void setQtddComentarios(Integer qtddComentarios) {
+		this.qtddComentarios = qtddComentarios;
 	}
 
 
