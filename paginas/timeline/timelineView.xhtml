@@ -86,21 +86,20 @@
 									<h:outputText value="#{timelineLinha.descricao}" />
 								</b:row>
 								<b:row styleClass="col-lg-12" style="margin-top: 10px;">
-
-									<b:commandButton value="Like #{timelineLinha.qtddLike}"
+									<b:commandButton value="Like"
 										action="#{timelineBean.curtirPostTimelineController(timelineLinha)}"
 										rendered="#{empty timelineLinha.like}"
 										styleClass="btn btn-primary"
 										style="margin-right: 5px; opacity: 0.2;" size="xs"
 										iconAwesome="fa-thumbs-up" />
 
-									<b:commandButton value="Like #{timelineLinha.qtddLike}"
+									<b:commandButton value="Like"
 										action="#{timelineBean.curtirPostTimelineController(timelineLinha)}"
 										rendered="#{!empty timelineLinha.like}"
 										styleClass="btn btn-primary" style="margin-right: 5px;"
 										size="xs" iconAwesome="fa-thumbs-up" />
 
-									<b:commandButton value="Comentar #{timelineLinha.qtddComentarios}"
+									<b:commandButton value="Comentar"
 										action="#{timelineBean.consultaDetalhesPostController(timelineLinha)}"
 										styleClass="btn btn-info" style="margin-right: 5px;" size="xs"
 										iconAwesome="comments" />

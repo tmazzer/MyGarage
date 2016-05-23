@@ -16,19 +16,6 @@
 		style="height: 60px; background: #CECECE; margin-bottom: 20px;">
 		<h3 style="float: left; font-family: 'Tahoma'; font-weight: bold;">MY
 			GARAGE</h3>
-		<h:form style="float: right; text-align: right">
-			<b:container>
-				<b:commandButton value="Home"
-					action="/paginas/timeline/timelineView" look="primary" icon="home"
-					style="margin-top: 10px;"
-					rendered="#{!empty usuarioBean.usuario.idUsuario}" />
-
-				<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
-					styleClass="btn btn-danger" iconAwesome="sign-out"
-					style="margin-top: 10px; margin-left: 5px;"
-					rendered="#{!empty usuarioBean.usuario.idUsuario}" />
-			</b:container>
-		</h:form>
 	</b:container>
 
 	<b:container>
@@ -87,8 +74,7 @@
 			</h:panelGrid>
 		</b:container>
 	</h:form>
-	<b:container style="margin-left: 290px; margin-top: -33px;"
-		styleClass="col-lg-6">
+	<b:container style="margin-left: 290px; margin-top: -33px;" styleClass="col-lg-6">
 		<h:form id="linkVoltar">
 			<b:commandButton value="Cancelar"
 				action="/paginas/timeline/timelineView" styleClass="btn btn-danger"

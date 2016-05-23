@@ -1,4 +1,4 @@
-create or replace FUNCTION COUNT_LIKES
+CREATE OR REPLACE FUNCTION COUNT_LIKES
 (F_IDTIMELINE IN INTEGER)
  RETURN INTEGER
 IS
@@ -12,7 +12,7 @@ END COUNT_LIKES;
 
 
 
-create or replace Function consulta_nome
+CREATE OR REPLACE Function consulta_nome
 (p_id_funcionario in integer)
  return varchar
 IS
