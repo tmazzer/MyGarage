@@ -78,12 +78,12 @@
 		</h:panelGrid>
 
 		<h:panelGrid>
-			<h:outputLabel value="Timeline Vazia" rendered="#{empty timelineBean.timelineList}" />
+			<h:outputLabel value="Timeline Vazia" rendered="#{empty amigosBean.timelineList}" />
 		
 			<h:form id="formTimeline">
-				<h:dataTable value="#{timelineBean.timelineList}" align="left"
+				<h:dataTable value="#{amigosBean.timelineList}" align="left"
 					columns="2" cellspacing="5" cellpadding="5" var="timelineLinha"
-					rendered="#{!empty timelineBean.timelineList}">
+					rendered="#{!empty amigosBean.timelineList}">
 
 					<f:facet name="header">
 						<h:outputLabel value="Feed de Noticias" />

@@ -192,7 +192,6 @@ CREATE TABLE Timeline (
   CONSTRAINT fk7_Usuario_idUsuario FOREIGN KEY(Usuario_idUsuario) REFERENCES Usuario (idUsuario)
 );
 
-
 CREATE SEQUENCE IDTIMELINE_SEQUENCE 
 MINVALUE 1
 MAXVALUE 100000
@@ -224,11 +223,16 @@ CREATE TABLE LOG (
   dataAcao DATE NULL,
   curtir VARCHAR2(1) NULL,
   comentario VARCHAR2(500) NULL,
-  CONSTRAINT pk_idTimeline_acao PRIMARY KEY(idTimeline_acao),
-  CONSTRAINT fk8_Usuario_idUsuario FOREIGN KEY(Usuario_idUsuario) REFERENCES Usuario (idUsuario),
-  CONSTRAINT fk_Timeline_idTimeline FOREIGN KEY(Timeline_idTimeline) REFERENCES Timeline (idTimeline)
+  CONSTRAINT pk1_idLog PRIMARY KEY(idLog),
+  CONSTRAINT fk10_Usuario_idUsuario FOREIGN KEY(Usuario_idUsuario) REFERENCES Usuario (idUsuario),
+  CONSTRAINT fk1_Timeline_idTimeline FOREIGN KEY(Timeline_idTimeline) REFERENCES Timeline (idTimeline)
 );
 
+CREATE SEQUENCE LOG_SEQUENCE 
+MINVALUE 1
+MAXVALUE 100000
+INCREMENT BY 1
+START WITH 1;
 
 CREATE TABLE TRILHA_AUDITORIA (
   idTRILHA_AUDITORIA INTEGER NOT NULL,

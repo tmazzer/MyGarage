@@ -108,12 +108,12 @@ public class TimelineBean implements Serializable {
 		msgWelcome = "Seja bem vindo  " + SessaoSistema.getNomeUsuarioLogado();
 		idUsuarioLogado = SessaoSistema.getIdUsuarioLogado();
 		
-		//Lista ate 4 amigos
+		//Lista ate 4 amigos (qtdd tratado na tela)
 		amigosList = new ArrayList<>();
 		AmigosModel amigosModel = new AmigosModel();
 		amigosList = amigosModel.listaUltimosAmigosModel();	
 		
-		//Lista ate 4 carros	
+		//Lista ate 4 carros	(qtdd tratado na tela)
 		carrosList = new ArrayList<>();
 		carrosList = carroModel.listaCarrosModel(SessaoSistema.getIdUsuarioLogado());	
 	}
@@ -131,50 +131,6 @@ public class TimelineBean implements Serializable {
 		return "/paginas/loginView";
 	}
 
-	/**
-	 * Consulta os detalhes do Usuario selecionado na tela Timeline
-	 * 
-	 */
-	public String consultaUsuarioController(Integer idUsuario) {
-
-		System.out.println("TimelineBean::consultaUsuarioController");
-
-		SessaoSistema.setCodigodMensagem(0);
-		
-		usuario = new Usuario();
-
-		usuario.setIdUsuario(idUsuario);
-
-		// Consulta os dados do Usuario selecionado
-		usuario = usuarioModel.consultaUsuarioModel(usuario);
-
-		if (SessaoSistema.getCodigodMensagem() == 0) {
-
-			// Consulta se é amigo
-
-			AmigosModel amigosModel = new AmigosModel();
-
-			relacionamento = amigosModel.validaAmigo(idUsuario);
-
-			if (relacionamento != null) {
-				isFriend = "amigo";
-			} else {
-				isFriend = "";
-			}
-
-			// Busca timeline do Usuario Selecionado
-			timelineList = timelineModel.listaTimelineUsuarioModel(idUsuario);
-
-			return "/paginas/timeline/usuarioTimelineView";
-
-		} else {
-			msgRetorno = "Usuário não encontrado. Favor verificar mais tarde.";
-			SessaoSistema.setCodigodMensagem(0);
-			SessaoSistema.setDescMensagem("");
-			return msgRetorno;
-		}
-
-	}
 
 	/**
 	 * Publica o Post que o Usuario logado informou

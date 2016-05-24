@@ -14,17 +14,6 @@ no excluir Usuario: excluir CODIGO_AMIGO e todos os demais relacionamentos!! Ami
 foto timeline
 
 
-MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP 
-quando adionar carro - publicar timeline
-quando adionar acessorio - publicar timeline
-timeline (bootstrap)
-detalheTimeline (bootstrap)
-usuario (bootstrap)
-fotos carros/acessorios
-MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP MAZER FDP 
-
-
-
+no detalhe do usuario, ta trazendo timeline do usuario logado
 validar formato template do professor (comentarios)
-preparar carga de INserts de tudo
 no detalhes usuario da timeline, opcao de adicionar/excluir amigo

@@ -12,10 +12,12 @@ import javax.inject.Named;
 
 import opet.mygarage.model.AmigosModel;
 import opet.mygarage.model.CarroModel;
+import opet.mygarage.model.TimelineModel;
 import opet.mygarage.model.UsuarioModel;
 import opet.mygarage.util.SessaoSistema;
 import opet.mygarage.vo.Carro;
 import opet.mygarage.vo.Relacionamento;
+import opet.mygarage.vo.Timeline;
 import opet.mygarage.vo.Usuario;
 
 @Named("amigosBean")
@@ -58,6 +60,9 @@ public class AmigosBean  implements Serializable{
 	
 	private String nomeBusca;
 	
+	private List<Timeline> timelineList;
+	
+
 
 
 	/*
@@ -121,8 +126,6 @@ public class AmigosBean  implements Serializable{
 			isFriend = null;
 		}
 		
-		System.out.println("AmigosBean::consultaUsuarioAmigoController");
-		
 		usuarioList = null;
 		
 		UsuarioModel usuarioModel = new UsuarioModel();
@@ -150,6 +153,11 @@ public class AmigosBean  implements Serializable{
 			setCarrosList(new ArrayList<>());
 			CarroModel carroModel = new CarroModel();			
 			setCarrosList(carroModel.listaCarrosModel(idUsuario));	
+			
+			// Recupera Timeline/Feed
+			TimelineModel timelineModel = new TimelineModel();
+			timelineList = timelineModel.listaTimelineUsuarioModel(idUsuario);
+
 			
 			return "/paginas/amigos/usuarioAmigoView";
 
@@ -320,6 +328,23 @@ public class AmigosBean  implements Serializable{
 	 */
 	public void setCarrosList(List<Carro> carrosList) {
 		this.carrosList = carrosList;
+	}
+	
+
+
+	/**
+	 * @return the timelineList
+	 */
+	public List<Timeline> getTimelineList() {
+		return timelineList;
+	}
+
+
+	/**
+	 * @param timelineList the timelineList to set
+	 */
+	public void setTimelineList(List<Timeline> timelineList) {
+		this.timelineList = timelineList;
 	}
 
 

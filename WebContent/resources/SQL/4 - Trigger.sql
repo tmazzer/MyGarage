@@ -1,3 +1,7 @@
+--//// ATENCAO//////
+-- Executar separadamente:
+
+
 create or replace TRIGGER AUDITORIA_USUARIO
 BEFORE UPDATE OR DELETE ON USUARIO
 FOR EACH ROW

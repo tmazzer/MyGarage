@@ -1,3 +1,10 @@
+
+
+--//// ATENCAO//////
+-- Executar separadamente as functions
+
+
+
 CREATE OR REPLACE FUNCTION COUNT_LIKES
 (F_IDTIMELINE IN INTEGER)
  RETURN INTEGER

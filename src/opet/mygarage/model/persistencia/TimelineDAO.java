@@ -49,8 +49,6 @@ public class TimelineDAO implements ITimelineDAO {
 
 		ResultSet resultSet = null;
 
-		CallableStatement callstmt = null;
-
 		Timeline timeline;
 
 		timelineList = new ArrayList<>();
@@ -60,6 +58,8 @@ public class TimelineDAO implements ITimelineDAO {
 		String query = null;
 
 		ResultSet resultSetLike = null;
+		
+		CallableStatement callstmt = null;
 
 		try {
 			connection = ConnectionFactory.getConnection();
@@ -131,8 +131,8 @@ public class TimelineDAO implements ITimelineDAO {
 				} catch (SQLException e) {
 					SessaoSistema.setCodigodMensagem(106);
 					SessaoSistema.setDescMensagem("Erro ao executar Function COUNT_LIKES!");
-					System.out.println("LOG::TimelineAcaoDAO::countLikeTimelineAcao " + SessaoSistema.getDescMensagem());
-					System.out.println("LOG::TimelineAcaoDAO::countLikeTimelineAcao::  " + e);
+					System.out.println("LOG::TimelineAcaoDAO::listaTimelineDAO " + SessaoSistema.getDescMensagem());
+					System.out.println("LOG::TimelineAcaoDAO::listaTimelineDAO::  " + e);
 					e.printStackTrace();
 					return null;
 				}
@@ -152,9 +152,9 @@ public class TimelineDAO implements ITimelineDAO {
 					
 				} catch (SQLException e) {
 					SessaoSistema.setCodigodMensagem(106);
-					SessaoSistema.setDescMensagem("Erro ao executar Function COUNT_LIKES!");
-					System.out.println("LOG::TimelineAcaoDAO::countLikeTimelineAcao " + SessaoSistema.getDescMensagem());
-					System.out.println("LOG::TimelineAcaoDAO::countLikeTimelineAcao::  " + e);
+					SessaoSistema.setDescMensagem("Erro ao executar Function COUNT_COMENTARIOS!");
+					System.out.println("LOG::TimelineAcaoDAO::listaTimelineDAO " + SessaoSistema.getDescMensagem());
+					System.out.println("LOG::TimelineAcaoDAO::listaTimelineDAO::  " + e);
 					e.printStackTrace();
 					return null;
 				}
@@ -199,6 +199,10 @@ public class TimelineDAO implements ITimelineDAO {
 		String query = null;
 
 		ResultSet resultSet = null;
+		
+		ResultSet resultSetLike = null;
+		
+		CallableStatement callstmt = null;
 
 		try {
 			connection = ConnectionFactory.getConnection();
@@ -206,11 +210,13 @@ public class TimelineDAO implements ITimelineDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::TimelineDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("TimelineDAO::listaTimelineUsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
-			query = "SELECT * FROM TIMELINE " + "WHERE USUARIO_IDUSUARIO = ? " + "ORDER BY DATACADASTRO";
+			query = "SELECT * FROM TIMELINE " 
+					+ "WHERE USUARIO_IDUSUARIO = ? " 
+					+ "ORDER BY DATACADASTRO";
 
 			// CAMPOS:
 			// IDTIMELINE - Integer
@@ -239,20 +245,95 @@ public class TimelineDAO implements ITimelineDAO {
 					timeline.setDescricao(resultSet.getString("DESCRICAO"));
 					timeline.setDataCadastro(resultSet.getDate("DATACADASTRO"));
 
+					
+					
+					// INICIO - Validar se o usurio logado deu like no timeline
+					try {
+						query = "SELECT * FROM TIMELINE_ACAO WHERE " + "USUARIO_IDUSUARIO = ? AND " // 1
+								+ "TIMELINE_IDTIMELINE = ? AND " // 2
+								+ "CURTIR = 'S'";
+
+						preparedStatement = connection.prepareStatement(query);
+
+						preparedStatement.setInt(1, SessaoSistema.getIdUsuarioLogado());
+						preparedStatement.setInt(2, timeline.getIdTimeline());
+
+						resultSetLike = preparedStatement.executeQuery();
+
+						if (resultSetLike.next()) {
+							timeline.setLike("S");
+						} else {
+							timeline.setLike(null);
+						}
+					} catch (SQLException e) {
+						SessaoSistema.setCodigodMensagem(106);
+						SessaoSistema.setDescMensagem("Erro ao executar select!");
+						System.out.println("TimelineDAO::listaTimelineUsuarioDAO:: " + SessaoSistema.getDescMensagem());
+						System.out.println("TimelineDAO::listaTimelineUsuarioDAO::ERRO::  " + e);
+						e.printStackTrace();
+						return null;
+					}
+					// FIM - Validar se o usurio logado deu like no timeline listado
+					
+					
+					// INICIO - Recupera quantidade de likes em cada post
+					try {
+						callstmt = connection.prepareCall("{ CALL ? := COUNT_LIKES(?)}");
+						
+						callstmt.registerOutParameter(1, OracleTypes.INTEGER);
+						
+						callstmt.setInt(2, timeline.getIdTimeline());
+						
+						callstmt.execute();
+					
+						timeline.setQtddLike(callstmt.getInt(1));
+						
+					} catch (SQLException e) {
+						SessaoSistema.setCodigodMensagem(106);
+						SessaoSistema.setDescMensagem("Erro ao executar Function COUNT_LIKES!");
+						System.out.println("LOG::TimelineAcaoDAO::listaTimelineUsuarioDAO " + SessaoSistema.getDescMensagem());
+						System.out.println("LOG::TimelineAcaoDAO::listaTimelineUsuarioDAO::  " + e);
+						e.printStackTrace();
+						return null;
+					}
+					// FIM - Recupera quantidade de LIKES em cada post
+					
+					// INICIO - Recupera quantidade de COMENTARIOS em cada post
+					try {
+						callstmt = connection.prepareCall("{ CALL ? := COUNT_COMENTARIOS(?)}");
+						
+						callstmt.registerOutParameter(1, OracleTypes.INTEGER);
+						
+						callstmt.setInt(2, timeline.getIdTimeline());
+						
+						callstmt.execute();
+					
+						timeline.setQtddComentarios(callstmt.getInt(1));
+						
+					} catch (SQLException e) {
+						SessaoSistema.setCodigodMensagem(106);
+						SessaoSistema.setDescMensagem("Erro ao executar Function COUNT_COMENTARIOS!");
+						System.out.println("LOG::TimelineAcaoDAO::listaTimelineUsuarioDAO " + SessaoSistema.getDescMensagem());
+						System.out.println("LOG::TimelineAcaoDAO::listaTimelineUsuarioDAO::  " + e);
+						e.printStackTrace();
+						return null;
+					}
+					// FIM - Recupera quantidade de likes em cada post		
+					
 					timelineList.add(timeline);
 				}
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
 				SessaoSistema.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::TimelineDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("TimelineDAO::listaTimelineUsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				timelineList = null;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(103);
 			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::TimelineDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::TimelineDAO::ERRO::  " + e);
+			System.out.println("TimelineDAO::listaTimelineUsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("TimelineDAO::listaTimelineUsuarioDAO::ERRO::  " + e);
 			e.printStackTrace();
 			timelineList = null;
 		} finally {
