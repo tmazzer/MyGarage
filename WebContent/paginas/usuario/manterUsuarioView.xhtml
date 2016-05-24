@@ -43,7 +43,7 @@
 
 	<h:outputText value="#{usuarioBean.msgRetorno}" styleClass="msgInfo" />
 
-	<h:form id="inputForm">
+	<h:form id="inputForm" enctype="multipart/form-data">
 		<h:messages styleClass="msgWarn2" />
 		<b:container>
 			<h:panelGrid>
@@ -78,6 +78,10 @@
 				<b:inputText id="inputSenha" value="#{usuarioBean.usuario.senha}"
 					label="Senha" maxlength="50" size="50" required="true" />
 				<h:outputText />
+				
+				
+				<h:outputLabel value="Foto" for="inputFoto" />
+				<h:inputFile id="inputFoto" value="#{usuarioBean.uploadedPhoto}" />
 
 				<h:outputText />
 				<b:commandButton value="Confirmar"

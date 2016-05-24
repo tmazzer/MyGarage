@@ -119,8 +119,11 @@ public class CarroBean implements Serializable {
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		// Seta foto do Carro
-		//carro.setFoto(upload.extractFileName(uploadedPhoto));
+		// Upload foto
+        String diretorio = "USUARIO\\" + carro.getUsuarioIdUsuario();
+        String fileName = "car_" + carro.getApelido() + ".jpg";
+        uploadFoto(diretorio, fileName);
+        carro.setFoto(upload.extractFileName(uploadedPhoto));
 
 		// Processamento dos dados
 
@@ -293,8 +296,11 @@ public class CarroBean implements Serializable {
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		// Seta foto do Acessorio
-		//acessorios.setFoto(upload.extractFileName(uploadedPhoto));
+		// Upload foto
+        String diretorio = "USUARIO\\" + carro.getUsuarioIdUsuario();
+        String fileName = "ace_" + acessorios.getNome() + ".jpg";
+        uploadFoto(diretorio, fileName);
+        carro.setFoto(upload.extractFileName(uploadedPhoto));
 
 		// Processamento dos dados
 
@@ -336,16 +342,13 @@ public class CarroBean implements Serializable {
 	 * Metodo responsavel por fazer Upload da foto do usuario.
 	 * 
 	 */
-	public void uploadFoto() {
-//		try {
-//			upload = Upload.getInstance();
-//			upload.write(uploadedPhoto);
-//
-//			System.out.println("Foto carregada: " + carro.getApelido());
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-	}
+    public void uploadFoto(String diretorio, String fileName){
+        try {
+            upload = Upload.getInstance();
+            upload.write(uploadedPhoto, diretorio, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

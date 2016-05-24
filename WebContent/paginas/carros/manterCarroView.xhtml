@@ -39,7 +39,7 @@
 		</h3>
 	</b:container>
 	<b:container layout="fluid">
-		<h:form id="inputForm">
+		<h:form id="inputForm"  enctype="multipart/form-data">
 			<h:messages styleClass="msgWarn2" />
 			<h:panelGrid>
 				<h:outputLabel value="Código"
@@ -97,7 +97,11 @@
 					value="#{carroBean.carro.quilometragem}" label="Quilometragem"
 					maxlength="50" size="50" required="true" />
 				<h:outputText />
-
+					
+									
+				<h:outputLabel value="Foto" for="inputFoto" />
+				<h:inputFile id="inputFoto" value="#{carroBean.uploadedPhoto}" />
+				
 
 				<b:commandButton action="#{carroBean.salvarCarroController()}"
 					rendered="#{empty carroBean.carro.idCarro}" value="Adicionar"
@@ -106,6 +110,7 @@
 				<b:commandButton action="#{carroBean.salvarCarroController()}"
 					rendered="#{!empty carroBean.carro.idCarro}" value="Alterar"
 					look="primary" icon="pencil" />
+
 
 				<br></br>
 				<br></br>

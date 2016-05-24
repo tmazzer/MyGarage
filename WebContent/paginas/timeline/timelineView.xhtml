@@ -12,12 +12,16 @@
 </h:head>
 
 <h:body onload="#{timelineBean.inicializaPagina()}">
+
+
 	<b:container styleClass="col-lg-12"
 		style="height: 60px; background: #CECECE; margin-bottom: 20px;">
-	<h3 style="float: left; font-family: 'Tahoma'; font-weight: bold;">MY GARAGE</h3>
+		<h3 style="float: left; font-family: 'Tahoma'; font-weight: bold;">MY
+			GARAGE</h3>
 		<h:form>
 			<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
-				styleClass="btn btn-danger" iconAwesome="sign-out" style="float: right; margin-top: 10px;" />
+				styleClass="btn btn-danger" iconAwesome="sign-out"
+				style="float: right; margin-top: 10px;" />
 		</h:form>
 	</b:container>
 	<b:container style="padding: 0;">
@@ -25,8 +29,10 @@
 			<b:container styleClass="col-lg-12" style="padding: 0">
 				<b:container styleClass="col-lg-3" style="padding: 0">
 					<h:form id="foto">
-						<img src="../resources/images/orly.jpg" class="img-thumbnail" />
-
+						<h:graphicImage library="images" rendered="true"
+							name="USUARIO/#{timelineBean.usuario.idUsuario}/user_#{timelineBean.usuario.idUsuario}.jpg" />
+						<br></br>
+						
 						<b:container>
 							<h:outputText value="#{timelineBean.msgWelcome}" />
 						</b:container>
@@ -46,7 +52,8 @@
 
 				<b:container styleClass="col-lg-6">
 					<h:form id="timeline">
-						<b:inputTextarea id="inputDescricao" label="No que você esta pensando:" 
+						<b:inputTextarea id="inputDescricao"
+							label="No que você esta pensando:"
 							value="#{timelineBean.timeline.descricao}" maxlength="450"
 							cols="40" rows="3" styleClass="form-control" />
 
@@ -100,7 +107,8 @@
 										styleClass="btn btn-primary" style="margin-right: 5px;"
 										size="xs" iconAwesome="fa-thumbs-up" />
 
-									<b:commandButton value="Comentar #{timelineLinha.qtddComentarios}"
+									<b:commandButton
+										value="Comentar #{timelineLinha.qtddComentarios}"
 										action="#{timelineBean.consultaDetalhesPostController(timelineLinha)}"
 										styleClass="btn btn-info" style="margin-right: 5px;" size="xs"
 										iconAwesome="comments" />
@@ -132,7 +140,8 @@
 									<f:facet name="header">
 										<h:outputLabel value="Seus últimos amigos cadastrados:" />
 									</f:facet>
-									<h:commandLink value="#{amigoLinha.nome} #{amigoLinha.sobrenome}"
+									<h:commandLink
+										value="#{amigoLinha.nome} #{amigoLinha.sobrenome}"
 										action="#{amigosBean.consultaUsuarioAmigoController(amigoLinha.idUsuario)}" />
 
 									<b:row styleClass="col-lg-12">

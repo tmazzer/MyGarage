@@ -12,14 +12,14 @@ END COUNT_LIKES;
 
 
 
-CREATE OR REPLACE Function consulta_nome
-(p_id_funcionario in integer)
- return varchar
+create or replace FUNCTION COUNT_COMENTARIOS
+(F_IDTIMELINE IN INTEGER)
+ RETURN INTEGER
 IS
-  p_nome varchar2(20);
+  F_COUNT INTEGER;
 BEGIN
-SELECT nome_funcionario into p_nome
-  FROM salario
- WHERE id_pessoa = p_id_funcionario;
- return  P_nome;
-END consulta_nome;
+    SELECT COUNT(*) INTO F_COUNT
+    FROM TIMELINE_ACAO
+    WHERE TIMELINE_IDTIMELINE = F_IDTIMELINE AND COMENTARIO IS NOT NULL;
+  RETURN  F_COUNT;  
+END COUNT_COMENTARIOS;

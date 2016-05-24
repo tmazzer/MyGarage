@@ -11,7 +11,7 @@ public class Upload {
     private Upload() {}
 
     public void write(Part part, String diretorio, String fileName) throws IOException {
-        String filePath = "C:\\MyGarage\\img\\" + diretorio;
+        String filePath = "C:\\DEV\\workspace\\MyGarage\\WebContent\\resources\\images\\" + diretorio;
 //        String filePath = "resources\\images\\" + diretorio;
 
         File fileSaveDir = new File(filePath);

@@ -37,7 +37,7 @@
 		</h3>
 	</b:container>
 	<b:container layout="fluid">
-		<h:form id="inputForm">
+		<h:form id="inputForm"  enctype="multipart/form-data">
 			<h:messages styleClass="msgWarn2" />
 			<h:panelGrid>
 				<h:outputLabel value="Código"
@@ -70,6 +70,10 @@
 				<b:inputText id="inputModelo" value="#{carroBean.acessorios.modelo}"
 					label="Modelo" maxlength="50" size="50" />
 				<h:outputText />
+				
+													
+				<h:outputLabel value="Foto" for="inputFoto" />
+				<h:inputFile id="inputFoto" value="#{carroBean.uploadedPhoto}" />
 
 				<b:commandButton action="#{carroBean.salvarAcessoriosController()}"
 					rendered="#{empty carroBean.acessorios.idAcessorios}"

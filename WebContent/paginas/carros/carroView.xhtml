@@ -18,8 +18,8 @@
 			<b:container>
 				<b:commandButton value="Home"
 					action="/paginas/timeline/timelineView" look="primary" icon="home"
-					style="margin-top: 10px;"/>
-				
+					style="margin-top: 10px;" />
+
 				<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
 					styleClass="btn btn-danger" iconAwesome="sign-out"
 					style="margin-top: 10px; margin-left: 5px;" />
@@ -37,9 +37,10 @@
 	<b:container layout="fluid">
 		<h:form id="inputForm">
 			<h:panelGrid columns="2">
-				<h:outputLabel value="Foto:" />
-				<h:graphicImage name="/images/#{carroBean.carro.foto}" />
-				
+			
+				<h:graphicImage library="images" rendered="true"
+					name="USUARIO/#{carroBean.carro.usuarioIdUsuario}/car_#{carroBean.carro.apelido}.jpg" />
+
 				<h:outputLabel value="Codigo: " />
 				<h:outputText value="#{carroBean.carro.idCarro}" />
 

@@ -20,8 +20,8 @@
 			<b:container>
 				<b:commandButton value="Home"
 					action="/paginas/timeline/timelineView" look="primary" icon="home"
-					style="margin-top: 10px;"/>
-				
+					style="margin-top: 10px;" />
+
 				<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
 					styleClass="btn btn-danger" iconAwesome="sign-out"
 					style="margin-top: 10px; margin-left: 5px;" />
@@ -39,11 +39,10 @@
 		<h:outputText value="#{usuarioBean.msgRetorno}" styleClass="msgInfo" />
 		<h:form id="inputForm">
 			<h:panelGrid columns="2">
-
-				<h:graphicImage rendered="true"
-					name="/images/#{usuarioBean.usuario.foto}" />
-				<br></br>
-
+				<h:graphicImage
+					library="images"  rendered="true"
+						name="USUARIO/#{usuarioBean.usuario.idUsuario}/user_#{usuarioBean.usuario.idUsuario}.jpg" />
+					
 				<h:outputLabel value="Codigo: " />
 				<h:outputText value="#{usuarioBean.usuario.idUsuario}" />
 
@@ -52,7 +51,7 @@
 
 				<h:outputLabel value="Sobrenome: " />
 				<h:outputText value="#{usuarioBean.usuario.sobrenome}" />
-
+ 	
 				<h:outputLabel value="Telefone: " />
 				<h:outputText value="#{usuarioBean.usuario.telefone}" />
 
@@ -61,6 +60,8 @@
 
 				<h:outputLabel value="Senha: " />
 				<h:outputText value="#{usuarioBean.usuario.senha}" />
+
+
 
 			</h:panelGrid>
 
@@ -71,7 +72,8 @@
 			<b:commandButton action="#{usuarioBean.excluiUsuarioController()}"
 				value="Excluir"
 				onclick="if(!confirm('Confirma a exclusão do #{usuarioBean.usuario.nome}?')) return false"
-				styleClass="btn btn-danger" iconAwesome="remove" style="margin-left: 5px" />
+				styleClass="btn btn-danger" iconAwesome="remove"
+				style="margin-left: 5px" />
 			<h:outputText />
 		</h:form>
 	</b:container>
