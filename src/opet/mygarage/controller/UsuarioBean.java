@@ -51,6 +51,8 @@ public class UsuarioBean implements Serializable {
 	private Part uploadedPhoto;
 	
 	private Upload upload;
+	
+	private String emailAnterior;
 		
 	
 	/*
@@ -95,10 +97,10 @@ public class UsuarioBean implements Serializable {
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-        String diretorio = "USUARIO\\" + usuario.getIdUsuario();
-        String fileName = "user_" + usuario.getIdUsuario() + ".jpg";
-        uploadFoto(diretorio, fileName);
-        usuario.setFoto(upload.extractFileName(uploadedPhoto));
+        
+        if (uploadedPhoto != null){
+        	usuario.setFoto("S");
+        }        
 
 		// Processamento dos dados
 		
@@ -109,27 +111,40 @@ public class UsuarioBean implements Serializable {
 			if (SessaoSistema.getCodigodMensagem() == 0){
 				usuario = new Usuario();
 				msgRetorno = "Usuário cadastrado com sucesso";
+				
+				//Salva foto
+				if (uploadedPhoto != null){
+			        String diretorio = "USUARIO\\" + usuario.getIdUsuario();        
+			        String fileName = "user_" + usuario.getIdUsuario() + ".jpg";
+			        uploadFoto(diretorio, fileName);
+				}
+				uploadedPhoto = null;
+				
 				return "/paginas/timeline/timelineView";	
 			}else {
-				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
-	
 				return msgRetorno = SessaoSistema.getDescMensagem();
 			}
 		}else
 		{
 			///////Altera Usuario
-			this.usuario = usuarioModel.alteraUsuarioModel(usuario);
+			this.usuario = usuarioModel.alteraUsuarioModel(usuario, emailAnterior);
 			
 			if (SessaoSistema.getCodigodMensagem() == 0){
 				usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
 				this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 				msgRetorno = "Usuário Alterado com sucesso";
+				
+				//Salva foto
+				if (uploadedPhoto != null){
+			        String diretorio = "USUARIO\\" + usuario.getIdUsuario();        
+			        String fileName = "user_" + usuario.getIdUsuario() + ".jpg";
+			        uploadFoto(diretorio, fileName);
+				}
+				uploadedPhoto = null;
+				emailAnterior = null;
+				
 				return "/paginas/usuario/usuarioView";
 			}else {
-				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, " : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
-	
 				msgRetorno = SessaoSistema.getDescMensagem();
 				SessaoSistema.setCodigodMensagem(0);
 				SessaoSistema.setDescMensagem("");				
@@ -194,6 +209,8 @@ public class UsuarioBean implements Serializable {
 		msgRetorno = "";
 		
 		usuario.setIdUsuario(SessaoSistema.getIdUsuarioLogado());
+		
+		emailAnterior = usuario.getEmail();		
 
 		this.usuario = usuarioModel.consultaUsuarioModel(usuario);
 		
@@ -282,6 +299,24 @@ public class UsuarioBean implements Serializable {
 	 */
 	public void setUploadedPhoto(Part uploadedPhoto) {
 		this.uploadedPhoto = uploadedPhoto;
+	}
+
+
+
+	/**
+	 * @return the emailAnterior
+	 */
+	public String getEmailAnterior() {
+		return emailAnterior;
+	}
+
+
+
+	/**
+	 * @param emailAnterior the emailAnterior to set
+	 */
+	public void setEmailAnterior(String emailAnterior) {
+		this.emailAnterior = emailAnterior;
 	}
 
 }

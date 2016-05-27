@@ -123,4 +123,14 @@ public class PersistenciaCarro implements ICarroDAO {
 		return carroDAO.listaAcessoriosDAO(carro);
 	}
 
+	@Override
+	public Boolean validaApelidoCarroDAO(Integer idUsuario, String apelidoCarro) {
+		return carroDAO.validaApelidoCarroDAO(idUsuario, apelidoCarro);
+	}
+
+	@Override
+	public Boolean validaNomeAcessorioDAO(Integer idCarro, String nomeAcessorio) {
+		return carroDAO.validaNomeAcessorioDAO(idCarro, nomeAcessorio);
+	}
+
 }

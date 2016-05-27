@@ -73,6 +73,8 @@
 				<b:inputText id="inputEmail" value="#{usuarioBean.usuario.email}"
 					label="Email" maxlength="50" size="50" required="true" />
 				<h:outputText />
+				
+				<h:inputHidden value="#{usuarioBean.emailAnterior}" />
 
 				<h:outputLabel for="inputSenha" />
 				<b:inputText id="inputSenha" value="#{usuarioBean.usuario.senha}"
@@ -91,6 +93,7 @@
 			</h:panelGrid>
 		</b:container>
 	</h:form>
+	<hr />
 	<b:container style="margin-left: 290px; margin-top: -33px;"
 		styleClass="col-lg-6">
 		<h:form id="linkVoltar">
@@ -99,12 +102,9 @@
 				iconAwesome="remove"
 				rendered="#{!empty usuarioBean.usuario.idUsuario}" />
 
-			<b:commandButton value="Cancelar" action="/paginas/loginView"
-				styleClass="btn btn-danger" iconAwesome="remove"
-				rendered="#{empty usuarioBean.usuario.idUsuario}" />
 		</h:form>
 	</b:container>
-	<hr />
+
 
 
 </h:body>

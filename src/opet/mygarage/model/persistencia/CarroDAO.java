@@ -61,7 +61,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::cadastraCarroDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -161,20 +161,56 @@ public class CarroDAO implements ICarroDAO {
 			count = new Integer(preparedStatement.executeUpdate());
 
 			if (count.equals(1)) {
-				System.out.println("LOG::DAO:Insert com sucesso");
+			
+				//recuperar ID do CARRO										
+				try {
+					ResultSet resultSet = null;
+					
+					query = "SELECT IDCARRO FROM CARRO "
+							+ "WHERE APELIDOCARRO = ? AND "
+							+ "MARCA = ? AND "
+							+ "MODELO = ? ";
+
+					preparedStatement = connection.prepareStatement(query);
+
+					preparedStatement.setString(1, carro.getApelido());
+					preparedStatement.setString(2, carro.getMarca());
+					preparedStatement.setString(3, carro.getModelo());					
+					
+					resultSet = preparedStatement.executeQuery();
+
+					if (resultSet.next()) {
+						carro.setIdCarro(resultSet.getInt("IDCARRO"));
+					} else {
+						SessaoSistema.setCodigodMensagem(100);
+						SessaoSistema.setDescMensagem("Select não retornou dados");
+						System.out.println("CarroDAO::cadastraCarroDAO:: " + SessaoSistema.getDescMensagem());
+						return null;
+					}
+
+				} catch (SQLException e) {
+					SessaoSistema.setCodigodMensagem(103);
+					SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+					System.out.println("CarroDAO::cadastraCarroDAO:: " + SessaoSistema.getDescMensagem());
+					System.out.println("CarroDAO::cadastraCarroDAO::ERRO::  " + e);
+					carro = null;
+					e.printStackTrace();
+				}
+				
+				System.out.println("CarroDAO::cadastraCarroDAO::Insert com sucesso");
 				connection.commit();
 				SessaoSistema.setCodigodMensagem(0);
 			} else {
 				SessaoSistema.setCodigodMensagem(105);
 				SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::cadastraCarroDAO:: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(105);
 			SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
-			System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			System.out.println("CarroDAO::cadastraCarroDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::cadastraCarroDAO::ERRO::  " + e);
 			carro = null;
 
 			e.printStackTrace();
@@ -203,7 +239,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::consultaCarroDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -233,15 +269,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
 				SessaoSistema.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::consultaCarroDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(103);
 			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			System.out.println("CarroDAO::consultaCarroDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::consultaCarroDAO::ERRO::  " + e);
 			carro = null;
 			e.printStackTrace();
 		}
@@ -268,7 +304,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::excluiCarroDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 			
@@ -300,15 +336,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(102);
 				SessaoSistema.setDescMensagem("Erro ao excluir os dados! Usuario não encontrado");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::excluiCarroDAO:: " + SessaoSistema.getDescMensagem());
 				return false;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(102);
 			SessaoSistema.setDescMensagem("Erro ao excluir os dados!");
-			System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			System.out.println("CarroDAO::excluiCarroDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::excluiCarroDAO::ERRO::  " + e);
 			e.printStackTrace();
 			return false;
 		}
@@ -334,7 +370,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::alteraCarroDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -452,14 +488,14 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(104);
 				SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
-				System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::alteraCarroDAO:: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(104);
 			SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
-			System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::CarroDAO::ERRO::  " + e);
+			System.out.println("CarroDAO::alteraCarroDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::alteraCarroDAO::ERRO::  " + e);
 			carro = null;
 
 			e.printStackTrace();
@@ -491,7 +527,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::listaCarrosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -575,15 +611,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
 				SessaoSistema.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::listaCarrosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(103);
 			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::CarroDAO::ERRO::  " + e);
+			System.out.println("CarroDAO::listaCarrosDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::listaCarrosDAO::ERRO::  " + e);
 			carro = null;
 			e.printStackTrace();
 		} finally {
@@ -610,7 +646,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::cadastraAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -664,20 +700,56 @@ public class CarroDAO implements ICarroDAO {
 			count = new Integer(preparedStatement.executeUpdate());
 
 			if (count.equals(1)) {
-				System.out.println("LOG::DAO:Insert com sucesso");
+				
+				
+				try {
+					ResultSet resultSet = null;
+					
+					query = "SELECT IDACESSORIOS FROM ACESSORIOS "
+							+ "WHERE CARRO_IDCARRO = ? "
+							+ "AND NOME = ? "
+							+ "AND MARCA = ?";
+
+					preparedStatement = connection.prepareStatement(query);					
+					
+					preparedStatement.setInt(1, carro.getIdCarro());
+					preparedStatement.setString(2, acessorios.getNome());
+					preparedStatement.setString(3, acessorios.getMarca());
+
+					resultSet = preparedStatement.executeQuery();
+
+					if (resultSet.next()) {
+						acessorios.setIdAcessorios(resultSet.getInt("IDACESSORIOS"));
+					} else {
+						SessaoSistema.setCodigodMensagem(100);
+						SessaoSistema.setDescMensagem("Select não retornou dados");
+						System.out.println("CarroDAO::cadastraAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
+						acessorios = null;
+					}
+
+				} catch (SQLException e) {
+					SessaoSistema.setCodigodMensagem(103);
+					SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+					System.out.println("CarroDAO::cadastraAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
+					System.out.println("CarroDAO::cadastraAcessoriosDAO::ERRO::  " + e);
+					acessorios = null;
+					e.printStackTrace();
+				}							
+				
+				System.out.println("CarroDAO::cadastraAcessoriosDAO:Insert com sucesso");
 				connection.commit();
 				SessaoSistema.setCodigodMensagem(0);
 			} else {
 				SessaoSistema.setCodigodMensagem(105);
 				SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::cadastraAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(105);
 			SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
-			System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			System.out.println("CarroDAO::cadastraAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::cadastraAcessoriosDAO::ERRO::  " + e);
 			carro = null;
 
 			e.printStackTrace();
@@ -702,7 +774,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::consultaAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -728,15 +800,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
 				SessaoSistema.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::consultaAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(103);
 			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			System.out.println("CarroDAO::consultaAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::consultaAcessoriosDAO::ERRO::  " + e);
 			acessorios = null;
 			e.printStackTrace();
 		}
@@ -759,7 +831,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::excluiAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -781,15 +853,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(102);
 				SessaoSistema.setDescMensagem("Erro ao excluir os dados! Usuario não encontrado");
-				System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::excluiAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return false;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(102);
 			SessaoSistema.setDescMensagem("Erro ao excluir os dados!");
-			System.out.println("LOG::DAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::DAO::ERRO::  " + e);
+			System.out.println("CarroDAO::excluiAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::excluiAcessoriosDAO::ERRO::  " + e);
 			e.printStackTrace();
 			return false;
 		}
@@ -810,7 +882,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::alteraAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -877,14 +949,14 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(104);
 				SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
-				System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::alteraAcessoriosDAO::: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(104);
 			SessaoSistema.setDescMensagem("Erro ao Atualizar os dados!");
-			System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::CarroDAO::ERRO::  " + e);
+			System.out.println("CarroDAO::alteraAcessoriosDAO::: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::alteraAcessoriosDAO:::ERRO::  " + e);
 			acessorios = null;
 
 			e.printStackTrace();
@@ -913,7 +985,7 @@ public class CarroDAO implements ICarroDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::listaAcessoriosDAO::: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
@@ -969,15 +1041,15 @@ public class CarroDAO implements ICarroDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(100);
 				SessaoSistema.setDescMensagem("Select não retornou dados");
-				System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("CarroDAO::listaAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(103);
 			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
-			System.out.println("LOG::CarroDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::CarroDAO::ERRO::  " + e);
+			System.out.println("CarroDAO::listaAcessoriosDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::listaAcessoriosDAO::  " + e);
 			acessorios = null;
 			e.printStackTrace();
 		} finally {
@@ -985,6 +1057,97 @@ public class CarroDAO implements ICarroDAO {
 		}
 
 		return acessoriosList;
+	}
+
+	@Override
+	public Boolean validaApelidoCarroDAO(Integer idUsuario, String apelidoCarro) {
+		
+		PreparedStatement preparedStatement = null;
+
+		String query = null;
+
+		ResultSet resultSet = null;
+
+		try {
+			connection = ConnectionFactory.getConnection();
+
+			if (connection == null) {
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("CarroDAO::validaApelidoCarroDAO:: " + SessaoSistema.getDescMensagem());
+				return null;
+			}
+
+			query = "SELECT * FROM CARRO WHERE "
+					+ "USUARIO_IDUSUARIO = ? AND "
+					+ "APELIDOCARRO = ?";
+
+			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setInt(1, idUsuario);
+			preparedStatement.setString(2, apelidoCarro);
+
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			SessaoSistema.setCodigodMensagem(103);
+			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("CarroDAO::validaApelidoCarroDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::validaApelidoCarroDAO::ERRO::  " + e);
+			e.printStackTrace();
+			return null; 
+		}
+	}
+
+	@Override
+	public Boolean validaNomeAcessorioDAO(Integer idCarro, String nomeAcessorio) {
+		PreparedStatement preparedStatement = null;
+
+		String query = null;
+
+		ResultSet resultSet = null;
+
+		try {
+			connection = ConnectionFactory.getConnection();
+
+			if (connection == null) {
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("CarroDAO::validaNomeAcessorioDAO:: " + SessaoSistema.getDescMensagem());
+				return null;
+			}
+
+			query = "SELECT * FROM ACESSORIOS WHERE "
+					+ "CARRO_IDCARRO = ? AND "
+					+ "NOME = ?";
+
+			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setInt(1, idCarro);
+			preparedStatement.setString(2, nomeAcessorio);
+
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			SessaoSistema.setCodigodMensagem(103);
+			SessaoSistema.setDescMensagem("Erro ao consultar os dados!");
+			System.out.println("CarroDAO::validaNomeAcessorioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("CarroDAO::validaNomeAcessorioDAO::ERRO::  " + e);
+			e.printStackTrace();
+			return null; 
+		}
 	}
 
 }

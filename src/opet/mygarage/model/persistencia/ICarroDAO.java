@@ -23,11 +23,13 @@ public interface ICarroDAO {
 	public Carro consultaCarroDAO(Carro carro);
 	public Boolean excluiCarroDAO(Carro carro);
 	public Carro alteraCarroDAO(Carro carro);
+	public Boolean validaApelidoCarroDAO(Integer idUsuario, String apelidoCarro);
 	
 	public Acessorios cadastraAcessoriosDAO(Carro carro, Acessorios acessorios);
 	public Acessorios consultaAcessoriosDAO(Acessorios acessorios);
 	public Boolean excluiAcessoriosDAO(Acessorios acessorios);
 	public Acessorios alteraAcessoriosDAO(Acessorios acessorios);
 	public List<Carro> listaCarrosDAO(Integer idUsuario);
+	public Boolean validaNomeAcessorioDAO(Integer idCarro, String nomeAcessorio);
 	
 }

@@ -39,7 +39,7 @@
 			<h:panelGrid columns="2">
 			
 				<h:graphicImage library="images" rendered="true"
-					name="USUARIO/#{carroBean.carro.usuarioIdUsuario}/car_#{carroBean.carro.apelido}.jpg" />
+					name="USUARIO/#{carroBean.carro.usuarioIdUsuario}/car_#{carroBean.carro.idCarro}.jpg" />
 
 				<h:outputLabel value="Codigo: " />
 				<h:outputText value="#{carroBean.carro.idCarro}" />
@@ -73,6 +73,7 @@
 			</h:panelGrid>
 			<b:commandButton action="/paginas/carros/manterCarroView"
 				value="Alterar" look="info" icon="edit" style="margin-right: 5px;" />
+				
 			<b:commandButton action="#{carroBean.excluiCarroController()}"
 				value="Excluir"
 				onclick="if(!confirm('Confirma a exclusão do #{carroBean.carro.apelido}?')) return false"

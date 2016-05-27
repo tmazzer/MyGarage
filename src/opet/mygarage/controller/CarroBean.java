@@ -54,6 +54,12 @@ public class CarroBean implements Serializable {
 	private Part uploadedPhoto;
 	
 	private Upload upload;
+	
+	private String apelidoCarroAnterior;
+	
+	private String nomeAcessorioAnterior;
+
+
 
 	/*
 	 * Função construtora da classe
@@ -67,7 +73,6 @@ public class CarroBean implements Serializable {
 		carroModel = new CarroModel();
 
 		msgRetorno = "";
-		System.out.println("LOG::CarroBean:CONSTRUTOR");
 	}
 
 	/*
@@ -113,17 +118,14 @@ public class CarroBean implements Serializable {
 	}
 
 	public String salvarCarroController() {
-		System.out.println("LOG::CarroBean::salvarCarroController");
 
 		// Declaração de variáveis
 		msgRetorno = "";
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		// Upload foto
-        String diretorio = "USUARIO\\" + carro.getUsuarioIdUsuario();
-        String fileName = "car_" + carro.getApelido() + ".jpg";
-        uploadFoto(diretorio, fileName);
-        carro.setFoto(upload.extractFileName(uploadedPhoto));
+        if (uploadedPhoto != null){
+        	carro.setFoto("S");
+        }    
 
 		// Processamento dos dados
 
@@ -140,6 +142,15 @@ public class CarroBean implements Serializable {
 			this.carro = carroModel.cadastrarCarroModel(carro);
 
 			if (SessaoSistema.getCodigodMensagem() == 0) {
+							
+				//Upload foto
+				if (uploadedPhoto != null){
+			        String diretorio = "USUARIO\\" + SessaoSistema.getIdUsuarioLogado();
+			        String fileName = "car_" + carro.getIdCarro() + ".jpg";
+			        uploadFoto(diretorio, fileName);
+				}
+				
+				uploadedPhoto = null;
 				carro = new Carro();
 				msgRetorno = "Carro cadastrado com sucesso";
 				return "/paginas/carros/carroListaView";
@@ -161,10 +172,19 @@ public class CarroBean implements Serializable {
 			this.carro = carroModel.alteraCarroModel(carro);
 
 			if (SessaoSistema.getCodigodMensagem() == 0) {
+				
+				//Upload foto
+				if (uploadedPhoto != null){
+			        String diretorio = "USUARIO\\" + SessaoSistema.getIdUsuarioLogado();
+			        String fileName = "car_" + carro.getIdCarro() + ".jpg";
+			        uploadFoto(diretorio, fileName);
+				}
+				
+				uploadedPhoto = null;
 				carro = new Carro();
 				msgRetorno = "Carro alterado com sucesso";
+				
 				return "/paginas/carros/carroListaView";
-				// return msgRetorno = "Carro alterado com sucesso";
 			} else {
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						" : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
@@ -177,6 +197,106 @@ public class CarroBean implements Serializable {
 		}
 
 	}
+	
+	public String consultaAcessoriosController(Acessorios acessorios) {
+		this.acessorios = carroModel.consultaAcessoriosModel(acessorios);
+		return "/paginas/carros/acessoriosView";
+	}
+
+	public String telaAdicionarAcessorios() {
+		acessorios = new Acessorios();
+		return "/paginas/carros/manterAcessoriosView";
+	}
+
+	public String excluiAcessoriosController() {
+		if (carroModel.excluiAcessoriosModel(acessorios)) {
+			msgRetorno = "Acessorio excluido com sucesso";
+			return "/paginas/carros/acessoriosListaView";
+		} else {
+			return msgRetorno = "Problema ao Excluir Acessorio. Tente mais tarde";
+		}
+	}
+
+	public String salvarAcessoriosController() {
+		System.out.println("LOG::AcessoriosBean::salvarACessorioController");
+
+		// Declaração de variáveis
+		msgRetorno = "";
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		
+        if (uploadedPhoto != null){
+        	acessorios.setFoto("S");
+        }  
+
+		// Processamento dos dados
+
+		if (this.acessorios.getIdAcessorios() == null) {
+
+			this.acessorios = carroModel.cadastrarAcessoriosModel(carro, acessorios);
+
+			if (SessaoSistema.getCodigodMensagem() == 0) {
+				
+				//Upload foto
+				if (uploadedPhoto != null){
+					String diretorio = "USUARIO\\" + SessaoSistema.getIdUsuarioLogado();     
+					String fileName = "ace_" + acessorios.getIdAcessorios() + ".jpg";
+			        uploadFoto(diretorio, fileName);
+				}
+				uploadedPhoto = null;
+				acessorios = new Acessorios();
+				msgRetorno = "Acessorio cadastrado com sucesso";
+				
+				return "/paginas/carros/carroView";
+			} else {
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						" : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
+
+				return msgRetorno = SessaoSistema.getDescMensagem();
+			}
+		} else {
+			this.acessorios = carroModel.alteraAcessoriosModel(acessorios);
+
+			if (SessaoSistema.getCodigodMensagem() == 0) {
+				
+				//Upload foto
+				if (uploadedPhoto != null){
+					String diretorio = "USUARIO\\" + SessaoSistema.getIdUsuarioLogado();     
+					String fileName = "ace_" + acessorios.getIdAcessorios() + ".jpg";
+			        uploadFoto(diretorio, fileName);
+				}
+				
+				acessorios = new Acessorios();
+				msgRetorno = "Acessorio alterado com sucesso";
+				uploadedPhoto = null;
+				
+				return "/paginas/carros/carroView";
+			} else {
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						" : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
+
+				msgRetorno = SessaoSistema.getDescMensagem();
+				SessaoSistema.setCodigodMensagem(0);
+				SessaoSistema.setDescMensagem("");
+				return msgRetorno;
+			}
+		}
+
+	}
+
+	/**
+	 * Metodo responsavel por fazer Upload da foto do usuario.
+	 * 
+	 */
+    public void uploadFoto(String diretorio, String fileName){
+        try {
+            upload = Upload.getInstance();
+            upload.write(uploadedPhoto, diretorio, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
 
 	/**
 	 * @return the msgRetorno
@@ -269,86 +389,35 @@ public class CarroBean implements Serializable {
 	public void setUploadedPhoto(Part uploadedPhoto) {
 		this.uploadedPhoto = uploadedPhoto;
 	}
-
-	public String consultaAcessoriosController(Acessorios acessorios) {
-		this.acessorios = carroModel.consultaAcessoriosModel(acessorios);
-		return "/paginas/carros/acessoriosView";
-	}
-
-	public String telaAdicionarAcessorios() {
-		acessorios = new Acessorios();
-		return "/paginas/carros/manterAcessoriosView";
-	}
-
-	public String excluiAcessoriosController() {
-		if (carroModel.excluiAcessoriosModel(acessorios)) {
-			msgRetorno = "Acessorio excluido com sucesso";
-			return "/paginas/carros/acessoriosListaView";
-		} else {
-			return msgRetorno = "Problema ao Excluir Acessorio. Tente mais tarde";
-		}
-	}
-
-	public String salvarAcessoriosController() {
-		System.out.println("LOG::AcessoriosBean::salvarACessorioController");
-
-		// Declaração de variáveis
-		msgRetorno = "";
-		FacesContext context = FacesContext.getCurrentInstance();
-		
-		// Upload foto
-        String diretorio = "USUARIO\\" + carro.getUsuarioIdUsuario();
-        String fileName = "ace_" + acessorios.getNome() + ".jpg";
-        uploadFoto(diretorio, fileName);
-        carro.setFoto(upload.extractFileName(uploadedPhoto));
-
-		// Processamento dos dados
-
-		if (this.acessorios.getIdAcessorios() == null) {
-
-			this.acessorios = carroModel.cadastrarAcessoriosModel(carro, acessorios);
-
-			if (SessaoSistema.getCodigodMensagem() == 0) {
-				acessorios = new Acessorios();
-				msgRetorno = "Acessorio cadastrado com sucesso";
-				return "/paginas/carros/carroView";
-			} else {
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						" : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
-
-				return msgRetorno = SessaoSistema.getDescMensagem();
-			}
-		} else {
-			this.acessorios = carroModel.alteraAcessoriosModel(acessorios);
-
-			if (SessaoSistema.getCodigodMensagem() == 0) {
-				acessorios = new Acessorios();
-				msgRetorno = "Acessorio alterado com sucesso";
-				return "/paginas/carros/carroView";
-			} else {
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						" : Não foi possível salvar os dados: ", SessaoSistema.getDescMensagem()));
-
-				msgRetorno = SessaoSistema.getDescMensagem();
-				SessaoSistema.setCodigodMensagem(0);
-				SessaoSistema.setDescMensagem("");
-				return msgRetorno;
-			}
-		}
-
+	
+	/**
+	 * @return the apelidoCarroAnterior
+	 */
+	public String getApelidoCarroAnterior() {
+		return apelidoCarroAnterior;
 	}
 
 	/**
-	 * Metodo responsavel por fazer Upload da foto do usuario.
-	 * 
+	 * @param apelidoCarroAnterior the apelidoCarroAnterior to set
 	 */
-    public void uploadFoto(String diretorio, String fileName){
-        try {
-            upload = Upload.getInstance();
-            upload.write(uploadedPhoto, diretorio, fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public void setApelidoCarroAnterior(String apelidoCarroAnterior) {
+		this.apelidoCarroAnterior = apelidoCarroAnterior;
+	}
+
+	/**
+	 * @return the nomeAcessorioAnterior
+	 */
+	public String getNomeAcessorioAnterior() {
+		return nomeAcessorioAnterior;
+	}
+
+	/**
+	 * @param nomeAcessorioAnterior the nomeAcessorioAnterior to set
+	 */
+	public void setNomeAcessorioAnterior(String nomeAcessorioAnterior) {
+		this.nomeAcessorioAnterior = nomeAcessorioAnterior;
+	}
+
+
 
 }

@@ -114,8 +114,6 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 
 		ResultSet resultSet = null;
 		
-		Integer codigoAmigo = 0;
-		
 		try {
 			connection = ConnectionFactory.getConnection();
 
@@ -135,7 +133,7 @@ public class CodigoAmigoDAO implements ICodigoAmigoDAO {
 			resultSet = preparedStatement.executeQuery();
 
 			if (resultSet.next()) {
-				return codigoAmigo = resultSet.getInt("IDCODIGO_AMIGO");
+				return resultSet.getInt("IDCODIGO_AMIGO");
 				
 			} else {
 				SessaoSistema.setCodigodMensagem(100);

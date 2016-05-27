@@ -1,0 +1,24 @@
+
+
+--------PENDENCIAS--------------------
+
+Juliano		no excluir Usuario: excluir CODIGO_AMIGO e todos os demais relacionamentos!! Amigos, Carros, Post... ETC
+Juliano		foto timeline
+
+?			validação de campos
+?			bootstrap: tamanho padrao para as imgens (cada imagem original tem um tamanho)
+Mazer		PROBLEMA: CARRO e ACESSORIO tem chave unica, se usuario cadastrar dois carros/acessorios com o mesmo dados, dara erro no upload da foto
+				Fazer uma validaçao logica, nao permitindo dois carros com o mesmo apelido. idem acessorio.
+				No usuario tem o mesmo problema, foi validado com o email.
+
+?			verificar botao CANCELAR em todas as telas de manuntenção				
+
+Juliano		validar formato template do professor (comentarios)
+Mazzer		Bootstrap: no detalhes do usuario selecionado na timeline, arrumar tela
+Mazzer 		tela Carros, poderia aparecer imagem e detalhes do lado (sair do modo tabela atual)
+Mazzer 		tela Acessorios, poderia aparecer imagem e detalhes do lado (sair do modo tabela atual)
+Mazzer		Tela alterar Usuario: corrigir botoes soprepostos 
+
+
+--------PRoblemas--------------------
+estamos considerando apenas imagem jpg!!!

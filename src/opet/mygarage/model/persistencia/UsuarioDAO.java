@@ -65,7 +65,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("UsuarioDAO::cadastraUsuarioDAO:: " + SessaoSistema.getDescMensagem());
 				return null;
 			} 
 
@@ -109,7 +109,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 			count = new Integer(preparedStatement.executeUpdate());
 
 			if (count != null && count.equals(1)) {
-				System.out.println("LOG::UsuarioDAO:Insert com sucesso");
+				System.out.println("UsuarioDAO::cadastraUsuarioDAO::Insert com sucesso");
 				connection.commit();
 				SessaoSistema.setCodigodMensagem(0);
 				usuario = consultaPorEmailUsuarioDAO(usuario);	
@@ -118,14 +118,14 @@ public class UsuarioDAO implements IUsuarioDAO {
 			} else {
 				SessaoSistema.setCodigodMensagem(105);
 				SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
-				System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("UsuarioDAO::cadastraUsuarioDAO:: " + SessaoSistema.getDescMensagem());
 			}
 
 		} catch (SQLException e) {
 			SessaoSistema.setCodigodMensagem(105);
 			SessaoSistema.setDescMensagem("Erro ao inserir os dados!");
-			System.out.println("LOG::UsuarioDAO:: " + SessaoSistema.getDescMensagem());
-			System.out.println("LOG::UsuarioDAO::ERRO::  " + e);
+			System.out.println("UsuarioDAO::cadastraUsuarioDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("UsuarioDAO::cadastraUsuarioDAO::ERRO::  " + e);
 			usuario = null;
 
 			e.printStackTrace();

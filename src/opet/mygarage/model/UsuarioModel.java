@@ -25,7 +25,7 @@ public class UsuarioModel {
 	 */
 	private PersistenciaUsuario persistenciaUsuario;
 	private PersistenciaCodigoAmigo persistenciaCodigoAmigo;
-	
+
 	/*
 	 * Função construtora
 	 */
@@ -39,60 +39,61 @@ public class UsuarioModel {
 	/*
 	 * Operações da classe
 	 */
-	
-	
+
 	/**
-	 * Cadastra um novo Usuario. Acessa a Persistencia pra realizar SQL
-	 * Valida Campos de entrada.
+	 * Cadastra um novo Usuario. Acessa a Persistencia pra realizar SQL Valida
+	 * Campos de entrada.
 	 */
-	public Usuario cadastrarUsuarioModel(Usuario usuario){
-		
-		if (usuario.getNome() == null || (usuario.getNome().equalsIgnoreCase(""))){
+	public Usuario cadastrarUsuarioModel(Usuario usuario) {
+
+		if (usuario.getNome() == null || (usuario.getNome().equalsIgnoreCase(""))) {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Nome não informado");
 			return usuario = null;
 		}
-		
-		if (usuario.getEmail() == null || (usuario.getEmail().equalsIgnoreCase(""))){
+
+		if (usuario.getEmail() == null || (usuario.getEmail().equalsIgnoreCase(""))) {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Email não informado");
 			return usuario = null;
 		}
-		
-		if (usuario.getSenha() == null || (usuario.getSenha().equalsIgnoreCase(""))){
+
+		if (usuario.getSenha() == null || (usuario.getSenha().equalsIgnoreCase(""))) {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Senha não informado");
 			return usuario = null;
 		}
-		//TODO Valida se o email ja existe!!!!
+		// Valida se o email ja existe!!!!
 		persistenciaUsuario.consultaPorEmailUsuarioDAO(usuario);
-		
-		if (SessaoSistema.getCodigodMensagem() == 0){
-			//email já cadastrado
+
+		if (SessaoSistema.getCodigodMensagem() == 0) {
+			// email já cadastrado
 			SessaoSistema.setCodigodMensagem(4);
 			SessaoSistema.setDescMensagem("E-mail já cadastrado. Favor informar outro e-mail.");
 			return null;
 		}
-		
-		//Cadastra Usuario
+
+		// Cadastra Usuario
 		persistenciaUsuario.cadastraUsuarioDAO(usuario);
-		
-		//Cadastra Codigo Amigo
-		if (SessaoSistema.getCodigodMensagem() == 0){
-			if(persistenciaCodigoAmigo.cadastraCodigoAmigoDAO(usuario)){
-				
+
+		// Cadastra Codigo Amigo
+		if (SessaoSistema.getCodigodMensagem() == 0) {
+			if (persistenciaCodigoAmigo.cadastraCodigoAmigoDAO(usuario)) {
+
 				// Consulta codigo_amigo do Usuario logado
-				Integer codigoAmigo = persistenciaCodigoAmigo.consultaCodigoAmigoDAO(SessaoSistema.getIdUsuarioLogado());
-				
-				//Cadastrar Relacionamento com idusuario logado e com o proprio codigoAmigo (necessario por causa da Timeline)
+				Integer codigoAmigo = persistenciaCodigoAmigo
+						.consultaCodigoAmigoDAO(SessaoSistema.getIdUsuarioLogado());
+
+				// Cadastrar Relacionamento com idusuario logado e com o proprio
+				// codigoAmigo (necessario por causa da Timeline)
 				PersistenciaRelacionamento persistenciaRelacionamento = new PersistenciaRelacionamento();
 				persistenciaRelacionamento.cadastraRelacionamentoDAO(codigoAmigo, SessaoSistema.getIdUsuarioLogado());
-			}else{
+			} else {
 				SessaoSistema.setCodigodMensagem(3);
-				SessaoSistema.setDescMensagem("Erro ao cadastrar Codigo de Relacionamento do Usuario");				
+				SessaoSistema.setDescMensagem("Erro ao cadastrar Codigo de Relacionamento do Usuario");
 			}
 		}
-		
+
 		return usuario;
 	}
 
@@ -101,7 +102,7 @@ public class UsuarioModel {
 	 * 
 	 */
 	public Usuario consultaUsuarioModel(Usuario usuario) {
-		
+
 		return persistenciaUsuario.consultaUsuarioDAO(usuario);
 	}
 
@@ -110,9 +111,9 @@ public class UsuarioModel {
 	 * 
 	 */
 	public Boolean excluiUsuarioModel(Usuario usuario) {
-		if(persistenciaUsuario.excluiUsuarioDAO(usuario)){
+		if (persistenciaUsuario.excluiUsuarioDAO(usuario)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -121,24 +122,36 @@ public class UsuarioModel {
 	 * Altera Usuario. Acessa a Persistencia pra realizar SQL
 	 * 
 	 */
-	public Usuario alteraUsuarioModel(Usuario usuario) {
-		if (usuario.getNome() == null || (usuario.getNome().equalsIgnoreCase(""))){
+	public Usuario alteraUsuarioModel(Usuario usuario, String emailAnterior) {
+		if (usuario.getNome() == null || (usuario.getNome().equalsIgnoreCase(""))) {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Nome não informado");
-			return usuario;
+			return usuario = null;
 		}
-		
-		if (usuario.getEmail() == null || (usuario.getEmail().equalsIgnoreCase(""))){
+
+		if (usuario.getEmail() == null || (usuario.getEmail().equalsIgnoreCase(""))) {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Email não informado");
-			return usuario;
+			return usuario = null;
 		}
-		
-		if (usuario.getSenha() == null || (usuario.getSenha().equalsIgnoreCase(""))){
+
+		if (usuario.getSenha() == null || (usuario.getSenha().equalsIgnoreCase(""))) {
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Senha não informado");
-			return usuario;
+			return usuario = null;
 		}
+		
+		if (!emailAnterior.equals(usuario.getEmail())) { // verifica se o Usuario alterou o email, se sim, valida:
+			persistenciaUsuario.consultaPorEmailUsuarioDAO(usuario); // Valida se o email ja existe!!!!
+
+			if (SessaoSistema.getCodigodMensagem() == 0) {
+				// email já cadastrado
+				SessaoSistema.setCodigodMensagem(4);
+				SessaoSistema.setDescMensagem("E-mail já cadastrado. Favor informar outro e-mail.");
+				return null;
+			}
+		}
+
 		return persistenciaUsuario.alteraUsuarioDAO(usuario);
 	}
 
@@ -147,18 +160,18 @@ public class UsuarioModel {
 	 * 
 	 */
 	public boolean validaLoginModel(Usuario usuarioTela) {
-		
+
 		Usuario usuarioBase = new Usuario();
-			
+
 		usuarioBase.setEmail(usuarioTela.getEmail());
-		
+
 		persistenciaUsuario.consultaPorEmailUsuarioDAO(usuarioBase);
-		
-		if(usuarioTela.getSenha().equalsIgnoreCase(usuarioBase.getSenha())){
+
+		if (usuarioTela.getSenha().equalsIgnoreCase(usuarioBase.getSenha())) {
 			SessaoSistema.setIdUsuarioLogado(usuarioBase.getIdUsuario());
 			SessaoSistema.setNomeUsuarioLogado(usuarioBase.getNome());
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

@@ -1,0 +1,7 @@
+Setup orbigatório para rodar a aplicação e servidor local:
+
+1) Editar o arquivo "dados.properties" em  MyGarage\resources\:
+	DE: wildfly.mygarage.images = C:\\DEV\\app\\WildFly\\wildfly-9.0.1.Final\\standalone\\deployments\\MyGarage.war\\resources\\images\\
+	PARA: wildfly.mygarage.images = (caminho da instação local do wildfly)\\standalone\\deployments\\MyGarage.war\\resources\\images\\
+	
+2) Copiar as imagens de 

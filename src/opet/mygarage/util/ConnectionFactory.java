@@ -22,11 +22,6 @@ public class ConnectionFactory {
 	private static final String USERNAME = "aluno";
 	private static final String PASSWORD = "aluno";
 
-	private static final String CONEXAO_SUCESSO = "Conexão com o Banco de Dados realizada com sucesso (CF).";
-	private static final String CONEXAO_NAO_SUCESSO = "NÃO FOI POSSÍVEL CONECTAR-SE COM O BANCO DE DADOS.";
-	private static final String DRIVER_NAO_CARREGADO = "NÃO FOI POSSÍVEL CARREGAR O DRIVER.";
-	private static final String CONEXAO_CLOSE_SUCESSO = "Conexão com o Banco de Dados fechada com sucesso.";
-	private static final String CONEXAO_NAO_CLOSE_SUCESSO = "ERRO AO FECHAR A CONEXÃO COM BANCO DE DADOS.";
 	private static final String CONNECTION_IS_NOT_OPEN = "A conexão com o banco de dados não foi realizada.";
 
 	private static Connection connection;
@@ -40,7 +35,6 @@ public class ConnectionFactory {
 
 		// Declaração de variáveis
 
-		String msg = null;
 
 		// Processamento dos dados
 
@@ -54,24 +48,15 @@ public class ConnectionFactory {
 
 			connection.setAutoCommit(false);
 
-			msg = CONEXAO_SUCESSO;
-
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 			connection = null;
-
-			msg = DRIVER_NAO_CARREGADO;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 			connection = null;
-
-			msg = CONEXAO_NAO_SUCESSO;
-
 		} 
 	}
 
@@ -89,10 +74,6 @@ public class ConnectionFactory {
 
 	public static void closeConnection() {
 
-		// Declaração de variáveis
-
-		String msg = null;
-
 		// Processametno dos dados
 
 		if (connection != null) {
@@ -101,13 +82,8 @@ public class ConnectionFactory {
 
 				connection.close();
 
-				msg = CONEXAO_CLOSE_SUCESSO;
-
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-
-				msg = CONEXAO_NAO_CLOSE_SUCESSO;
 
 			} 
 

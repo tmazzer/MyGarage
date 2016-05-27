@@ -42,7 +42,6 @@ public class Acessorios implements Serializable, Cloneable  {
 	 * Função construtora
 	 */
 	public Acessorios() {
-		System.out.println("LOG::Acessorios.VO:Construtor");
 	}
 	
 	/**
