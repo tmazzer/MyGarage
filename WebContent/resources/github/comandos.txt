@@ -11,5 +11,5 @@ git pull https://github.com/tmazzer/MyGarage //baixa o codigo
 =============copiaR========
 
 git add --a
-git commit -m "timeline view"
+git commit -m "Corrigido alterar carro e acessorio e upload de imagens"
 git push	

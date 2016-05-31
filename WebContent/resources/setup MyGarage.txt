@@ -4,4 +4,5 @@ Setup orbigatório para rodar a aplicação e servidor local:
 	DE: wildfly.mygarage.images = C:\\DEV\\app\\WildFly\\wildfly-9.0.1.Final\\standalone\\deployments\\MyGarage.war\\resources\\images\\
 	PARA: wildfly.mygarage.images = (caminho da instação local do wildfly)\\standalone\\deployments\\MyGarage.war\\resources\\images\\
 	
-2) Copiar as imagens de 
+2) Copiar as imagens de resources\fotos.zip e descompactar no mesmo caminho definido no item 1.
+	
