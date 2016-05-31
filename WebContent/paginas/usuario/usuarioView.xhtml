@@ -11,7 +11,8 @@
 	<h:outputStylesheet library="css" name="estilo.css" />
 	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
-<h:body>
+<h:body >
+
 	<b:container styleClass="col-lg-12"
 		style="height: 60px; background: #CECECE; margin-bottom: 20px;">
 		<h3 style="float: left; font-family: 'Tahoma'; font-weight: bold;">MY
@@ -42,7 +43,7 @@
 				<h:graphicImage
 					library="images"  rendered="true"
 						name="USUARIO/#{usuarioBean.usuario.idUsuario}/user_#{usuarioBean.usuario.idUsuario}.jpg" />
-					<br></br>
+				<br></br>
 				<h:outputLabel value="Codigo: " />
 				<h:outputText value="#{usuarioBean.usuario.idUsuario}" />
 

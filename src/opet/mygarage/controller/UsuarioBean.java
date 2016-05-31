@@ -95,8 +95,6 @@ public class UsuarioBean implements Serializable {
 	public String salvarUsuarioController(){
 		
 		msgRetorno = "";
-		FacesContext context = FacesContext.getCurrentInstance();
-		
         
         if (uploadedPhoto != null){
         	usuario.setFoto("S");

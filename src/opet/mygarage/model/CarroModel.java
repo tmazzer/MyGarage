@@ -104,7 +104,7 @@ public class CarroModel {
 		return persistenciaCarro.cadastraCarroDAO(carro);
 	}
 
-	public Carro alteraCarroModel(Carro carro) {
+	public Carro alteraCarroModel(Carro carro, String apelidoCarroAnterior) {
 		
 		if (carro.getApelido() == null || (carro.getApelido().equalsIgnoreCase(""))){
 			SessaoSistema.setCodigodMensagem(1);
@@ -112,11 +112,14 @@ public class CarroModel {
 			return carro = null;
 		}
 		
-		if (persistenciaCarro.validaApelidoCarroDAO(carro.getUsuarioIdUsuario(), carro.getApelido())){
-			SessaoSistema.setCodigodMensagem(2);
-			SessaoSistema.setDescMensagem("Apelido já cadastrado");
-			return carro = null;
-		}
+		if (!apelidoCarroAnterior.equals(carro.getApelido())) { // verifica se o Usuario alterou o apelido do carro, se sim, valida:
+			if (persistenciaCarro.validaApelidoCarroDAO(carro.getUsuarioIdUsuario(), carro.getApelido())){
+				SessaoSistema.setCodigodMensagem(2);
+				SessaoSistema.setDescMensagem("Apelido já cadastrado");
+				return carro = null;
+			}
+		}	
+
 		
 		if (carro.getMarca() == null || (carro.getMarca().equalsIgnoreCase(""))){
 			SessaoSistema.setCodigodMensagem(1);
@@ -203,17 +206,20 @@ public class CarroModel {
 		return persistenciaCarro.cadastraAcessoriosDAO(carro, acessorios);
 	}
 	
-	public Acessorios alteraAcessoriosModel(Acessorios acessorios) {		
+	public Acessorios alteraAcessoriosModel(Acessorios acessorios, String nomeAcessorioAnterior) {		
 		if (acessorios.getNome() == null || (acessorios.getNome().equalsIgnoreCase(""))){
 			SessaoSistema.setCodigodMensagem(1);
 			SessaoSistema.setDescMensagem("Campo Nome não informado");
 			return acessorios = null;
 		}
 		
-		if (persistenciaCarro.validaNomeAcessorioDAO(acessorios.getCarro_idCarro(), acessorios.getNome())){
-			SessaoSistema.setCodigodMensagem(2);
-			SessaoSistema.setDescMensagem("Nome já cadastrado");
-			return acessorios = null;
+		
+		if (!nomeAcessorioAnterior.equals(acessorios.getNome())) { // verifica se o Usuario alterou o nome do acessorio, se sim, valida:
+			if (persistenciaCarro.validaNomeAcessorioDAO(acessorios.getCarro_idCarro(), acessorios.getNome())){
+				SessaoSistema.setCodigodMensagem(2);
+				SessaoSistema.setDescMensagem("Nome já cadastrado");
+				return acessorios = null;
+			}
 		}
 		
 		if (acessorios != null){	
