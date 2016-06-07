@@ -101,7 +101,7 @@
 										style="margin-right: 5px; opacity: 0.2;" size="xs"
 										iconAwesome="fa-thumbs-up" />
 
-									<b:commandButton value="Like #{timelineLinha.qtddLike}"
+									<b:commandButton value="Liked #{timelineLinha.qtddLike}"
 										action="#{timelineBean.curtirPostTimelineController(timelineLinha)}"
 										rendered="#{!empty timelineLinha.like}"
 										styleClass="btn btn-primary" style="margin-right: 5px;"
@@ -145,7 +145,6 @@
 										action="#{amigosBean.consultaUsuarioAmigoController(amigoLinha.idUsuario)}" />
 
 									<b:row styleClass="col-lg-12">
-
 										<h:outputText value="#{amigoLinha.email}" />
 									</b:row>
 								</h:column>

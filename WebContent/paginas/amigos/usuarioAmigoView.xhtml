@@ -11,6 +11,7 @@
 	<h:outputStylesheet library="css" name="estilo.css" />
 	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
+
 <h:body>
 	<b:container styleClass="col-lg-12"
 		style="height: 60px; background: #CECECE; margin-bottom: 20px;">
@@ -20,141 +21,143 @@
 			<b:container>
 				<b:commandButton value="Home"
 					action="/paginas/timeline/timelineView" look="primary" icon="home"
-					style="margin-top: 10px;"/>
-				
+					style="margin-top: 10px;" />
+
 				<b:commandButton value="Log Out" action="#{timelineBean.logOut()}"
 					styleClass="btn btn-danger" iconAwesome="sign-out"
 					style="margin-top: 10px; margin-left: 5px;" />
 			</b:container>
 		</h:form>
 	</b:container>
+	<b:container style="padding: 0;">
+		<b:row>
+			<b:container styleClass="col-lg-12" style="padding: 0">
+				<b:container styleClass="col-lg-4">
+					<b:row>
+						<h:form id="usuario">
+							<h:panelGrid styleClass="table"
+								style="border: solid #CECECE 1px; border-radius: 15px">
+								<f:facet name="header">
+									<h:outputLabel value="Usuario" />
+								</f:facet>
 
-	<h:outputLabel value="MyGarage"
-		style="color:Navy;font-size: 2em;background-color:#DBDBDB;font-family: 'Futura Md BT';" />
+								<b:row styleClass="col-lg-12">
+									<h:outputLabel value="Nome: " />
+									<h:outputText value=" #{amigosBean.usuario.nome}" />
+								</b:row>
 
-	<h:outputText value="#{amigosBean.msgRetorno}" styleClass="msgInfo" />
+								<b:row styleClass="col-lg-12">
+									<h:outputLabel value="Sobrenome: " />
+									<h:outputText value=" #{amigosBean.usuario.sobrenome}" />
+								</b:row>
 
-	<h:panelGrid columns="3" cellspacing="5" cellpadding="5" border="1">
-		<h:panelGrid>
+								<b:row styleClass="col-lg-12">
+									<h:outputLabel value="Telefone: " />
+									<h:outputText value=" #{amigosBean.usuario.telefone}" />
+								</b:row>
 
-			<h:form id="inputForm">
-				<h:panelGrid columns="2">
+								<b:row styleClass="col-lg-12">
+									<h:outputLabel value="Email: " />
+									<h:outputText value=" #{amigosBean.usuario.email}" />
+								</b:row>
 
-					<h:outputLabel value="Nome: " />
-					<h:outputText value="#{amigosBean.usuario.nome}" />
+								<b:row styleClass="col-lg-12">
+									<h:outputText value="Vocês são amigos desde "
+										rendered="#{amigosBean.isFriend=='S'}" />
+									<h:outputText
+										value="#{amigosBean.relacionamento.dataIniRelacionamento}"
+										rendered="#{amigosBean.isFriend=='S'}">
+										<f:convertDateTime dateStyle="default" />
+									</h:outputText>
+								</b:row>
+								<h:outputText value="Vocês não são amigos."
+									rendered="#{amigosBean.isFriend=='N'}" />
 
-					<h:outputLabel value="Sobrenome: " />
-					<h:outputText value="#{amigosBean.usuario.sobrenome}" />
+								<b:commandButton value="Adicionar Amigo"
+									action="#{amigosBean.adicionaAmigoController()}"
+									rendered="#{amigosBean.isFriend=='N'}" />
 
-					<h:outputLabel value="Telefone: " />
-					<h:outputText value="#{amigosBean.usuario.telefone}" />
+								<b:commandButton value="Desfazer Amizade"
+									action="#{amigosBean.excluirAmigoController()}"
+									rendered="#{amigosBean.isFriend=='S'}" />
+							</h:panelGrid>
+						</h:form>
+					</b:row>
+				</b:container>
+				<b:container styleClass="col-lg-4">
+					<b:row>
+						<h:form id="timeline">
+							<h:panelGrid styleClass="table"
+								style="border: solid #CECECE 1px; border-radius: 15px">
+								<f:facet name="header">
+									<h:outputLabel value="Timeline" />
+								</f:facet>
+								<h:outputLabel value="Timeline Vazia"
+									rendered="#{empty amigosBean.timelineList}" />
 
-					<h:outputLabel value="Email: " />
-					<h:outputText value="#{amigosBean.usuario.email}" />
-				</h:panelGrid>
+								<h:form id="formTimeline">
+									<h:dataTable value="#{amigosBean.timelineList}" align="left"
+										columns="2" cellspacing="5" cellpadding="5"
+										var="timelineLinha"
+										rendered="#{!empty amigosBean.timelineList}">
+										<h:column>
+											<h:inputHidden value="#{timelineLinha.idTimeline}" />
+											<b:row styleClass="col-lg-12" style="font-weight: bold;">
+												<h:outputText value="Postado em " />
 
-				<br></br>
-				<h:outputText value="Vocês são amigos desde "
-					rendered="#{amigosBean.isFriend=='S'}" />
-				<h:outputText
-					value="#{amigosBean.relacionamento.dataIniRelacionamento}"
-					rendered="#{amigosBean.isFriend=='S'}">
-					<f:convertDateTime dateStyle="default" />
-				</h:outputText>
+												<h:outputText value="#{timelineLinha.dataCadastro}">
+													<f:convertDateTime dateStyle="default" />
+												</h:outputText>
+												<h:outputText value=":" />
+											</b:row>
 
-				<br></br>
-				<h:outputText value="Vocês não são amigos."
-					rendered="#{amigosBean.isFriend=='N'}" />
-				<br></br>
-				<h:commandButton value="Adicionar Amigo"
-					action="#{amigosBean.adicionaAmigoController()}"
-					rendered="#{amigosBean.isFriend=='N'}" />
-					
-				<h:commandButton value="Desfazer Amizade"
-					action="#{amigosBean.excluirAmigoController()}"
-					rendered="#{amigosBean.isFriend=='S'}" />
-				<hr />
-			</h:form>
-		</h:panelGrid>
+											<b:row styleClass="col-lg-12">
+												<h:outputText value="#{timelineLinha.descricao}" />
+											</b:row>
+										</h:column>
+									</h:dataTable>
+								</h:form>
+							</h:panelGrid>
+						</h:form>
+					</b:row>
+				</b:container>
+				<b:container styleClass="col-lg-4" style="padding: 0;">
+					<h:form id="carros">
+						<h:panelGrid styleClass="table"
+								style="border: solid #CECECE 1px; border-radius: 15px;">
+							<f:facet name="header">
+								<h:outputLabel value="Carros" />
+							</f:facet>
+							
+							<h:outputLabel value="Não há carros cadastrados"
+								rendered="#{empty amigosBean.carrosList}" />
 
-		<h:panelGrid>
-			<h:outputLabel value="Timeline Vazia" rendered="#{empty amigosBean.timelineList}" />
-		
-			<h:form id="formTimeline">
-				<h:dataTable value="#{amigosBean.timelineList}" align="left"
-					columns="2" cellspacing="5" cellpadding="5" var="timelineLinha"
-					rendered="#{!empty amigosBean.timelineList}">
-
-					<f:facet name="header">
-						<h:outputLabel value="Feed de Noticias" />
-					</f:facet>
-
-					<f:facet name="footer">
-						<h:outputLabel value="Fim da Lista" styleClass="titleStrong" />
-					</f:facet>
-
-					<h:column>
-						<h:inputHidden value="#{timelineLinha.idTimeline}" />
-					</h:column>
-
-					<h:column>
-						<h:outputText value="Postado em " />
-						<h:outputText value="#{timelineLinha.dataCadastro}">
-							<f:convertDateTime dateStyle="default" />
-						</h:outputText>
-						<br></br>
-						<br></br>
-
-						<h:outputText value="#{timelineLinha.descricao}" />
-						<br></br>
-						<br></br>
-						<hr />
-					</h:column>
-				</h:dataTable>
-			</h:form>
-		</h:panelGrid>
-
-		<h:panelGrid>
-		
-			<h:outputLabel value="Não há carros cadastrados" rendered="#{empty amigosBean.carrosList}" />
-			
-			<h:dataTable value="#{amigosBean.carrosList}" var="carroLinha"
-				rendered="#{!empty amigosBean.carrosList}">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Apelido" />
-					</f:facet>
-					<h:outputText value="#{carroLinha.apelido}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Marca" />
-					</f:facet>
-					<h:outputText value="#{carroLinha.marca}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Modelo" />
-					</f:facet>
-					<h:outputText value="#{carroLinha.modelo}" />
-				</h:column>
-
-			</h:dataTable>
-		</h:panelGrid>
-	</h:panelGrid>
-
-
-
-
-	<h:form id="links">
-		<h:commandButton value="Timeline"
-			action="/paginas/timeline/timelineView" />
-		<h:commandButton value="Amigos" action="/paginas/amigos/amigosView" />
-		<h:outputText />
-	</h:form>
-
-	<hr />
-
-
+							<h:dataTable value="#{amigosBean.carrosList}" var="carroLinha"
+								rendered="#{!empty amigosBean.carrosList}">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Apelido" />
+									</f:facet>
+									<h:outputText value="#{carroLinha.apelido}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Marca" />
+									</f:facet>
+									<h:outputText value="#{carroLinha.marca}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Modelo" />
+									</f:facet>
+									<h:outputText value="#{carroLinha.modelo}" />
+								</h:column>
+							</h:dataTable>
+						</h:panelGrid>
+					</h:form>
+				</b:container>
+			</b:container>
+		</b:row>
+	</b:container>
 </h:body>
 </html>

@@ -91,7 +91,9 @@ public class TimelineModel {
 	 * 
 	 */
 	public boolean excluiPostTimelineModel(Integer idTimeline) {
-		return persistenciaTimeline.excluiPostDAO(idTimeline);
+		persistenciaTimelineAcao.excluiTimelineAcaoByTimelineDAO(idTimeline);
+		persistenciaTimeline.excluiPostDAO(idTimeline);		
+		return true;
 	}
 	
 	/**

@@ -297,7 +297,7 @@ public class TimelineAcaoDAO implements ITimelineAcaoDAO {
 			if (connection == null) {
 				SessaoSistema.setCodigodMensagem(101);
 				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
-				System.out.println("LOG::RelacionamentoDAO:: " + SessaoSistema.getDescMensagem());
+				System.out.println("TimelineAcaoDAO::excluiTimelineAcaoDAO:: " + SessaoSistema.getDescMensagem());
 				return false;
 			}
 
@@ -334,6 +334,59 @@ public class TimelineAcaoDAO implements ITimelineAcaoDAO {
 			ConnectionFactory.closeConnection();
 		}
 
+	}
+
+	@Override
+	public Boolean excluiTimelineAcaoByTimelineDAO(Integer idTimeline) {
+		
+		PreparedStatement preparedStatement = null;
+
+		String query = null;
+		
+		Integer count = null;
+
+		try {
+			connection = ConnectionFactory.getConnection();
+
+			if (connection == null) {
+				SessaoSistema.setCodigodMensagem(101);
+				SessaoSistema.setDescMensagem("Erro ao abrir o Banco de dados");
+				System.out.println("TimelineAcaoDAO::excluiTimelineAcaoByTimelineDAO:: " + SessaoSistema.getDescMensagem());
+				return false;
+			}
+
+			query = "DELETE FROM TIMELINE_ACAO "
+					+ "WHERE TIMELINE_IDTIMELINE = ?";
+
+			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setInt(1, idTimeline);
+
+			count = new Integer(preparedStatement.executeUpdate());
+
+			if (count.equals(1)) {
+				connection.commit();
+				SessaoSistema.setCodigodMensagem(0);
+				SessaoSistema.setDescMensagem("Dados excluídos com sucesso!");
+				return true;
+			} else {
+				SessaoSistema.setCodigodMensagem(102);
+				SessaoSistema.setDescMensagem("Erro ao excluir os dados! Timeline_Acao não encontrado");
+				System.out.println("TimelineAcaoDAO::excluiTimelineAcaoByTimelineDAO " + SessaoSistema.getDescMensagem());
+				return false;
+			}
+				
+
+		} catch (SQLException e) {
+			SessaoSistema.setCodigodMensagem(102);
+			SessaoSistema.setDescMensagem("Erro ao excluir os dados!");
+			System.out.println("TimelineAcaoDAO::excluiTimelineAcaoByTimelineDAO:: " + SessaoSistema.getDescMensagem());
+			System.out.println("TimelineAcaoDAO::excluiTimelineAcaoByTimelineDAO::ERRO::  " + e);
+			e.printStackTrace();
+			return false;
+		} finally {
+			ConnectionFactory.closeConnection();
+		}
 	}
 
 }

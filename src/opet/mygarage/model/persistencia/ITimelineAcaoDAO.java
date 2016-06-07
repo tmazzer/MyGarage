@@ -22,4 +22,5 @@ public interface ITimelineAcaoDAO {
 	public Boolean cadastraTimelineAcaoDAO(TimelineAcao timelineAcao);
 	public Boolean excluiLikeTimelineAcaoDAO(TimelineAcao timelineAcao);
 	public Boolean excluiTimelineAcaoDAO(Integer idTimelineAcao);
+	public Boolean excluiTimelineAcaoByTimelineDAO(Integer idTimeline);
 }

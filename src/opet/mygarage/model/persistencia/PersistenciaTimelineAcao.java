@@ -37,7 +37,7 @@ public class PersistenciaTimelineAcao implements ITimelineAcaoDAO {
 	
 	
 	/**
-	 * Acessa TimelineDAO para listar os Comentarios/Curtir da base Timeline_Acao
+	 * Acessa TimelineAcaoDAO para listar os Comentarios/Curtir da base Timeline_Acao
 	 * 
 	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#listaTimelineAcaoDAO()
 	 */
@@ -47,7 +47,7 @@ public class PersistenciaTimelineAcao implements ITimelineAcaoDAO {
 	}
 
 	/**
-	 * Acessa TimelineDAO para cadastrar comentario na base Timeline_Acao
+	 * Acessa TimelineAcaoDAO para cadastrar comentario na base Timeline_Acao
 	 * 
 	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#cadastraComentarioPostDAO(opet.mygarage.vo.TimelineAcao)
 	 */
@@ -58,7 +58,7 @@ public class PersistenciaTimelineAcao implements ITimelineAcaoDAO {
 
 
 	/**
-	 * Acessa TimelineDAO para excluir o curtir na base Timeline_Acao
+	 * Acessa TimelineAcaoDAO para excluir o curtir na base Timeline_Acao
 	 * 
 	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#excluiLikeTimelineAcaoDAO(opet.mygarage.vo.TimelineAcao)
 	 */
@@ -67,12 +67,22 @@ public class PersistenciaTimelineAcao implements ITimelineAcaoDAO {
 		return timelineAcaoDAO.excluiLikeTimelineAcaoDAO(timelineAcao);
 	}
 	/**
-	 * Acessa TimelineDAO para excluir o comentario na base Timeline_Acao
+	 * Acessa TimelineAcaoDAO para excluir o comentario na base Timeline_Acao
 	 * 
 	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#excluiTimelineAcaoDAO(opet.mygarage.vo.TimelineAcao)
 	 */
 	@Override
 	public Boolean excluiTimelineAcaoDAO(Integer idTimelineAcao) {
 		return timelineAcaoDAO.excluiTimelineAcaoDAO(idTimelineAcao);
+	}
+	
+	/**
+	 * Acessa TimelineAcaoDAO para excluir o comentario na base Timeline_Acao
+	 * 
+	 * @see opet.mygarage.model.persistencia.ITimelineAcaoDAO#excluiTimelineAcaoDAO(opet.mygarage.vo.TimelineAcao)
+	 */
+	@Override
+	public Boolean excluiTimelineAcaoByTimelineDAO(Integer idTimeline) {
+		return timelineAcaoDAO.excluiTimelineAcaoByTimelineDAO(idTimeline);
 	}
 }

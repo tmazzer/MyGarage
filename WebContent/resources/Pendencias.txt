@@ -18,3 +18,5 @@ Mazzer		Tela alterar Usuario: corrigir botoes soprepostos
 
 --------PRoblemas--------------------
 estamos considerando apenas imagem jpg!!!
+
+flagzinha com bug fdp
